@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">StreetViewExample</string>
+
+    <string name="request_position">Position</string>
+    <string name="walk_panorama">Walk</string>
+    <string name="left_arrow">\u2190</string>
+    <string name="right_arrow">\u2192</string>
+    <string name="up_arrow">\u2191</string>
+    <string name="down_arrow">\u2193</string>
+    <string name="zoom_in">+</string>
+    <string name="zoom_out">-</string>
+    <string name="duration">Custom Duration</string>
+    <string name="go_to_santorini">Go to Santorini</string>
+    <string name="go_to_sydney">Go to Sydney</string>
+    <string name="go_to_san_fran">Go to San Fran</string>
+    <string name="panorama_not_ready">Panorama not ready</string>
+
+    <string name="pref_selected_tablet">pref_selected_tablet</string>
+    <string name="pref_items">pref_items</string>
+    <string name="pref_total">pref_total</string>
+    <string name="select_tablet">Selected formula: %1$d</string>
+    <string name="save">Save</string>
+    <array name="tablet_selects">
+        <item>Formula 1</item>
+        <item>Formula 2</item>
+        <item>Formula 3</item>
+    </array>
+    <string name="settings">Settings</string>
+
+</resources>
