@@ -26,5 +26,7 @@
         <item>Formula 3</item>
     </array>
     <string name="settings">Settings</string>
+    <string name="go_to_world">GO TO WORLD</string>
+    <string name="search">Search</string>
 
 </resources>

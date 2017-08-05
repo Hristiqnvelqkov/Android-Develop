@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
@@ -22,7 +24,10 @@ import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.google.android.gms.maps.model.StreetViewPanoramaLink;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 
+import java.util.concurrent.ExecutionException;
+
 import butterknife.OnClick;
+import example.streetview.stamsoft.app.streetviewexample.tasks.GetPlaceTask;
 import example.streetview.stamsoft.app.streetviewexample.LumiManager;
 import example.streetview.stamsoft.app.streetviewexample.R;
 import example.streetview.stamsoft.app.streetviewexample.Utils;
@@ -35,7 +40,6 @@ import example.streetview.stamsoft.app.streetviewexample.interfaces.LumiBleListe
 public class HomeFragment extends BaseFragment implements LumiBleListener{
 
     public static final int REQUEST_CODE_ASK_LOCATION = 1002;
-
     private StreetViewPanorama mStreetViewPanorama;
     // George St, Sydney
     private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
@@ -49,12 +53,12 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
      * The amount in degrees by which to scroll the camera
      */
     private static final int PAN_BY_DEG = 30;
-
     private static final float ZOOM_BY = 0.5f;
-
+    EditText searchPlace ;
+    Button goToWorld;
+    Button search;
     BroadcastReceiver brUpdate;
     long lastMove;
-
     public static HomeFragment newInstance() {
         
         Bundle args = new Bundle();
@@ -72,7 +76,6 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         LumiManager.getInstance(getActivity()).getDevicesName().addAll(Utils.getSavedDevice(getActivity()));
 
         brUpdate = new BroadcastReceiver() {
@@ -93,13 +96,12 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
 
     @Override
     protected void onCreateView() {
+
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment =
                  SupportStreetViewPanoramaFragment.newInstance();
-
         getMainActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.streetviewpanorama, streetViewPanoramaFragment)
                 .commitAllowingStateLoss();
-        
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(
                 new OnStreetViewPanoramaReadyCallback() {
                     @Override
@@ -110,7 +112,11 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
                         mStreetViewPanorama.setPosition(SAN_FRAN);
                     }
                 });
-
+        searchPlace=(EditText)mainView.findViewById(R.id.place_name);
+        goToWorld=(Button)mainView.findViewById(R.id.everywhere);
+        search = (Button)mainView.findViewById(R.id.search);
+        search.setVisibility(View.GONE);
+        searchPlace.setVisibility(View.GONE);
         if (Build.VERSION.SDK_INT >= 23) {
             int hasLocationPermission = getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
             if (hasLocationPermission != PackageManager.PERMISSION_GRANTED) {
@@ -125,6 +131,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
             LumiManager.getInstance(getActivity()).setupBle(this);
             LumiManager.getInstance(getActivity()).scanLeDevice(true, null);
         }
+
     }
 
     @Override
@@ -182,7 +189,36 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         }
         mStreetViewPanorama.setPosition(SYDNEY);
     }
+    @OnClick(R.id.everywhere)
+    public void onGoToEveryWhere(View view){
+        if(searchPlace.getVisibility()==View.VISIBLE){
+            search.setVisibility(View.GONE);
+            searchPlace.setVisibility(View.GONE);
+        }else {
+            searchPlace.setText("");
+            searchPlace.setVisibility(View.VISIBLE);
+            search.setVisibility(View.VISIBLE);
+        }
 
+    }
+    @OnClick(R.id.search)
+    public void searchPlace(View view) {
+        String city= searchPlace.getText().toString();
+        GetPlaceTask task = new GetPlaceTask();
+        LatLng latLng= null;
+        try {
+            latLng = task.execute(city).get();
+            if(latLng!=null){
+                search.setVisibility(View.GONE);
+                searchPlace.setVisibility(View.GONE);
+            }
+            mStreetViewPanorama.setPosition(latLng);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
     /**
      * Called when the Animate To Santorini button is clicked.
      */
