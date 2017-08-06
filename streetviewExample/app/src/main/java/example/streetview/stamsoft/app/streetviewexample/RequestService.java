@@ -1,6 +1,9 @@
-package example.streetview.stamsoft.app.streetviewexample.tasks;
+package example.streetview.stamsoft.app.streetviewexample;
 
-import android.os.AsyncTask;
+import android.app.IntentService;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -16,15 +19,26 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Pattern;
 
+import example.streetview.stamsoft.app.streetviewexample.fragments.HomeFragment;
+
 /**
  * Created by hriso on 8/5/2017.
  */
 
-public class GetPlaceTask extends AsyncTask<String,Void,LatLng> {
+public class RequestService extends IntentService {
+    public final static String BROADCAST_ACTION = "example.streetview.stamsoft.app.streetviewexample";
+    public final static String EXTRA="Location";
+    public RequestService(String name) {
+        super(name);
+    }
+    public RequestService(){
+        super("");
+
+    }
     @Override
-    protected LatLng doInBackground(String... strings) {
-        LatLng latLang=null;
-        final String ENDPOINT = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+strings[0]+"&key=%20AIzaSyDoJy3_RKtxwAVfBtHj7kZbsGbJRusdruc";
+    protected void onHandleIntent(@Nullable Intent intent) {
+        String city = intent.getStringExtra(HomeFragment.STRING_EXTRA);
+        final String ENDPOINT = "https://maps.googleapis.com/maps/api/place/textsearch/json?query="+city+"&key=%20AIzaSyDoJy3_RKtxwAVfBtHj7kZbsGbJRusdruc";
         try {
             URL url = new URL(ENDPOINT);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -37,24 +51,27 @@ public class GetPlaceTask extends AsyncTask<String,Void,LatLng> {
             }
             JSONObject barsJson = new JSONObject(buffer.toString());
             JSONArray jsonArray = (barsJson.getJSONArray("results"));
-
-            for (int i = 0; i < jsonArray.length(); i++) {
-                JSONObject explrObject = jsonArray.getJSONObject(i);
+            Intent broadcast = new Intent();
+            broadcast.setAction(BROADCAST_ACTION);
+            if (jsonArray.length()>0) {
+                JSONObject explrObject = jsonArray.getJSONObject(0);
                 String LatLang = ((explrObject.get("geometry")).toString()).split(Pattern.quote("}"))[0];
                 LatLang = LatLang.split(Pattern.quote("{"))[2];
                 String Lat = LatLang.split(",")[0];
                 Lat = Lat.split(":")[1];
                 String Lag = LatLang.split(",")[1];
                 Lag = Lag.split(":")[1];
-                latLang = new LatLng(Float.parseFloat(Lat),Float.parseFloat(Lag));
+                broadcast.putExtra(EXTRA, Lat +","+ Lag + "");
+            }else{
+                broadcast.putExtra(EXTRA, "");
             }
-            } catch (MalformedURLException e) {
+            LocalBroadcastManager.getInstance(this).sendBroadcast(broadcast);
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return latLang;
     }
 }

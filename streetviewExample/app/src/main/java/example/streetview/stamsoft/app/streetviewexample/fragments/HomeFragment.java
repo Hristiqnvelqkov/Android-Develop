@@ -27,7 +27,7 @@ import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.OnClick;
-import example.streetview.stamsoft.app.streetviewexample.tasks.GetPlaceTask;
+import example.streetview.stamsoft.app.streetviewexample.RequestService;
 import example.streetview.stamsoft.app.streetviewexample.LumiManager;
 import example.streetview.stamsoft.app.streetviewexample.R;
 import example.streetview.stamsoft.app.streetviewexample.Utils;
@@ -41,6 +41,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
 
     public static final int REQUEST_CODE_ASK_LOCATION = 1002;
     private StreetViewPanorama mStreetViewPanorama;
+    public static final String STRING_EXTRA="city";
     // George St, Sydney
     private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
     // Cole St, San Fran
@@ -77,7 +78,9 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LumiManager.getInstance(getActivity()).getDevicesName().addAll(Utils.getSavedDevice(getActivity()));
-
+        RequestReceiver receiver = new RequestReceiver();
+        IntentFilter filter =  new IntentFilter(RequestService.BROADCAST_ACTION);
+        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver,filter);
         brUpdate = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -204,19 +207,26 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     @OnClick(R.id.search)
     public void searchPlace(View view) {
         String city= searchPlace.getText().toString();
-        GetPlaceTask task = new GetPlaceTask();
-        LatLng latLng= null;
-        try {
-            latLng = task.execute(city).get();
-            if(latLng!=null){
+        Intent intent = new Intent(getActivity(), RequestService.class);
+        intent.putExtra(STRING_EXTRA,city);
+        getActivity().startService(intent);
+
+    }
+    private class RequestReceiver extends BroadcastReceiver{
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String latLng = intent.getStringExtra(RequestService.EXTRA);
+            if(!latLng.equals("")) {
+                String lat = latLng.split(",")[0];
+                String lng = latLng.split(",")[1];
+                LatLng mlatLng = new LatLng(Float.parseFloat(lat), Float.parseFloat(lng));
+                mStreetViewPanorama.setPosition(mlatLng);
                 search.setVisibility(View.GONE);
                 searchPlace.setVisibility(View.GONE);
+            }else{
+                Toast.makeText(getActivity(),"Place was't found",Toast.LENGTH_SHORT).show();
             }
-            mStreetViewPanorama.setPosition(latLng);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
         }
     }
     /**

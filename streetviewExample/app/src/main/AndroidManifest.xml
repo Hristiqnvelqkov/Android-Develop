@@ -37,6 +37,9 @@
             </intent-filter>
         </activity>
 
+        <service
+            android:name=".RequestService"
+            android:exported="false"/>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
