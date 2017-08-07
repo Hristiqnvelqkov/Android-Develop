@@ -11,9 +11,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
@@ -116,6 +119,15 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
                     }
                 });
         searchPlace=(EditText)mainView.findViewById(R.id.place_name);
+        searchPlace.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if(actionId== EditorInfo.IME_ACTION_SEARCH){
+                    startService(searchPlace);
+                }
+                return false;
+            }
+        });
         goToWorld=(Button)mainView.findViewById(R.id.everywhere);
         search = (Button)mainView.findViewById(R.id.search);
         search.setVisibility(View.GONE);
@@ -136,7 +148,12 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         }
 
     }
-
+    void startService(EditText search){
+        String city= search.getText().toString();
+        Intent intent = new Intent(getActivity(), RequestService.class);
+        intent.putExtra(STRING_EXTRA,city);
+        getActivity().startService(intent);
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -206,11 +223,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     }
     @OnClick(R.id.search)
     public void searchPlace(View view) {
-        String city= searchPlace.getText().toString();
-        Intent intent = new Intent(getActivity(), RequestService.class);
-        intent.putExtra(STRING_EXTRA,city);
-        getActivity().startService(intent);
-
+        startService(searchPlace);
     }
     private class RequestReceiver extends BroadcastReceiver{
 
