@@ -1,6 +1,7 @@
 package example.streetview.stamsoft.app.streetviewexample.fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,14 +9,20 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,15 +33,19 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.google.android.gms.maps.model.StreetViewPanoramaLink;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
+import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
 
 import java.util.concurrent.ExecutionException;
 
 import butterknife.OnClick;
+import example.streetview.stamsoft.app.streetviewexample.MainActivity;
 import example.streetview.stamsoft.app.streetviewexample.RequestService;
 import example.streetview.stamsoft.app.streetviewexample.LumiManager;
 import example.streetview.stamsoft.app.streetviewexample.R;
 import example.streetview.stamsoft.app.streetviewexample.Utils;
 import example.streetview.stamsoft.app.streetviewexample.interfaces.LumiBleListener;
+
+import static android.view.View.VISIBLE;
 
 /**
  * Created by Stanislav on 7/15/2017.
@@ -61,6 +72,11 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     EditText searchPlace ;
     Button goToWorld;
     Button search;
+    Handler handler ;
+    Runnable hideTask;
+    private InputMethodManager imm;
+    Button sydney,sanFran,santorini;
+    ImageView imageLogo;
     BroadcastReceiver brUpdate;
     long lastMove;
     public static HomeFragment newInstance() {
@@ -80,6 +96,13 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        handler= new Handler(Looper.myLooper());
+        hideTask = new Runnable() {
+            @Override
+            public void run() {
+                getAllInvisible();
+            }
+        };
         LumiManager.getInstance(getActivity()).getDevicesName().addAll(Utils.getSavedDevice(getActivity()));
         RequestReceiver receiver = new RequestReceiver();
         IntentFilter filter =  new IntentFilter(RequestService.BROADCAST_ACTION);
@@ -93,13 +116,36 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         };
     }
 
+    private void hideElements() {
+        handler.removeCallbacks(hideTask);
+        handler.postDelayed(hideTask, 20000);
+    }
+    private void setAllVisible(){
+        setDestinationsVisible();
+        goToWorld.setVisibility(View.VISIBLE);
+        imageLogo.setVisibility(View.VISIBLE);
+    }
+    public void showBack(){
+        if(sydney.getVisibility()==VISIBLE){
+            getActivity().finish();
+        }else {
+            searchPlace.setVisibility(View.GONE);
+            setDestinationsVisible();
+        }
+    }
     private void updateUi() {
         if (lastMove == 0 || System.currentTimeMillis() - lastMove > 2000) {
             lastMove = System.currentTimeMillis();
             onMovePosition();
         }
     }
-
+    private void getAllInvisible(){
+        setDestinationsInVisible();
+        goToWorld.setVisibility(View.GONE);
+        searchPlace.setVisibility(View.GONE);
+        imageLogo.setVisibility(View.GONE);
+    }
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreateView() {
 
@@ -108,16 +154,35 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         getMainActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.streetviewpanorama, streetViewPanoramaFragment)
                 .commitAllowingStateLoss();
+
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(
                 new OnStreetViewPanoramaReadyCallback() {
                     @Override
                     public void onStreetViewPanoramaReady(StreetViewPanorama panorama) {
                         mStreetViewPanorama = panorama;
+                        mStreetViewPanorama.setOnStreetViewPanoramaClickListener(new StreetViewPanorama.OnStreetViewPanoramaClickListener() {
+                            @Override
+                            public void onStreetViewPanoramaClick(StreetViewPanoramaOrientation streetViewPanoramaOrientation) {
+                                setAllVisible();
+                                hideElements();
+                            }
+                        });
                         // Only set the panorama to SYDNEY on startup (when no panoramas have been
                         // loaded which is when the savedInstanceState is null).
                         mStreetViewPanorama.setPosition(SAN_FRAN);
                     }
                 });
+        imageLogo = (ImageView) mainView.findViewById(R.id.image_logo);
+        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        sydney = (Button) mainView.findViewById(R.id.sydney);
+        santorini = (Button) mainView.findViewById(R.id.santorini);
+        sanFran = (Button) mainView.findViewById(R.id.sanfran);
+        RelativeLayout layout = (RelativeLayout) mainView.findViewById(R.id.relativeLayout);
+        layout.setVisibility(View.GONE);
+        Button movePosition = (Button) mainView.findViewById(R.id.move_position);
+        movePosition.setVisibility(View.GONE);
+        Button settings = (Button) mainView.findViewById(R.id.settings);
+        settings.setVisibility(View.GONE);
         searchPlace=(EditText)mainView.findViewById(R.id.place_name);
         searchPlace.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -166,7 +231,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         }
     }
 
-    @OnClick(R.id.settings)
+    @OnClick(R.id.image_logo)
     public void onSettings() {
         getMainActivity().showFragmentAndAddToBackstack(new SettingsFragment());
     }
@@ -202,6 +267,16 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     /**
      * Called when the Animate To Sydney button is clicked.
      */
+    private void setDestinationsVisible(){
+        sanFran.setVisibility(VISIBLE);
+        santorini.setVisibility(VISIBLE);
+        sydney.setVisibility(VISIBLE);
+    }
+    private void setDestinationsInVisible(){
+        sanFran.setVisibility(View.GONE);
+        santorini.setVisibility(View.GONE);
+        sydney.setVisibility(View.GONE);
+    }
     @OnClick(R.id.sydney)
     public void onGoToSydney(View view) {
         if (!checkReady()) {
@@ -209,18 +284,30 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         }
         mStreetViewPanorama.setPosition(SYDNEY);
     }
+
     @OnClick(R.id.everywhere)
     public void onGoToEveryWhere(View view){
-        if(searchPlace.getVisibility()==View.VISIBLE){
-            search.setVisibility(View.GONE);
+        if(searchPlace.getVisibility()== VISIBLE){
             searchPlace.setVisibility(View.GONE);
+            setDestinationsVisible();
+
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);
         }else {
+            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
             searchPlace.setText("");
-            searchPlace.setVisibility(View.VISIBLE);
-            search.setVisibility(View.VISIBLE);
+            setDestinationsInVisible();
+            searchPlace.setVisibility(VISIBLE);
+            searchPlace.post(new Runnable() {
+                @Override
+                public void run() {
+                    searchPlace.requestFocus();
+                }
+            });
         }
 
     }
+
     @OnClick(R.id.search)
     public void searchPlace(View view) {
         startService(searchPlace);
@@ -236,6 +323,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
                 LatLng mlatLng = new LatLng(Float.parseFloat(lat), Float.parseFloat(lng));
                 mStreetViewPanorama.setPosition(mlatLng);
                 search.setVisibility(View.GONE);
+                setDestinationsVisible();
                 searchPlace.setVisibility(View.GONE);
             }else{
                 Toast.makeText(getActivity(),"Place was't found",Toast.LENGTH_SHORT).show();
@@ -374,6 +462,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     public void onResume() {
         super.onResume();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(brUpdate, new IntentFilter(LumiManager.ACTION_DATA_UPDATE));
+        hideElements();
     }
 
     @Override
@@ -387,6 +476,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         super.onDestroy();
         LumiManager.getInstance(getActivity()).scanLeDevice(false, null);
         LumiManager.getInstance(getActivity()).disconnect(false, null);
+        handler.removeCallbacks(hideTask);
     }
 
     @OnClick(R.id.move_position)

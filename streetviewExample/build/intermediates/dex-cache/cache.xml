@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\support-media-compat-25.4.0.aar\5bd570acb8f18a4f18c3cdbfed9aa257\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="05e3d15c623cd98f0eb43c8249fb6151fae0786c">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\16.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\play-services-tasks-10.2.0.aar\0471517d61f56b3ac0695f132288fbf4\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="bd75f9f0296fe220da6d0ad961831b04541c4452">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\recyclerview-v7-25.3.1.aar\7cd226485f3c0fe7ef525c6fdeb52b49\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\Desktop\Install Android\android-studio\gradle\m2repository\org\jetbrains\kotlin\kotlin-stdlib\1.1.3-2\kotlin-stdlib-1.1.3-2.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="9b44c139a4ec57031e0c84ba0e49ba16df6d801c">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\21.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\modules-2\files-2.1\com.android.support\support-annotations\25.4.0\f6a2fc748ae3769633dea050563e1613e93c135e\support-annotations-25.4.0.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="f6a2fc748ae3769633dea050563e1613e93c135e">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\20.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\butterknife-8.7.0.aar\ea3a6010eb21160ed1632320a0a1876f\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="0b7d39c161cecdb6c2b52a1cdc71faf0ffd4626e">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\4.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\animated-vector-drawable-25.4.0.aar\e317bc932272d1efb3dab7afdf5203d0\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="4961be1437163ab598620a3c907c0f3432936f51">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\12.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\support-compat-25.4.0.aar\c8f239132b292579ad45f2a0788642ad\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="a64026daf4819a589aea776f5deb19b257a104d1">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\19.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\6664a60b8e075e9d4ec6631225d3bf01\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\play-services-base-10.2.0.aar\7db13500cfb2d73ee0d2599757382f20\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3d13e510077b35fe8e49930a627dd849ad5da0dc">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\8.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\support-fragment-25.4.0.aar\4e0a6d552281ffe4d92183b51d6be014\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d29e451fd5bcc265989bf80afd4f149d95d72e7d">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\15.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\appcompat-v7-25.4.0.aar\484b7469f5327a797d1e6b3564c0294e\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="a7a0aa678c3bbadb67fb41df9e107f7ee9087902">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\2.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\support-core-utils-25.4.0.aar\6c78963404994d9d787b74843ff7b5b4\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="e04f28ac2dd9bbe48ced6fc87fedf46c2586f5d6">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\17.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\support-core-ui-25.4.0.aar\4567206f9f054a424356250310729ff2\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="c2deeac83ffa1304264bc755c2ddb84e7a7fa239">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\18.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\play-services-basement-10.2.0.aar\a363aa9521508304639233dc8448f381\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="1ac56e5801e986583cbe27f2cce57f626cc7ff93">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\10.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\support-vector-drawable-25.4.0.aar\4f79fa60470ab87f088aadb516a1c7f3\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b77e50b3c31d0fc64148530f7077f79ec114b5b9">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\13.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife-annotations\8.7.0\2637055420a2da406e3ea9920c2ff4aafd38c970\butterknife-annotations-8.7.0.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="2637055420a2da406e3ea9920c2ff4aafd38c970">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\11.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\support-v4-25.4.0.aar\678fe1466a55730715057920c627df91\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\14.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\Desktop\Install Android\android-studio\gradle\m2repository\org\jetbrains\annotations\13.0\annotations-13.0.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="919f0dfe192fb4e063e7dacadee7f8bb9a2672a9">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\23.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\transforms-1\files-1.1\play-services-maps-10.2.0.aar\f5a35c88c6bad914a4fdf41859f26d04\jars\classes.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="6da05b7498da036b5b37c3beb861cd2060929dcd">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\AndroidStudioProjects\MyCars\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\22.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\hriso\.gradle\caches\modules-2\files-2.1\org.jetbrains.kotlin\kotlin-stdlib-jre7\1.1.3-2\3fe54c7558c903868351ac79b792d152bca958f2\kotlin-stdlib-jre7-1.1.3-2.jar"
+        jumboMode="false"
+        min-sdk-version="18"
+        optimize="true"
+        revision="26.0.0"
+        sha1="3fe54c7558c903868351ac79b792d152bca958f2">
+        <dex dex="C:\Users\hriso\Desktop\Android-Development\streetviewExample\app\build\intermediates\transforms\preDex\release\6.jar" />
+    </item>
+
+</items>

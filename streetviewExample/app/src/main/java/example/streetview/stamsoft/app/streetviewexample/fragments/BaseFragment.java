@@ -22,7 +22,6 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mainView = inflater.inflate(getLayoutId(), null);
         ButterKnife.bind(this, mainView);
-
         if (getArguments() != null) {
             isPopup = getArguments().getBoolean(ARG_IS_POPUP, false);
         }

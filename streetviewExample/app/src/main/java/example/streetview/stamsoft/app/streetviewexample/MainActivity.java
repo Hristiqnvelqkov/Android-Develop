@@ -1,10 +1,12 @@
 package example.streetview.stamsoft.app.streetviewexample;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,4 +80,17 @@ public class MainActivity extends AppCompatActivity {
             getFragmentManager().popBackStack();
         }
     }
+    @Override public void onBackPressed(){
+        if(getFragmentManager().findFragmentById(R.id.fragment)!=null){
+            if(getFragmentManager().findFragmentById(R.id.fragment) instanceof HomeFragment) {
+                HomeFragment fragment = (HomeFragment) getFragmentManager().findFragmentById(R.id.fragment);
+                fragment.showBack();
+            }else{
+                super.onBackPressed();
+            }
+        }else{
+            super.onBackPressed();
+        }
+    }
+
 }

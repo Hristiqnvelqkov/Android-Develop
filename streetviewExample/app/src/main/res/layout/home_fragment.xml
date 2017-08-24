@@ -7,167 +7,187 @@
     tools:context="example.streetview.stamsoft.app.streetviewexample.MainActivity">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        >
         <FrameLayout
             android:id="@+id/streetviewpanorama"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" >
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true">
 
         </FrameLayout>
-
+        <ImageView
+            android:layout_marginTop="5dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/image_logo"
+            android:src="@drawable/icon"
+            android:contentDescription="@string/logo"
+            android:layout_alignTop="@+id/settings"
+            android:layout_alignParentEnd="true"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"/>
         <LinearLayout
             android:id="@+id/destinations"
             android:layout_width="match_parent"
-            android:layout_height="32dp">
+            android:layout_height="32dp"
+            android:weightSum="3"
+            android:layout_marginTop="60dp">
 
             <Button
                 android:id="@+id/sydney"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:background="@drawable/button_selector"
                 android:text="@string/go_to_sydney"
+                android:layout_marginStart="10dp"
                 android:textColor="#ffffff"
-                android:textSize="14sp" />
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/sanfran"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:layout_marginStart="10dp"
+                android:paddingTop="5dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/button_selector"
                 android:text="@string/go_to_san_fran"
                 android:textColor="#ffffff"
-                android:textSize="14sp" />
+                android:textSize="11sp" />
 
             <Button
                 android:id="@+id/santorini"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:background="@android:color/transparent"
+                android:paddingTop="5dp"
+                android:paddingLeft="2dp"
+                android:paddingRight="2dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/button_selector"
                 android:text="@string/go_to_santorini"
                 android:textColor="#ffffff"
-                android:textSize="14sp" />
-
+                android:textSize="11sp" />
         </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="190dp"
-            android:layout_below="@+id/destinations">
-
-            <Button
-                android:id="@+id/move_position"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/settings"
-                android:layout_alignBottom="@+id/settings"
-                android:layout_alignParentStart="true"
-                android:background="@android:color/transparent"
-                android:text="@string/walk_panorama"
-                android:textColor="#ffffff"/>
-
-            <Button
-                android:id="@+id/settings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="12dp"
-                android:background="@android:color/transparent"
-                android:text="@string/settings"
-                android:textColor="#ffffff"/>
-
-            <RelativeLayout
-                android:id="@+id/relativeLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_weight="1"
-                android:gravity="center_horizontal">
-
-
-                <Button
-                    android:id="@+id/pan_left"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@android:color/transparent"
-                    android:minWidth="48dp"
-                    android:text="@string/left_arrow"/>
-
-                <Button
-                    android:id="@+id/pan_up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_toRightOf="@id/pan_left"
-                    android:background="@android:color/transparent"
-                    android:minWidth="48dp"
-                    android:text="@string/up_arrow"/>
-
-                <Button
-                    android:id="@+id/pan_down"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pan_up"
-                    android:layout_toRightOf="@id/pan_left"
-                    android:background="@android:color/transparent"
-                    android:minWidth="48dp"
-                    android:text="@string/down_arrow"/>
-
-                <Button
-                    android:id="@+id/pan_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/pan_down"
-                    android:background="@android:color/transparent"
-                    android:minWidth="48dp"
-                    android:text="@string/right_arrow"/>
-            </RelativeLayout>
-
+            android:layout_height="100dp"
+            android:gravity="center_horizontal"
+            android:layout_below="@+id/destinations"
+            android:layout_marginTop="10dp">
             <Button
                 android:id="@+id/everywhere"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/move_position"
-                android:background="@android:color/transparent"
+                android:layout_height="40dp"
+                android:background="@drawable/button_selector"
                 android:text="@string/go_to_world"
-                android:textColor="#ffffff"/>
-
+                android:textColor="#ffffff"
+                android:textSize="12sp"
+               />
             <EditText
                 android:id="@+id/place_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:minHeight="32dp"
-                android:inputType="text"
+                android:hint="Enter city name"
                 android:imeOptions="actionSearch"
-                android:textColor="#ffffff"
-                android:layout_below="@+id/everywhere"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="13dp"/>
+                android:inputType="text"
+                android:minHeight="32dp"
+                android:textColor="#ffffff"/>
 
             <Button
                 android:id="@+id/search"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/place_name"
                 android:layout_centerHorizontal="true"
-                android:background="@android:color/transparent"
+                android:background="@drawable/button_selector"
                 android:text="@string/search"
+                android:layout_marginTop="200dp"
                 android:textColor="#ffffff"/>
 
-        </RelativeLayout>
+        </LinearLayout>
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal">
 
+
+            <Button
+                android:id="@+id/pan_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:minWidth="48dp"
+                android:text="@string/left_arrow"/>
+
+            <Button
+                android:id="@+id/pan_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@id/pan_left"
+                android:background="@android:color/transparent"
+                android:minWidth="48dp"
+                android:text="@string/up_arrow"/>
+
+            <Button
+                android:id="@+id/pan_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pan_up"
+                android:layout_toRightOf="@id/pan_left"
+                android:background="@android:color/transparent"
+                android:minWidth="48dp"
+                android:text="@string/down_arrow"/>
+
+            <Button
+                android:id="@+id/pan_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/pan_down"
+                android:background="@android:color/transparent"
+                android:minWidth="48dp"
+                android:text="@string/right_arrow"/>
+
+        </RelativeLayout>
+        <Button
+            android:id="@+id/move_position"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/settings"
+            android:layout_alignBottom="@+id/settings"
+            android:layout_alignParentStart="true"
+            android:background="@android:color/transparent"
+            android:text="@string/walk_panorama"
+            android:textColor="#ffffff"/>
+        <Button
+            android:id="@+id/settings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="12dp"
+            android:background="@android:color/transparent"
+            android:text="@string/settings"
+            android:textColor="#ffffff"/>
     </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>
