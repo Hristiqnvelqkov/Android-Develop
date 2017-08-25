@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +16,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
@@ -35,10 +35,7 @@ import com.google.android.gms.maps.model.StreetViewPanoramaLink;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
 
-import java.util.concurrent.ExecutionException;
-
 import butterknife.OnClick;
-import example.streetview.stamsoft.app.streetviewexample.MainActivity;
 import example.streetview.stamsoft.app.streetviewexample.RequestService;
 import example.streetview.stamsoft.app.streetviewexample.LumiManager;
 import example.streetview.stamsoft.app.streetviewexample.R;
@@ -80,9 +77,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     BroadcastReceiver brUpdate;
     long lastMove;
     public static HomeFragment newInstance() {
-        
         Bundle args = new Bundle();
-        
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
@@ -154,7 +149,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         getMainActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.streetviewpanorama, streetViewPanoramaFragment)
                 .commitAllowingStateLoss();
-
+        initializeViews();
         streetViewPanoramaFragment.getStreetViewPanoramaAsync(
                 new OnStreetViewPanoramaReadyCallback() {
                     @Override
@@ -172,18 +167,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
                         mStreetViewPanorama.setPosition(SAN_FRAN);
                     }
                 });
-        imageLogo = (ImageView) mainView.findViewById(R.id.image_logo);
-        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        sydney = (Button) mainView.findViewById(R.id.sydney);
-        santorini = (Button) mainView.findViewById(R.id.santorini);
-        sanFran = (Button) mainView.findViewById(R.id.sanfran);
-        RelativeLayout layout = (RelativeLayout) mainView.findViewById(R.id.relativeLayout);
-        layout.setVisibility(View.GONE);
-        Button movePosition = (Button) mainView.findViewById(R.id.move_position);
-        movePosition.setVisibility(View.GONE);
-        Button settings = (Button) mainView.findViewById(R.id.settings);
-        settings.setVisibility(View.GONE);
-        searchPlace=(EditText)mainView.findViewById(R.id.place_name);
+
         searchPlace.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -193,10 +177,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
                 return false;
             }
         });
-        goToWorld=(Button)mainView.findViewById(R.id.everywhere);
-        search = (Button)mainView.findViewById(R.id.search);
-        search.setVisibility(View.GONE);
-        searchPlace.setVisibility(View.GONE);
+
         if (Build.VERSION.SDK_INT >= 23) {
             int hasLocationPermission = getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
             if (hasLocationPermission != PackageManager.PERMISSION_GRANTED) {
@@ -218,6 +199,29 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         Intent intent = new Intent(getActivity(), RequestService.class);
         intent.putExtra(STRING_EXTRA,city);
         getActivity().startService(intent);
+    }
+    public void initializeViews(){
+        Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/handkerchief.ttf");
+        imageLogo = (ImageView) mainView.findViewById(R.id.image_logo);
+        imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        sydney = (Button) mainView.findViewById(R.id.sydney);
+        sydney.setTypeface(font);
+        santorini = (Button) mainView.findViewById(R.id.santorini);
+        santorini.setTypeface(font);
+        sanFran = (Button) mainView.findViewById(R.id.sanfran);
+        RelativeLayout layout = (RelativeLayout) mainView.findViewById(R.id.relativeLayout);
+        sanFran.setTypeface(font);
+        layout.setVisibility(View.GONE);
+        Button movePosition = (Button) mainView.findViewById(R.id.move_position);
+        movePosition.setVisibility(View.GONE);
+        Button settings = (Button) mainView.findViewById(R.id.settings);
+        settings.setVisibility(View.GONE);
+        searchPlace=(EditText)mainView.findViewById(R.id.place_name);
+        goToWorld=(Button)mainView.findViewById(R.id.everywhere);
+        goToWorld.setTypeface(font);
+        search = (Button)mainView.findViewById(R.id.search);
+        search.setVisibility(View.GONE);
+        searchPlace.setVisibility(View.GONE);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

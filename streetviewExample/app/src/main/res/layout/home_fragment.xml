@@ -48,7 +48,7 @@
                 android:text="@string/go_to_sydney"
                 android:layout_marginStart="10dp"
                 android:textColor="#ffffff"
-                android:textSize="11sp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/sanfran"
@@ -63,7 +63,7 @@
                 android:background="@drawable/button_selector"
                 android:text="@string/go_to_san_fran"
                 android:textColor="#ffffff"
-                android:textSize="11sp" />
+                android:textSize="15sp" />
 
             <Button
                 android:id="@+id/santorini"
@@ -79,7 +79,7 @@
                 android:background="@drawable/button_selector"
                 android:text="@string/go_to_santorini"
                 android:textColor="#ffffff"
-                android:textSize="11sp" />
+                android:textSize="15sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,10 +92,10 @@
                 android:id="@+id/everywhere"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
-                android:background="@drawable/button_selector"
+                android:background="@drawable/button_search_selector"
                 android:text="@string/go_to_world"
                 android:textColor="#ffffff"
-                android:textSize="12sp"
+                android:textSize="17sp"
                />
             <EditText
                 android:id="@+id/place_name"

@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">StreetViewExample</string>
-
+    <string name="app_name">PlaygroundEnergy Walk</string>
     <string name="request_position">Position</string>
     <string name="walk_panorama">Walk</string>
     <string name="left_arrow">\u2190</string>
@@ -29,5 +28,6 @@
     <string name="go_to_world">GO TO WORLD</string>
     <string name="search">Search</string>
     <string name="logo">Logo</string>
+    <string name="app">PlaygroundEnergy Walk</string>
 
 </resources>
