@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">FootballMan</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="add">ADD</string>
+    <string name="empty">There is no leagues</string>
+    <string name="save">Save</string>
+    <string name="no_teams">There are no added teams</string>
+    <string name="no_leagues">There are no added leagues</string>
+    <string name="no_players">There are no added players</string>
+    <string name="league_name">League name</string>
+    <string name="team_name">Team name</string>
+    <string name="player_name">Player name</string>
+    <string name="player_number">Player number</string>
+    <string name="raw">Do you to delete this raw</string>
+    <string name="update_raw">Do you want to update raw</string>
+</resources>

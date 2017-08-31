@@ -1,0 +1,14 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="?attr/actionBarSize"
+                tools:context="com.apress.gerber.footballman.Fragments.TeamsFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <include layout="@layout/empty_layout"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/teams"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</RelativeLayout>
