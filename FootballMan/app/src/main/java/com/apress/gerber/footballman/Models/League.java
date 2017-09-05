@@ -11,7 +11,8 @@ import java.util.List;
 @Entity
 public class League implements Serializable{
 
-    @PrimaryKey private int id;
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     private String name;
     private List<Team> mTeamList=new LinkedList<>();
 

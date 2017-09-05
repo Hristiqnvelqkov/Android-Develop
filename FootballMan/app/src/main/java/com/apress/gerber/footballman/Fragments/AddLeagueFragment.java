@@ -52,7 +52,7 @@ public class AddLeagueFragment extends BaseFragment  {
                 }
                 mLeague.setName(legue_input.getEditText().getText().toString());
                 ((MainActivity) getActivity()).visibleHome();
-                ((MainActivity) getActivity()).commitFragment(new HomeFragment(),true);
+                ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(false),true);
                 imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0);
             }
         });

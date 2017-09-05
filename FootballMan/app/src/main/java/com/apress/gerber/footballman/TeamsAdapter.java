@@ -26,9 +26,11 @@ import java.util.List;
 public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> {
     private List<Team> leagueTeams ;
     private onClickedTeam team;
-    public TeamsAdapter(List<Team> teams, onClickedTeam listner) {
+    private boolean hideButtons = false;
+    public TeamsAdapter(List<Team> teams, onClickedTeam listner,boolean hide) {
         leagueTeams = teams;
         team = listner;
+        this.hideButtons = hide;
     }
 
 
@@ -39,7 +41,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
         ImageView update;
         ViewHolder(View itemView) {
             super(itemView);
-            view = itemView.findViewById(R.id.league);
+            view = itemView.findViewById(R.id.team_raw);
             delete = itemView.findViewById(R.id.delete);
             update = itemView.findViewById(R.id.update);
         }
@@ -47,42 +49,47 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.league_raw, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.team_raw, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        final AlertDialog alert = new AlertDialog.Builder(holder.delete.getContext()).create();
         holder.view.setText(leagueTeams.get(position).getName());
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alert.setTitle(R.string.raw);
-                alert.setButton(DialogInterface.BUTTON_POSITIVE, "Delete", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        team.deleteTeam(leagueTeams.get(position));
-                    }
-                });
-                alert.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(alert));
-                alert.show();
-            }
-        });
-        holder.update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                alert.setTitle(R.string.update_raw);
-                alert.setButton(DialogInterface.BUTTON_POSITIVE, "Update", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        team.updateTeam(leagueTeams.get(position));
-                    }
-                });
-                alert.setButton(DialogInterface.BUTTON_NEGATIVE,"No",new AlertDialogButtons(alert));
-                alert.show();
-            }
-        });
+        if(!hideButtons) {
+            final AlertDialog alert = new AlertDialog.Builder(holder.delete.getContext()).create();
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alert.setTitle(R.string.raw);
+                    alert.setButton(DialogInterface.BUTTON_POSITIVE, "Delete", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            team.deleteTeam(leagueTeams.get(position));
+                        }
+                    });
+                    alert.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(alert));
+                    alert.show();
+                }
+            });
+            holder.update.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alert.setTitle(R.string.update_raw);
+                    alert.setButton(DialogInterface.BUTTON_POSITIVE, "Update", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            team.updateTeam(leagueTeams.get(position));
+                        }
+                    });
+                    alert.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(alert));
+                    alert.show();
+                }
+            });
+        }else {
+            holder.update.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

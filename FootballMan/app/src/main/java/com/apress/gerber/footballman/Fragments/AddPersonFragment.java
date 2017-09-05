@@ -58,7 +58,7 @@ public class AddPersonFragment extends BaseFragment {
                 mPlayer.setName(player_name.getEditText().getText().toString());
                 mPlayer.setNumber(Integer.valueOf(player_number.getEditText().getText().toString()));
                 imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0);
-                ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam),true);
+                ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam,false),true);
             }
         });
         return fragment_view;

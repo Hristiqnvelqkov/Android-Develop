@@ -59,7 +59,7 @@ public class AddTeamFragment extends BaseFragment {
                 }
                 ((MainActivity) getActivity()).visibleHome();
                 imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0);
-                ((MainActivity) getActivity()).commitFragment(TeamsFragment.newInstance(league),true);
+                ((MainActivity) getActivity()).commitFragment(TeamsFragment.newInstance(league,false),true);
             }
         });
         return view;

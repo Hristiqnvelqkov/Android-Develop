@@ -9,6 +9,7 @@
     <string name="no_teams">There are no added teams</string>
     <string name="no_leagues">There are no added leagues</string>
     <string name="no_players">There are no added players</string>
+    <string name="next">Next</string>
     <string name="league_name">League name</string>
     <string name="team_name">Team name</string>
     <string name="player_name">Player name</string>

@@ -14,12 +14,14 @@ import android.widget.ListView;
 import com.apress.gerber.footballman.Fragments.BaseFragment;
 import com.apress.gerber.footballman.Fragments.HomeFragment;
 import com.apress.gerber.footballman.Fragments.TeamsFragment;
+import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
 
 
 public class MainActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener {
     FragmentManager manager ;
     public DrawerLayout drawer;
+    Game game;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +59,12 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
-
+    public void startGame(Game game){
+        this.game = game;
+    }
+    public Game getGame(){
+        return game;
+    }
     @Override
     public void openLeague(League league) {
 

@@ -1,5 +1,6 @@
 package com.apress.gerber.footballman.Fragments;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apress.gerber.footballman.MainActivity;
+import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.Models.Team;
 import com.apress.gerber.footballman.R;
@@ -32,7 +34,9 @@ public class BaseFragment extends Fragment {
 
     protected InputMethodManager imm ;
     public static OnFragmentInteractionListener mListener;
-
+    protected Menu menu;
+    MainActivity mActivity;
+    public boolean hide= false;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,23 +44,20 @@ public class BaseFragment extends Fragment {
 
     }
     @Override public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        this.menu = menu;
+        System.out.println(hide);
         inflater.inflate(R.menu.menu,menu);
         super.onCreateOptionsMenu(menu,inflater);
+        if(!hide) {
+            menu.add(0, 0, Menu.NONE, R.string.add);
+            menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }else{
+            menu.removeItem(0);
+            menu.add(0,1,Menu.NONE,R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
     }
-    @Override public boolean onOptionsItemSelected(MenuItem item){
-        boolean status = false;
-        if(item.getItemId()==android.R.id.home){
-            MainActivity activity = (MainActivity) getActivity();
-            DrawerLayout drawerLayout = activity.drawer;
-            drawerLayout.openDrawer(Gravity.LEFT);
-            status=true;
-        }
-        if(item.getItemId() == R.id.test){
-            if(this instanceof HomeFragment) {
-                ((MainActivity) getActivity()).commitFragment(AddLeagueFragment.newInstance(null), true);
-            }
-        }
-        return status;
+    public void setActivity(){
+        mActivity = ((MainActivity) getActivity());
     }
     @Override
     public void onAttach(Context context) {

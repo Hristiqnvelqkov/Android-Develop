@@ -1,7 +1,10 @@
 package com.apress.gerber.footballman.Models;
 
 import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
+
+import com.apress.gerber.footballman.DAO.TeamDao;
 
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -10,8 +13,9 @@ import java.util.List;
 /**
  * Created by hriso on 8/23/2017.
  */
-
+@Entity
 public class Team  implements Serializable{
+    @PrimaryKey(autoGenerate = true)
     private int id;
     League mLeague;
     @ColumnInfo(name = "team_name")
@@ -36,6 +40,9 @@ public class Team  implements Serializable{
         Team team = (Team) o;
 
         return id == team.id;
+    }
+    public int getId(){
+        return this.id;
     }
     public void setLeague(League league){
         mLeague = league;
