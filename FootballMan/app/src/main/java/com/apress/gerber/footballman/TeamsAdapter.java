@@ -66,6 +66,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             team.deleteTeam(leagueTeams.get(position));
+                            notifyDataSetChanged();
                         }
                     });
                     alert.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(alert));

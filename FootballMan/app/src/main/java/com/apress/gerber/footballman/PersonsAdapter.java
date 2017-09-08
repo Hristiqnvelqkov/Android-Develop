@@ -80,6 +80,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             mListener.deletePlayer(players.get(position));
+                            notifyDataSetChanged();
                         }
                     });
                     dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(dialog));

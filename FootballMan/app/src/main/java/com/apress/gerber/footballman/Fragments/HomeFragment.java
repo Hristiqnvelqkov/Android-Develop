@@ -3,6 +3,7 @@ package com.apress.gerber.footballman.Fragments;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,10 +23,7 @@ import com.apress.gerber.footballman.R;
 
 public class HomeFragment extends BaseFragment implements LegueRecyclerView.LeagueListener {
     View view;
-    RelativeLayout empty_layout;
     FloatingActionButton startMach;
-    League host,guest ;
-    Game game;
     DataManager dataManager = DataManager.getDataInstance();
     public static final String HIDE = "HIDE";
     public static HomeFragment newInstance(Boolean hide){
@@ -66,7 +64,6 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
             @Override
             public void onClick(View view) {
                 hide =true;
-                game = new Game();
                 ((MainActivity) getActivity()).startGame(new Game());
                 menu.removeItem(Menu.FIRST);
                 startMach.setVisibility(View.GONE);
@@ -94,14 +91,18 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     public void setRecyclerView(boolean hide){
         RecyclerView recyleLeagueView = view.findViewById(R.id.recycle_leagues);
         LegueRecyclerView adapter = new LegueRecyclerView(dataManager.getLeagues(), this,hide);
-        setLayout(view,recyleLeagueView,adapter,R.string.no_leagues);
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        recyleLeagueView.setLayoutManager(manager);
+        recyleLeagueView.setAdapter(adapter);
+        setLayout(view,dataManager.getLeagues().size(),R.string.no_leagues);
         if(!hide)
             startMach.setVisibility(View.VISIBLE);
     }
     @Override
     public void deleteLeague(League league) {
         dataManager.removeLeague(league);
-        setRecyclerView(false);
+        setLayout(view,dataManager.getLeagues().size(),R.string.no_leagues);
+
     }
     @Override
     public void updateLeague(League league){

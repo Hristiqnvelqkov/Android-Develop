@@ -52,7 +52,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         setHasOptionsMenu(true);
         game = ((MainActivity)getActivity()).getGame();
         team = (Team) getArguments().getSerializable("teams");
-
+        setActivity();
         hide = (boolean) getArguments().getSerializable("HIDE");
     }
 
@@ -61,6 +61,12 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_persons, container, false);
         mActionButton = view.findViewById(R.id.next_team);
+        mActionButton.setOnClickListener(new View.OnClickListener(){
+           public void onClick(View view){
+               ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(true),true);
+               game.setHostReady();
+           }
+        });
         setRecyclerView();
         ((MainActivity) getActivity()).setUpToolBar(team.getName());
         return view;
@@ -71,9 +77,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         if(game!=null) {
             if (game.getHost() == null) {
                 game.setHost(team);
-                System.out.println("Yeeeee");
             } else if (game.readyHost()) {
-                System.out.println("qkooo");
                 if (game.getGuest() == null) {
                     game.setGuest(team);
                 }
@@ -85,7 +89,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
             if ((game.getHost() != null) && (game.getGuest() != null)) {
                 System.out.println(game.getGuest().getName());
                 System.out.println(game.getHost().getName());
-                game.addHostPlayer(player);
+                game.addGuestPlayer(player);
             }
         }
 
@@ -94,6 +98,16 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         boolean status = false;
         if(item.getItemId()==android.R.id.home){
             ((MainActivity) getActivity()).commitFragment(TeamsFragment.newInstance(team.getLeague(),hide),false);
+            if(game!=null) {
+                if (game.getGuest() != null) {
+                    game.setGuest(null);
+                    game.removeAllGuestPlayers();
+                }else{
+                    game.setHost(null);
+                    game.removeAllHostPlayers();
+                }
+                mActivity.startGame(game);
+            }
             status=true;
         }
         if(item.getItemId() == 0) {
@@ -112,10 +126,13 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     public void setRecyclerView() {
         RecyclerView recyclerView = view.findViewById(R.id.team_players);
         PersonsAdapter adapter = new PersonsAdapter(team.getPlayers(), this,hide);
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(adapter);
         if(!hide){
             mActionButton.setVisibility(View.GONE);
         }
-        setLayout(view,recyclerView,adapter,R.string.no_players);
+       setLayout(view,team.getPlayers().size(),R.string.no_players);
     }
     @Override
     public void updatePlayer(Player player) {
@@ -133,7 +150,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     @Override
     public void deletePlayer(Player player) {
         DataManager.getDataInstance().removePlayer(team,player);
-        setRecyclerView();
+        setLayout(view,team.getPlayers().size(),R.string.no_players);
 
     }
 

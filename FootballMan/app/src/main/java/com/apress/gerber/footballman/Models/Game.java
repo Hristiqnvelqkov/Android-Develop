@@ -5,6 +5,7 @@ import android.arch.persistence.room.PrimaryKey;
 
 import java.io.Serializable;
 import java.lang.reflect.Array;
+import java.security.Key;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,9 +20,12 @@ public class Game implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int id;
+    private int hostResult=0;
+    private int guestResult=0;
     List<Player> hostTeamPlayers = new LinkedList<>();
     List<Player> guestTeamPlayers = new LinkedList<>();
     private Team host, guest;
+    public boolean hostReady, guestReady;
     private HashMap<Player, Integer> goals = new HashMap<>();
     private HashMap<Player, Integer> fauls = new HashMap<>();
     private HashMap<Player, Integer> yellowCards = new HashMap<>();
@@ -35,36 +39,57 @@ public class Game implements Serializable {
         guest = team;
         setDefaultValues(guest);
     }
+    public int updateResult(Team team){
+        if(team==host){
+            System.out.println("Yeeeeeeeeee");
+           return ++hostResult;
+        } else {
+            System.out.println("Kvo stana");
+            return ++guestResult;
+        }
+    }
     public Team getHost(){
         return host;
     }
     public Team getGuest(){
         return guest;
     }
-    private void setDefaultValues(Team team){
-        for (int i = 0; i < team.getPlayers().size(); i++) {
-            goals.put(team.getPlayers().get(i), 0);
-            fauls.put(team.getPlayers().get(i), 0);
-            yellowCards.put(team.getPlayers().get(i), 0);
-            redCards.put(team.getPlayers().get(i), 0);
+    private void setDefaultValues(Team team) {
+        if (team != null){
+            for (int i = 0; i < team.getPlayers().size(); i++) {
+                goals.put(team.getPlayers().get(i), 0);
+                fauls.put(team.getPlayers().get(i), 0);
+                yellowCards.put(team.getPlayers().get(i), 0);
+                redCards.put(team.getPlayers().get(i), 0);
+            }
         }
+    }
+    public void removeAllGuestPlayers(){
+        guestTeamPlayers.clear();
+    }
+    public void removeAllHostPlayers(){
+        hostTeamPlayers.clear();
     }
     public boolean readyHost(){
-        boolean status = false;
-        if(this.hostTeamPlayers.size()>1){
-            status=true;
-        }
-        return status;
+        return hostReady;
     }
     public boolean readyGuest(){
-        boolean status = false;
-        if(this.guestTeamPlayers.size()>1){
-            status=true;
-        }
-        return status;
+        return guestReady;
+    }
+    public void setHostReady(){
+        hostReady= true;
+    }
+    public void setGuestReady(){
+        guestReady = true;
     }
     public void addHostPlayer(Player player){
         hostTeamPlayers.add(player);
+    }
+    public List<Player> getHostPlayers(){
+        return hostTeamPlayers;
+    }
+    public List<Player> getGuestTeamPlayers(){
+        return guestTeamPlayers;
     }
     public void addGuestPlayer(Player player){
         guestTeamPlayers.add(player);
@@ -92,7 +117,7 @@ public class Game implements Serializable {
         redCards.put(player,yellowCards.get(player)+1);
     }
 
-    int getFauls(Player player){
+    public int getFauls(Player player){
         return fauls.get(player);
     }
 
@@ -112,15 +137,17 @@ public class Game implements Serializable {
         }
         return winner;
     }
-    int getYellowCards(Player player){
+    public int getYellowCards(Player player){
         return yellowCards.get(player);
     }
 
-    int getRedCards(Player player){
+    public int getRedCards(Player player){
         return redCards.get(player);
     }
 
-    int getGoals(Player player){
+    public int getGoals(Player player){
         return goals.get(player);
     }
+
+
 }

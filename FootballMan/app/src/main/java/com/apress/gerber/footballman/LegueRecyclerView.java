@@ -45,17 +45,10 @@ public class LegueRecyclerView extends RecyclerView.Adapter<LegueRecyclerView.Vi
         ImageView ball;
         ViewHolder(View itemView) {
             super(itemView);
-            leagueName = (TextView) itemView.findViewById(R.id.league);
+            leagueName = itemView.findViewById(R.id.league);
             delete = itemView.findViewById(R.id.delete);
             update = itemView.findViewById(R.id.update);
             ball = itemView.findViewById(R.id.ball);
-        }
-    }
-    static class ViewHolder1 extends RecyclerView.ViewHolder {
-        TextView leagueName;
-        ViewHolder1(View itemView){
-            super(itemView);
-            leagueName = itemView.findViewById(R.id.league_recycle_raw);
         }
     }
     @Override
@@ -96,6 +89,7 @@ public class LegueRecyclerView extends RecyclerView.Adapter<LegueRecyclerView.Vi
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             listener.deleteLeague(mLeagues.get(position));
+                            notifyDataSetChanged();
                         }
                     });
                     alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(alertDialog));

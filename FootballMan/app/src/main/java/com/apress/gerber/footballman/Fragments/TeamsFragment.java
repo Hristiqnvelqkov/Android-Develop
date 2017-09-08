@@ -67,7 +67,10 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
     private void setRecycleView(View view){
         RecyclerView recyclerView =view.findViewById(R.id.teams);
         TeamsAdapter adapter = new TeamsAdapter(league.getTeamList(),this,hide);
-        setLayout(view,recyclerView,adapter,R.string.no_teams);
+        RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(manager);
+        setLayout(view,league.getTeamList().size(),R.string.no_teams);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,7 +88,7 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
     @Override
     public void deleteTeam(Team team){
         dataManager.removeTeam(league,team);
-        setRecycleView(view);
+        setLayout(view,league.getTeamList().size(),R.string.no_teams);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
