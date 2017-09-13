@@ -2,8 +2,10 @@ package example.streetview.stamsoft.app.streetviewexample.fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -19,9 +21,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +38,9 @@ import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
 import com.google.android.gms.maps.model.StreetViewPanoramaLink;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import butterknife.OnClick;
 import example.streetview.stamsoft.app.streetviewexample.RequestService;
@@ -54,16 +61,26 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     private StreetViewPanorama mStreetViewPanorama;
     public static final String STRING_EXTRA="city";
     // George St, Sydney
-    private static final LatLng SYDNEY = new LatLng(-33.87365, 151.20689);
+    private static final LatLng NEW_YORK = new LatLng(40.7835778, -73.9636637);
     // Cole St, San Fran
     private static final LatLng SAN_FRAN = new LatLng(37.769263, -122.450727);
     // Santorini, Greece
     private static final String SANTORINI = "WddsUw1geEoAAAQIt9RnsQ";
     // LatLng with no panorama
+    private static final LatLng CAPE_TOWN = new LatLng(-33.9258317,18.397108);
+    private static final LatLng SINGAPORE = new LatLng(1.3551049,103.797355);
+    private static final LatLng MOSCOW = new LatLng(55.7540522,37.6205374);
+    private static final LatLng Amsterdam = new LatLng(52.3857642,4.8724887);
+    private static final LatLng SYDNEY = new LatLng(-33.8731383,151.2112757);
+    private static final LatLng TOKYO = new LatLng(35.6908255,139.7510464);
+    private static final LatLng LONDON = new LatLng(51.5059814,-0.1678699);
+    private static final LatLng PARIS = new LatLng(48.8735254,2.2961216);
     private static final LatLng INVALID = new LatLng(-45.125783, 151.276417);
+    List<LatLng> dest = new LinkedList<>();
     /**
      * The amount in degrees by which to scroll the camera
      */
+    String[] stringDests = {"TOKYO","LONDON","CAPE TOWN","SINGAPORE","Amsterdam","MOSCOW","SYDNEY","PARIS"};
     private static final int PAN_BY_DEG = 30;
     private static final float ZOOM_BY = 0.5f;
     EditText searchPlace ;
@@ -72,9 +89,10 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     Handler handler ;
     Runnable hideTask;
     private InputMethodManager imm;
-    Button sydney,sanFran,santorini;
+    Button changeDest;
     ImageView imageLogo;
     BroadcastReceiver brUpdate;
+    ListAdapter adapter;
     long lastMove;
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -121,7 +139,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         imageLogo.setVisibility(View.VISIBLE);
     }
     public void showBack(){
-        if(sydney.getVisibility()==VISIBLE){
+        if(changeDest.getVisibility()==VISIBLE){
             getActivity().finish();
         }else {
             searchPlace.setVisibility(View.GONE);
@@ -146,6 +164,15 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
 
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment =
                  SupportStreetViewPanoramaFragment.newInstance();
+        dest.add(TOKYO);
+        dest.add(LONDON);
+        dest.add(CAPE_TOWN);
+        dest.add(SINGAPORE);
+        dest.add(Amsterdam);
+        dest.add(MOSCOW);
+        dest.add(SYDNEY);
+        dest.add(PARIS);
+        adapter =  new ArrayAdapter(getActivity(),  android.R.layout.simple_list_item_1,stringDests);
         getMainActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.streetviewpanorama, streetViewPanoramaFragment)
                 .commitAllowingStateLoss();
@@ -204,13 +231,9 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
         Typeface font = Typeface.createFromAsset(getActivity().getAssets(), "font/handkerchief.ttf");
         imageLogo = (ImageView) mainView.findViewById(R.id.image_logo);
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-        sydney = (Button) mainView.findViewById(R.id.sydney);
-        sydney.setTypeface(font);
-        santorini = (Button) mainView.findViewById(R.id.santorini);
-        santorini.setTypeface(font);
-        sanFran = (Button) mainView.findViewById(R.id.sanfran);
+        changeDest = (Button) mainView.findViewById(R.id.change_destination);
         RelativeLayout layout = (RelativeLayout) mainView.findViewById(R.id.relativeLayout);
-        sanFran.setTypeface(font);
+        changeDest.setTypeface(font);
         layout.setVisibility(View.GONE);
         Button movePosition = (Button) mainView.findViewById(R.id.move_position);
         movePosition.setVisibility(View.GONE);
@@ -260,34 +283,42 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     /**
      * Called when the Go To San Fran button is clicked.
      */
-    @OnClick(R.id.sanfran)
+    @OnClick(R.id.change_destination)
     public void onGoToSanFran(View view) {
         if (!checkReady()) {
             return;
         }
-        mStreetViewPanorama.setPosition(SAN_FRAN, 30);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.select_dest);
+        builder.setSingleChoiceItems(adapter, 0, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mStreetViewPanorama.setPosition(dest.get(which), 30);
+                dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               dialog.dismiss();
+            }
+        });
+        builder.show();
+        //builder.setSingleChoiceItems()
+        //mStreetViewPanorama.setPosition(SAN_FRAN, 30);
     }
 
     /**
      * Called when the Animate To Sydney button is clicked.
      */
     private void setDestinationsVisible(){
-        sanFran.setVisibility(VISIBLE);
-        santorini.setVisibility(VISIBLE);
-        sydney.setVisibility(VISIBLE);
+        changeDest.setVisibility(VISIBLE);
     }
     private void setDestinationsInVisible(){
-        sanFran.setVisibility(View.GONE);
-        santorini.setVisibility(View.GONE);
-        sydney.setVisibility(View.GONE);
+        changeDest.setVisibility(View.GONE);
+
     }
-    @OnClick(R.id.sydney)
-    public void onGoToSydney(View view) {
-        if (!checkReady()) {
-            return;
-        }
-        mStreetViewPanorama.setPosition(SYDNEY);
-    }
+
 
     @OnClick(R.id.everywhere)
     public void onGoToEveryWhere(View view){
@@ -295,7 +326,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
             searchPlace.setVisibility(View.GONE);
             setDestinationsVisible();
 
-            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);
+            imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0);
         }else {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
@@ -337,13 +368,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener{
     /**
      * Called when the Animate To Santorini button is clicked.
      */
-    @OnClick(R.id.santorini)
-    public void onGoToSantorini(View view) {
-        if (!checkReady()) {
-            return;
-        }
-        mStreetViewPanorama.setPosition(SANTORINI);
-    }
+
 
     /**
      * Called when the Animate To Invalid button is clicked.

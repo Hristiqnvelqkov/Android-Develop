@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlaygroundEnergy Walk</string>
+    <string name="app_name">Lumi Street Walk</string>
     <string name="request_position">Position</string>
     <string name="walk_panorama">Walk</string>
     <string name="left_arrow">\u2190</string>
@@ -7,6 +7,9 @@
     <string name="up_arrow">\u2191</string>
     <string name="down_arrow">\u2193</string>
     <string name="zoom_in">+</string>
+    <string name="go">Go</string>
+    <string name="select_dest">Select Destination</string>
+    <string name="cancel">Cancel</string>
     <string name="zoom_out">-</string>
     <string name="duration">Custom Duration</string>
     <string name="go_to_santorini">Go to Santorini</string>
@@ -29,5 +32,6 @@
     <string name="search">Search</string>
     <string name="logo">Logo</string>
     <string name="app">PlaygroundEnergy Walk</string>
+    <string name="location">Location</string>
 
 </resources>
