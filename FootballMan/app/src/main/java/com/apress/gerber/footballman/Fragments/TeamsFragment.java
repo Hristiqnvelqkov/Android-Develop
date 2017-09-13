@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.Game;
@@ -97,7 +98,7 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
             ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(hide),false);
             status=true;
         }
-        if(item.getItemId() ==1 ){
+        if(item.getItemId() == Constants.MENU_NEXT){
             game=mActivity.getGame();
             if((game.readyHost() && game.readyGuest())) {
                 mActivity.commitFragment(StartMatchFragment.newInstance(game),true);
@@ -105,7 +106,7 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
                 Toast.makeText(getContext(),"First choose 2 teams",Toast.LENGTH_SHORT).show();
             }
         }
-        if(item.getItemId() == 0) {
+        if(item.getItemId() == Constants.MENU_ADD) {
             ((MainActivity) getActivity()).commitFragment(AddTeamFragment.newInstance(league, null), true);
             status = true;
         }

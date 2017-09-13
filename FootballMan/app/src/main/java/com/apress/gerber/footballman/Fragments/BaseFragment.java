@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
@@ -33,6 +34,7 @@ public class BaseFragment extends Fragment {
 
     }
 
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         this.menu = menu;
@@ -40,11 +42,11 @@ public class BaseFragment extends Fragment {
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
         if (!hide) {
-            menu.add(0, 0, Menu.NONE, R.string.add);
-            menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.add(0, Constants.MENU_ADD, Menu.NONE, R.string.add);
+            menu.getItem(Constants.MENU_ADD).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         } else {
-            menu.removeItem(0);
-            menu.add(0, 1, Menu.NONE, R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.removeItem(Constants.MENU_ADD);
+            menu.add(0, Constants.MENU_NEXT, Menu.NONE, R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
     }
 

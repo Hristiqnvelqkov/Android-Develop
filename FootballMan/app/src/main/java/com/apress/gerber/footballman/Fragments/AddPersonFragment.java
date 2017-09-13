@@ -1,5 +1,6 @@
 package com.apress.gerber.footballman.Fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;

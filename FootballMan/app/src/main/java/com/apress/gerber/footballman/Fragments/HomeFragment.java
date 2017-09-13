@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.LegueRecyclerView;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
@@ -44,12 +45,12 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
                 hide = false;
                 startMach.setVisibility(View.VISIBLE);
                 setRecyclerView(hide);
-                menu.removeItem(1);
-                menu.add(0,0,Menu.NONE,R.string.add);
+                menu.removeItem(Constants.MENU_NEXT);
+                menu.add(0, Constants.MENU_ADD,Menu.NONE,R.string.add);
             }
             status=true;
         }
-        if(item.getItemId() == 0){
+        if(item.getItemId() == Constants.MENU_ADD){
             ((MainActivity) getActivity()).commitFragment(AddLeagueFragment.newInstance(null), true);
 
         }
@@ -68,8 +69,8 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
                 menu.removeItem(Menu.FIRST);
                 startMach.setVisibility(View.GONE);
                 setRecyclerView(hide);
-                menu.removeItem(0);
-                menu.add(0,1,Menu.NONE,R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                menu.removeItem(Constants.MENU_ADD);
+                menu.add(0,Constants.MENU_NEXT,Menu.NONE,R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             }
         });
         return view;

@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.Game;
@@ -110,11 +111,11 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
             }
             status=true;
         }
-        if(item.getItemId() == 0) {
+        if(item.getItemId() == Constants.MENU_ADD) {
             ((MainActivity) getActivity()).commitFragment(AddPersonFragment.newInstance(team,null), true);
             status = true;
         }
-        if(item.getItemId() ==1 ){
+        if(item.getItemId() ==Constants.MENU_NEXT ){
             if((game.getHost()!=null && game.getGuest()!=null)) {
                 mActivity.commitFragment(StartMatchFragment.newInstance(game),true);
             }else{

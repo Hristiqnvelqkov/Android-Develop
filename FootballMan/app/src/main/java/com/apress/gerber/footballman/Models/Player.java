@@ -16,6 +16,7 @@ public class Player implements Serializable{
     private int id;
     private String name;
     private int number;
+    Team team;
     private List<Game> games;
     public int getId() {
         return this.id;

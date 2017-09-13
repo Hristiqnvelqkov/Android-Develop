@@ -61,6 +61,7 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         holder.playerName.setText(mPlayers.get(position).getName());
         holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
         holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
+        holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));
         holder.fauls.setText(String.valueOf(game.getFauls(mPlayers.get(position))));
         holder.goals.setText(String.valueOf(game.getGoals(mPlayers.get(position))));
         holder.redCard.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +88,8 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         holder.assist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                listner.addAssist(mPlayers.get(position));
+                holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));
             }
         });
         holder.faul.setOnClickListener(new View.OnClickListener() {

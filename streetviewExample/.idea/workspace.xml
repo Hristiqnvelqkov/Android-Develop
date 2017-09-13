@@ -49,22 +49,44 @@
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file leaf-file-name="home_fragment.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml">
-          <provider editor-type-id="android-designer2">
-            <state />
-          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
+            <state relative-caret-position="782">
               <caret line="46" column="31" lean-forward="false" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
               <folding />
             </state>
+          </provider>
+          <provider editor-type-id="android-designer2">
+            <state />
           </provider>
         </entry>
       </file>
       <file leaf-file-name="HomeFragment.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/example/streetview/stamsoft/app/streetviewexample/fragments/HomeFragment.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="236">
-              <caret line="290" column="81" lean-forward="false" selection-start-line="290" selection-start-column="81" selection-end-line="290" selection-end-column="81" />
+            <state relative-caret-position="-1124">
+              <caret line="163" column="9" lean-forward="false" selection-start-line="163" selection-start-column="9" selection-end-line="163" selection-end-column="9" />
+              <folding>
+                <element signature="e#4538#4667#0" expanded="true" />
+                <element signature="e#4666#4667#0" expanded="true" />
+                <element signature="e#5029#5245#0" expanded="true" />
+                <element signature="e#5244#5245#0" expanded="true" />
+                <element signature="e#7564#8019#0" expanded="true" />
+                <element signature="e#8018#8019#0" expanded="true" />
+                <element signature="e#12620#12640#0" expanded="true" />
+                <element signature="e#12699#13112#0" expanded="true" />
+                <element signature="e#13111#13112#0" expanded="true" />
+                <element signature="e#13669#13670#0" expanded="true" />
+                <element signature="e#13718#13719#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/example/streetview/stamsoft/app/streetviewexample/MainActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="345">
+              <caret line="91" column="34" lean-forward="false" selection-start-line="91" selection-start-column="34" selection-end-line="91" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -137,13 +159,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="search_button_selected.png" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/search_button_selected.png">
-          <provider selected="true" editor-type-id="images">
-            <state />
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -156,12 +171,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>settin</find>
-      <find>System.out</find>
-      <find>Get</find>
-      <find>location</find>
-      <find>OnRe</find>
-      <find>fragment</find>
       <find>every</find>
       <find>ever</find>
       <find>onCr</find>
@@ -170,7 +179,6 @@
       <find>onC</find>
       <find>setDestinationsInvi</find>
       <find>setAllVi</find>
-      <find>setAllVisible</find>
       <find>setting</find>
       <find>go_to</find>
       <find>go_to_w</find>
@@ -180,6 +188,19 @@
       <find>adapter</find>
       <find>goto</find>
       <find>show_Im</find>
+      <find>handler</find>
+      <find>hideElements</find>
+      <find>hideEle</find>
+      <find>hideTas</find>
+      <find>imm</find>
+      <find>HideEl</find>
+      <find>everywhere</find>
+      <find>getAllI</find>
+      <find>setAllVisible</find>
+      <find>getAllIn</find>
+      <find>setDestinationsIn</find>
+      <find>changeDest</find>
+      <find>getAll</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
@@ -2083,8 +2104,8 @@
     </navigator>
     <panes>
       <pane id="ProjectPane" />
-      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -2097,9 +2118,51 @@
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidBuildScriptsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="streetviewExample" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="streetviewExample" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="streetviewExample" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="streetviewexample" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.android.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2451,12 +2514,12 @@
     <layout>
       <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.1996587" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
@@ -2481,8 +2544,8 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32935154" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
@@ -2592,13 +2655,13 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/res/mipmap-hdpi/splashing.png" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/splash.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="255">
           <caret line="15" column="37" lean-forward="false" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/ic_action_name.png">
@@ -2624,23 +2687,23 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/splash.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="41" lean-forward="false" selection-start-line="5" selection-start-column="41" selection-end-line="5" selection-end-column="41" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/settings_fragment.xml">
-      <provider selected="true" editor-type-id="android-designer2">
+      <provider editor-type-id="android-designer2">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/settings_fragment.xml">
       <provider editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
+      </provider>
+      <provider selected="true" editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
@@ -2657,13 +2720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/example/streetview/stamsoft/app/streetviewexample/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1360">
-          <caret line="91" column="34" lean-forward="false" selection-start-line="91" selection-start-column="34" selection-end-line="91" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/icon.png">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -2677,13 +2733,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/unselected.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="56" lean-forward="false" selection-start-line="0" selection-start-column="56" selection-end-line="0" selection-end-column="56" />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/locations_button_selected.png">
@@ -2697,33 +2753,33 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/button_search_selector.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
           <caret line="3" column="53" lean-forward="false" selection-start-line="3" selection-start-column="53" selection-end-line="3" selection-end-column="53" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/selected.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/selected.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="1" selection-end-column="68" />
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/button_selector.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/button_selector.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="4" selection-end-column="11" />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi/search_button_selected.png">
@@ -2737,14 +2793,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/search_unselected.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="53" lean-forward="false" selection-start-line="0" selection-start-column="53" selection-end-line="0" selection-end-column="53" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/assets/handkerchief.ttf" />
@@ -2762,14 +2818,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/search_selected.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="44" lean-forward="false" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
@@ -2781,14 +2837,14 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/home_fragment.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
+        <state relative-caret-position="782">
           <caret line="46" column="31" lean-forward="false" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
           <folding />
         </state>
+      </provider>
+      <provider editor-type-id="android-designer2">
+        <state />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
@@ -2802,11 +2858,31 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/example/streetview/stamsoft/app/streetviewexample/MainActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="345">
+          <caret line="91" column="34" lean-forward="false" selection-start-line="91" selection-start-column="34" selection-end-line="91" selection-end-column="34" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/example/streetview/stamsoft/app/streetviewexample/fragments/HomeFragment.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="236">
-          <caret line="290" column="81" lean-forward="false" selection-start-line="290" selection-start-column="81" selection-end-line="290" selection-end-column="81" />
-          <folding />
+        <state relative-caret-position="-1124">
+          <caret line="163" column="9" lean-forward="false" selection-start-line="163" selection-start-column="9" selection-end-line="163" selection-end-column="9" />
+          <folding>
+            <element signature="e#4538#4667#0" expanded="true" />
+            <element signature="e#4666#4667#0" expanded="true" />
+            <element signature="e#5029#5245#0" expanded="true" />
+            <element signature="e#5244#5245#0" expanded="true" />
+            <element signature="e#7564#8019#0" expanded="true" />
+            <element signature="e#8018#8019#0" expanded="true" />
+            <element signature="e#12620#12640#0" expanded="true" />
+            <element signature="e#12699#13112#0" expanded="true" />
+            <element signature="e#13111#13112#0" expanded="true" />
+            <element signature="e#13669#13670#0" expanded="true" />
+            <element signature="e#13718#13719#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
