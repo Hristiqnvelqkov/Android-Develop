@@ -1,5 +1,7 @@
 package com.apress.gerber.footballman;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,19 +24,25 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     List<Player> mPlayers;
     StartMatchFragment listner;
     Game game;
-    public GamePlayersAdapter(Game game,List<Player> players , StartMatchFragment listner){
+    int rebind=0;
+    public int getRebind(){
+        return rebind;
+    }
+    public GamePlayersAdapter(Game game, List<Player> players, StartMatchFragment listner) {
         mPlayers = players;
         this.game = game;
         this.listner = listner;
     }
-    public static class CustomViewHolder extends RecyclerView.ViewHolder{
-        TextView redCards,yellowCards,goals,assists,fauls;
+
+    public static class CustomViewHolder extends RecyclerView.ViewHolder {
+        TextView redCards, yellowCards, goals, assists, fauls;
         TextView playerName;
         ImageView redCard;
         ImageView yellowCard;
         ImageView faul;
         ImageView assist;
         ImageView goal;
+        ImageView gameStat;
         public CustomViewHolder(View itemView) {
             super(itemView);
             playerName = itemView.findViewById(R.id.player_name);
@@ -48,17 +56,21 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
             assists = itemView.findViewById(R.id.get_assist);
             goal = itemView.findViewById(R.id.make_goal);
             goals = itemView.findViewById(R.id.get_goals);
+            gameStat = itemView.findViewById(R.id.game_stat);
         }
     }
+
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw, parent, false);
         return new CustomViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
         holder.playerName.setText(mPlayers.get(position).getName());
+        if(!game.checkPlayerInGame(mPlayers.get(position)))
+            holder.gameStat.setImageResource(R.drawable.red);
         holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
         holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
         holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));
@@ -67,48 +79,112 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         holder.redCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listner.addRedCard(mPlayers.get(position));
-                holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
+                if (listner.checkMatchStarted()) {
+                    if (game.checkPlayerInGame(mPlayers.get(position))) {
+                        listner.addRedCard(mPlayers.get(position));
+                        holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
+                        holder.playerName.setTextColor(Color.RED);
+                    }
+                }
+            }
+        });
+        holder.gameStat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(rebind>0){
+                    rebind=0;
+                    notifyDataSetChanged();
+                }
+                int stat  = listner.onChangeListner(mPlayers.get(position));
+                if(stat==Constants.IN){
+                    holder.gameStat.setImageResource(R.drawable.green);
+                }
+                if(stat==Constants.OUT){
+                    holder.gameStat.setImageResource(R.drawable.red);
+                }
+                if(stat == Constants.READY_FOR_CHANGE){
+                    holder.gameStat.setImageResource(R.drawable.yellow);
+                    rebind++;
+                }
             }
         });
         holder.yellowCard.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onClick(View view) {
-                listner.addYellowCard(mPlayers.get(position));
-                holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
+                if (listner.checkMatchStarted()) {
+                    if (game.checkPlayerInGame(mPlayers.get(position))) {
+                        listner.addYellowCard(mPlayers.get(position));
+                        if (game.getYellowCards(mPlayers.get(position)) == 1 && (game.getRedCards(mPlayers.get(position)) == 0)) {
+                            holder.playerName.setTextColor(Color.YELLOW);
+                        }
+                        if (game.getRedCards(mPlayers.get(position)) == 1) {
+                            holder.playerName.setTextColor(Color.RED);
+                        }
+                        holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
+                        holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
+                    }
+                }
             }
         });
         holder.goal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listner.addGoal(mPlayers.get(position));
-                holder.goals.setText(String.valueOf(game.getGoals(mPlayers.get(position))));
+                if (game.getRedCards(mPlayers.get(position)) == 0) {
+                    if (listner.checkMatchStarted()) {
+                        if (game.checkPlayerInGame(mPlayers.get(position))) {
+                            listner.addGoal(mPlayers.get(position));
+                            holder.goals.setText(String.valueOf(game.getGoals(mPlayers.get(position))));
+                        }
+                    }
+                }
             }
         });
         holder.assist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listner.addAssist(mPlayers.get(position));
-                holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));
+                if (game.getRedCards(mPlayers.get(position)) == 0) {
+                    if (listner.checkMatchStarted()) {
+                        if (game.checkPlayerInGame(mPlayers.get(position))) {
+                            listner.addAssist(mPlayers.get(position));
+                            holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));
+                        }
+                    }
+                }
             }
         });
         holder.faul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listner.addFaul(mPlayers.get(position));
-                holder.fauls.setText(String.valueOf(game.getFauls(mPlayers.get(position))));
+                if (game.getRedCards(mPlayers.get(position)) == 0) {
+                    if (listner.checkMatchStarted()) {
+                        if (game.checkPlayerInGame(mPlayers.get(position))) {
+                            listner.addFaul(mPlayers.get(position));
+                            holder.fauls.setText(String.valueOf(game.getFauls(mPlayers.get(position))));
+                        }
+                    }
+                }
             }
         });
     }
+
     @Override
     public int getItemCount() {
         return mPlayers.size();
     }
-    public interface onPlayerClicked{
+
+    public interface onPlayerClicked {
+
+        int onChangeListner(Player player);
+
         void addRedCard(Player player);
+
         void addYellowCard(Player player);
+
         void addGoal(Player player);
+
         void addAssist(Player player);
+
         void addFaul(Player player);
     }
 }

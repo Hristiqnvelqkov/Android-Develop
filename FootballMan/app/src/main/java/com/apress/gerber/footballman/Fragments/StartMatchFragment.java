@@ -26,6 +26,7 @@ import com.apress.gerber.footballman.R;
 import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.zip.CheckedOutputStream;
 
 
 public class StartMatchFragment extends BaseFragment implements GamePlayersAdapter.onPlayerClicked {
@@ -33,8 +34,10 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String START_MATCH = "START_MATCH";
     View view;
+    int stateChange = 0;
     MyTask task;
     Timer timer;
+    Player readyForOutPlayer;
     TextView hostResult, guestResut, hostTeamRedCard, guestTeamRedCard, hostTeamYellowCard, guestTeamYellowCard, hostTeamFauls, guestTeamFauls;
     // TODO: Rename and change types of parameters
     Game mGame;
@@ -60,11 +63,18 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        System.out.println("Stana losho");
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
         menu.removeItem(Constants.MENU_ADD);
         menu.add(0, Constants.START, Menu.NONE, R.string.start).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    public boolean checkMatchStarted() {
+        if (task.getSeconds() > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -78,6 +88,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
         if (item.getItemId() == Constants.HALF_TIME) {
             timer.cancel();
+            task.setHalfTime();
             menu.add(0, Constants.START_SECOND_HALF, Menu.NONE, R.string.start).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             menu.removeItem(Constants.HALF_TIME);
             status = true;
@@ -93,7 +104,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         if (item.getItemId() == Constants.END_MATCH) {
             status = true;
             timer.cancel();
-            ((MainActivity) getActivity()).commitFragment(StatisticsFragment.newInstance(mGame),true);
+            ((MainActivity) getActivity()).commitFragment(StatisticsFragment.newInstance(mGame), true);
         }
         return status;
     }
@@ -101,7 +112,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_start_match, container, false);
+        view = inflater.inflate(R.layout.fragment_landscape_start_match, container, false);
         initializeViews();
         task = new MyTask();
         timer = new Timer(true);
@@ -137,7 +148,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     @Override
     public void addRedCard(Player player) {
-        mGame.addRedCard(player,task.getSeconds());
+        mGame.addRedCard(player, task.getSeconds());
         if (mGame.getHostPlayers().contains(player)) {
             hostTeamRedCard.setText(String.valueOf(mGame.getTeamRedCards(mGame.getHostPlayers())));
         } else {
@@ -147,7 +158,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     @Override
     public void addYellowCard(Player player) {
-        mGame.addYellowCard(player,task.getSeconds());
+        mGame.addYellowCard(player, task.getSeconds());
         if (mGame.getHostPlayers().contains(player)) {
             hostTeamYellowCard.setText(String.valueOf(mGame.getTeamYellowCards(mGame.getHostPlayers())));
         } else {
@@ -157,7 +168,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     @Override
     public void addGoal(Player player) {
-        mGame.addGoal(player,task.getSeconds());
+        mGame.addGoal(player, task.getSeconds());
         if (mGame.getHostPlayers().contains(player)) {
             hostResult.setText(String.valueOf(mGame.updateResult(mGame.getHost())));
         } else {
@@ -171,8 +182,37 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     }
 
     @Override
+    public int onChangeListner(Player player){
+        int stat=0;
+        if(stateChange == 1){
+            mGame.outOfGame(readyForOutPlayer);
+            mGame.enterInGame(player);
+            readyForOutPlayer = null;
+            stateChange = 0;
+            stat = Constants.IN;
+        }else {
+            if (task.getSeconds() == 0) {
+                if (mGame.getHostPlayersInGame().contains(player) || mGame.getGuestPlayersInGame().contains(player)) {
+                    mGame.outOfGame(player);
+                    stat = Constants.OUT;
+                } else {
+                    mGame.enterInGame(player);
+                    stat = Constants.IN;
+                }
+            } else {
+                if (mGame.getHostPlayersInGame().contains(player) || mGame.getGuestPlayersInGame().contains(player)) {
+                    stat = Constants.READY_FOR_CHANGE;
+                    readyForOutPlayer = player;
+                    stateChange = 1;
+                }
+
+            }
+        }
+        return stat;
+    }
+    @Override
     public void addFaul(Player player) {
-        mGame.addFaul(player,task.getSeconds());
+        mGame.addFaul(player, task.getSeconds());
         if (mGame.getHostPlayers().contains(player)) {
             hostTeamFauls.setText(String.valueOf(mGame.getTeamFauls(mGame.getHostPlayers())));
         } else {
@@ -181,10 +221,16 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     }
 
     class MyTask extends TimerTask {
-        int seconds=0;
-        public int getSeconds(){
+        int seconds = 0;
+
+        public int getSeconds() {
             return seconds;
         }
+
+        public void setHalfTime() {
+            seconds = 0;
+        }
+
         @Override
         public void run() {
             seconds++;

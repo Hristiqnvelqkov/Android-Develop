@@ -25,9 +25,31 @@ public class Game implements Serializable {
     private int id;
     private int hostResult = 0;
     private int guestResult = 0;
+    List<Player> hostPlayersInGame = new LinkedList<>();
+    List<Player> guestPlayersInGame = new LinkedList<>();
     List<Player> hostTeamPlayers = new LinkedList<>();
     List<Player> guestTeamPlayers = new LinkedList<>();
     private List<Event> mEvents = new LinkedList<>();
+    public void enterInGame(Player player) {
+        if(hostTeamPlayers.contains(player)) {
+            hostPlayersInGame.add(player);
+        }else{
+            guestPlayersInGame.add(player);
+        }
+    }
+    public void outOfGame(Player player){
+        if(hostTeamPlayers.contains(player)){
+            hostPlayersInGame.remove(player);
+        }else{
+            guestPlayersInGame.remove(player);
+        }
+    }
+    public List<Player> getHostPlayersInGame(){
+        return hostPlayersInGame;
+    }
+    public List<Player> getGuestPlayersInGame(){
+        return guestPlayersInGame;
+    }
     private Team host, guest;
     public boolean hostReady, guestReady;
     private HashMap<Player, Integer> goals = new HashMap<>();
@@ -45,6 +67,7 @@ public class Game implements Serializable {
         guest = team;
         setDefaultValues(guest);
     }
+
     public int updateResult(Team team) {
         if (team == host) {
             return ++hostResult;
@@ -148,26 +171,29 @@ public class Game implements Serializable {
     public int getId() {
         return this.id;
     }
-    public boolean checkPlayerHost(Player player){
-        if(hostTeamPlayers.contains(player)) {
+
+    public boolean checkPlayerHost(Player player) {
+        if (hostTeamPlayers.contains(player)) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
-    public List<Event> getEvents(){
+
+    public List<Event> getEvents() {
         return mEvents;
     }
-    public void addGoal(Player player,int time){
+
+    public void addGoal(Player player, int time) {
         goals.put(player, goals.get(player) + 1);
-        Event event = new Event(time, Constants.GOAL_EVENT,player);
+        Event event = new Event(time, Constants.GOAL_EVENT, player);
         event.setHost(checkPlayerHost(player));
         mEvents.add(event);
     }
 
-    public void addFaul(Player player,int time) {
+    public void addFaul(Player player, int time) {
         fauls.put(player, fauls.get(player) + 1);
-        Event event = new Event(time,Constants.FOUL_EVENT,player);
+        Event event = new Event(time, Constants.FOUL_EVENT, player);
         event.setHost(checkPlayerHost(player));
         mEvents.add(event);
     }
@@ -176,18 +202,26 @@ public class Game implements Serializable {
         assist.put(player, assist.get(player) + 1);
     }
 
-    public void addYellowCard(Player player,int time) {
-        yellowCards.put(player, yellowCards.get(player) + 1);
-        Event event = new Event(time,Constants.YELLOW_EVENT,player);
-        event.setHost(checkPlayerHost(player));
-        mEvents.add(event);
+    public void addYellowCard(Player player, int time) {
+        if (redCards.get(player) == 0) {
+            if (yellowCards.get(player) > 0) {
+                addRedCard(player, time);
+            } else {
+                yellowCards.put(player, yellowCards.get(player) + 1);
+                Event event = new Event(time, Constants.YELLOW_EVENT, player);
+                event.setHost(checkPlayerHost(player));
+                mEvents.add(event);
+            }
+        }
     }
 
     public void addRedCard(Player player, int time) {
-        redCards.put(player, redCards.get(player) + 1);
-        Event event = new Event(time, Constants.RED_EVENT,player);
-        event.setHost(checkPlayerHost(player));
-        mEvents.add(event);
+        if (redCards.get(player) == 0) {
+            redCards.put(player, redCards.get(player) + 1);
+            Event event = new Event(time, Constants.RED_EVENT, player);
+            event.setHost(checkPlayerHost(player));
+            mEvents.add(event);
+        }
     }
 
     public int getFauls(Player player) {
@@ -198,6 +232,13 @@ public class Game implements Serializable {
         return assist.get(player);
     }
 
+    public boolean checkPlayerInGame(Player player){
+        if(getGuestPlayersInGame().contains(player) || getHostPlayersInGame().contains(player)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     @Nullable
     Team winner() {

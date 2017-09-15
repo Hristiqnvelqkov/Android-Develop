@@ -11,9 +11,11 @@ public class Constants {
     public static final int HALF_TIME =3;
     public static final int END_MATCH = 4;
     public static final int START_SECOND_HALF=5;
-
     public static final int GOAL_EVENT=6;
     public static final int FOUL_EVENT=7;
     public static final int YELLOW_EVENT=8;
     public static final int RED_EVENT=9;
+    public static final int IN=10;
+    public static final int OUT=11;
+    public static final int READY_FOR_CHANGE=12;
 }
