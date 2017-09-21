@@ -29,9 +29,13 @@ import com.apress.gerber.footballman.R;
 
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+
 
 public class PersonsFragment extends BaseFragment implements PersonsAdapter.PlayerClicked {
     Team team;
+    RealmResults<Player> mPlayers;
     FloatingActionButton mActionButton;
     View view;
     Game game ;
@@ -53,6 +57,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         setHasOptionsMenu(true);
         game = ((MainActivity)getActivity()).getGame();
         team = (Team) getArguments().getSerializable("teams");
+        mPlayers = mManager.getPlayersForTeam(team);
         setActivity();
         hide = (boolean) getArguments().getSerializable("HIDE");
     }
@@ -69,6 +74,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
            }
         });
         setRecyclerView();
+        setLayout(view,mPlayers.size(),R.string.no_players);
         ((MainActivity) getActivity()).setUpToolBar(team.getName());
         return view;
     }
@@ -126,7 +132,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     }
     public void setRecyclerView() {
         RecyclerView recyclerView = view.findViewById(R.id.team_players);
-        PersonsAdapter adapter = new PersonsAdapter(team.getPlayers(), this,hide);
+        PersonsAdapter adapter = new PersonsAdapter(mPlayers, this,hide);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -142,7 +148,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     @Override
     public void removePlayerFromGame(Player player){
         if((game.getHost()!=null) && (game.getGuest()==null)) {
-            game.removeGuestPlayer(player);
+            game.removeHostPlayer(player);
         }
         if((game.getHost()!=null) && (game.getGuest()!=null)) {
             game.removeGuestPlayer(player);
@@ -150,7 +156,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     }
     @Override
     public void deletePlayer(Player player) {
-        DataManager.getDataInstance().removePlayer(team,player);
+        mManager.removePlayer(player);
         setLayout(view,team.getPlayers().size(),R.string.no_players);
 
     }

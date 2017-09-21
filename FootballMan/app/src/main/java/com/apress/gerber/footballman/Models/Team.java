@@ -1,31 +1,29 @@
 package com.apress.gerber.footballman.Models;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
 
-import com.apress.gerber.footballman.DAO.TeamDao;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by hriso on 8/23/2017.
  */
-@Entity
-public class Team  implements Serializable{
-    @PrimaryKey(autoGenerate = true)
+
+public class Team extends RealmObject implements Serializable {
     private int id;
     League mLeague;
-    @ColumnInfo(name = "team_name")
     private String teamName;
-    private List<Player> players;
-    private List<Game> mGames;
+    private RealmList<Player> players;
+    private RealmList<Game> mGames;
 
     public Team() {
-        mGames = new LinkedList<>();
-        players = new LinkedList<>();
+        mGames = new RealmList<>();
+        players = new RealmList<>();
     }
 
     public void addGame(Game game) {
@@ -41,18 +39,23 @@ public class Team  implements Serializable{
 
         return id == team.id;
     }
-    public int getId(){
+
+    public int getId() {
         return this.id;
     }
-    public void setLeague(League league){
+
+    public void setLeague(League league) {
         mLeague = league;
     }
+
     public void setTeamName(String name) {
         teamName = name;
     }
-    public String getName(){
+
+    public String getName() {
         return teamName;
     }
+
     @Override
     public int hashCode() {
         return id;
@@ -72,9 +75,11 @@ public class Team  implements Serializable{
         }
         return wins;
     }
-    public League getLeague(){
+
+    public League getLeague() {
         return mLeague;
     }
+
     public void addPlayer(Player player) {
         players.add(player);
     }

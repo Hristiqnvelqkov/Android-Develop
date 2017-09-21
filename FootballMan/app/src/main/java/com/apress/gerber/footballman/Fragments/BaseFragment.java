@@ -13,15 +13,19 @@ import android.widget.TextView;
 
 import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.MainActivity;
+import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
 
 import java.util.List;
 
+import io.realm.Realm;
+
 
 public class BaseFragment extends Fragment {
-
+    protected Realm mRealm;
     protected InputMethodManager imm;
+    public DataManager mManager;
     public static OnFragmentInteractionListener mListener;
     protected Menu menu;
     MainActivity mActivity;
@@ -30,6 +34,8 @@ public class BaseFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mRealm = Realm.getDefaultInstance();
+        mManager = DataManager.getDataInstance();
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
     }
@@ -40,6 +46,11 @@ public class BaseFragment extends Fragment {
         this.menu = menu;
         System.out.println(hide);
         inflater.inflate(R.menu.menu, menu);
+        if (this instanceof HomeFragment)
+            menu.add(0, Constants.ALL_GAMES, Menu.NONE, R.string.games).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        else
+            menu.removeItem(Constants.ALL_GAMES);
+
         super.onCreateOptionsMenu(menu, inflater);
         if (!hide) {
             menu.add(0, Constants.MENU_ADD, Menu.NONE, R.string.add);
@@ -80,6 +91,12 @@ public class BaseFragment extends Fragment {
             TextView emptyTeams = mainView.findViewById(R.id.textView);
             emptyTeams.setText(i);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRealm.close();
     }
 
     public interface OnFragmentInteractionListener {

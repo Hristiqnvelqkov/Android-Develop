@@ -19,6 +19,8 @@ import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
 
+import io.realm.Realm;
+
 
 public class AddLeagueFragment extends BaseFragment  {
     DataManager mManager = DataManager.getDataInstance();
@@ -47,10 +49,11 @@ public class AddLeagueFragment extends BaseFragment  {
             @Override
             public void onClick(View view) {
                 if(mLeague==null) {
-                    mLeague = new League();
-                    mManager.addLeague(mLeague);
+                    mManager.addLeague((legue_input.getEditText().getText().toString()));
+                }else {
+                    mManager.updateLeague(mLeague,(legue_input.getEditText().getText().toString()));
                 }
-                mLeague.setName(legue_input.getEditText().getText().toString());
+                //mLeague.setName(legue_input.getEditText().getText().toString());
                 ((MainActivity) getActivity()).visibleHome();
                 ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(false),true);
                 imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0);

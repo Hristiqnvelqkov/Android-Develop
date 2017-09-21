@@ -1,6 +1,7 @@
 package com.apress.gerber.footballman.Fragments;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,11 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.GamePlayersAdapter;
+import com.apress.gerber.footballman.LandGameAdapter;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.Player;
@@ -33,9 +36,15 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String START_MATCH = "START_MATCH";
-    View view;
+    ViewGroup view;
     int stateChange = 0;
+    RecyclerView hostPlayers;
+    RecyclerView guestPlayers;
     MyTask task;
+    LandGameAdapter mLandHostAdapter = null;
+    LandGameAdapter mLandGuestAdapter = null;
+    GamePlayersAdapter hostAdapter = null;
+    GamePlayersAdapter guestAdapter;
     Timer timer;
     Player readyForOutPlayer;
     TextView hostResult, guestResut, hostTeamRedCard, guestTeamRedCard, hostTeamYellowCard, guestTeamYellowCard, hostTeamFauls, guestTeamFauls;
@@ -54,9 +63,14 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
         if (getArguments() != null) {
             mGame = (Game) getArguments().getSerializable(START_MATCH);
+            hostAdapter = new GamePlayersAdapter(mGame, mGame.getHostPlayers(), this);
+            guestAdapter = new GamePlayersAdapter(mGame, mGame.getGuestTeamPlayers(), this);
+            mLandHostAdapter = new LandGameAdapter(mGame, mGame.getHostPlayers(), this);
+            mLandGuestAdapter = new LandGameAdapter(mGame, mGame.getGuestTeamPlayers(), this);
         }
 
     }
@@ -95,7 +109,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
         if (item.getItemId() == Constants.START_SECOND_HALF) {
             menu.removeItem(Constants.START_SECOND_HALF);
-            timer = new Timer();
+            timer = new Timer(false);
             task = new MyTask();
             timer.schedule(task, 1000, 1000);
             menu.add(0, Constants.END_MATCH, Menu.NONE, R.string.full_time);
@@ -104,6 +118,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         if (item.getItemId() == Constants.END_MATCH) {
             status = true;
             timer.cancel();
+            mManager.addGame(mGame);
             ((MainActivity) getActivity()).commitFragment(StatisticsFragment.newInstance(mGame), true);
         }
         return status;
@@ -112,18 +127,33 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_landscape_start_match, container, false);
-        initializeViews();
+        view = (FrameLayout) inflater.inflate(R.layout.frame_layout_match, container, false);
+        View childview = inflater.inflate(R.layout.fragment_start_match, container, false);
+        view.addView(childview);
+
         task = new MyTask();
+        ((MainActivity) getActivity()).setUpToolBar(String.valueOf(task.getSeconds()));
         timer = new Timer(true);
+        initializeViews();
+        setAdapter(false);
         return view;
     }
 
+    public void setAdapter(boolean land) {
+        if (land) {
+            hostPlayers.setAdapter(mLandHostAdapter);
+            guestPlayers.setAdapter(mLandGuestAdapter);
+        } else {
+            hostPlayers.setAdapter(hostAdapter);
+            guestPlayers.setAdapter(guestAdapter);
+        }
+    }
+
     private void initializeViews() {
-        RecyclerView hostPlayers = view.findViewById(R.id.home_players);
+        hostPlayers = view.findViewById(R.id.home_players);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         LinearLayoutManager manager1 = new LinearLayoutManager(getActivity());
-        RecyclerView guestPlayers = view.findViewById(R.id.guest_players);
+        guestPlayers = view.findViewById(R.id.guest_players);
         guestResut = view.findViewById(R.id.guest_result);
         TextView hostName = view.findViewById(R.id.host_name);
         hostTeamFauls = view.findViewById(R.id.team_fauls_host);
@@ -137,13 +167,20 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         hostName.setText(mGame.getHost().getName());
         guestName.setText(mGame.getGuest().getName());
         hostResult = view.findViewById(R.id.home_result);
+        guestResut.setText(String.valueOf(mGame.getGuestResult()));
+        hostResult.setText(String.valueOf(mGame.getHostResult()));
 
-        GamePlayersAdapter hostAdapter = new GamePlayersAdapter(mGame, mGame.getHostPlayers(), this);
-        GamePlayersAdapter guestAdapter = new GamePlayersAdapter(mGame, mGame.getGuestTeamPlayers(), this);
+        hostTeamFauls.setText(String.valueOf(mGame.getTeamFauls(mGame.getHostPlayers())));
+        guestTeamFauls.setText(String.valueOf(mGame.getTeamFauls(mGame.getGuestTeamPlayers())));
+
+        hostTeamYellowCard.setText(String.valueOf(mGame.getTeamYellowCards(mGame.getHostPlayers())));
+        guestTeamYellowCard.setText(String.valueOf(mGame.getTeamYellowCards(mGame.getGuestTeamPlayers())));
+
+        hostTeamRedCard.setText(String.valueOf(mGame.getTeamRedCards(mGame.getHostPlayers())));
+        guestTeamRedCard.setText(String.valueOf(mGame.getTeamRedCards(mGame.getGuestTeamPlayers())));
         hostPlayers.setLayoutManager(manager);
         guestPlayers.setLayoutManager(manager1);
-        hostPlayers.setAdapter(hostAdapter);
-        guestPlayers.setAdapter(guestAdapter);
+
     }
 
     @Override
@@ -166,6 +203,19 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
     }
 
+    public void onConfigurationChanged(Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        view.removeAllViews();
+        View childView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_start_match, null);
+        view.addView(childView);
+        initializeViews();
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            setAdapter(true);
+        } else {
+            setAdapter(false);
+        }
+    }
+
     @Override
     public void addGoal(Player player) {
         mGame.addGoal(player, task.getSeconds());
@@ -182,15 +232,15 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     }
 
     @Override
-    public int onChangeListner(Player player){
-        int stat=0;
-        if(stateChange == 1){
+    public int onChangeListner(Player player) {
+        int stat = 0;
+        if (stateChange == 1) {
             mGame.outOfGame(readyForOutPlayer);
             mGame.enterInGame(player);
             readyForOutPlayer = null;
             stateChange = 0;
             stat = Constants.IN;
-        }else {
+        } else {
             if (task.getSeconds() == 0) {
                 if (mGame.getHostPlayersInGame().contains(player) || mGame.getGuestPlayersInGame().contains(player)) {
                     mGame.outOfGame(player);
@@ -210,6 +260,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
         return stat;
     }
+
     @Override
     public void addFaul(Player player) {
         mGame.addFaul(player, task.getSeconds());

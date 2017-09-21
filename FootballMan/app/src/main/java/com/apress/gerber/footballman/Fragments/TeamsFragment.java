@@ -34,9 +34,13 @@ import com.apress.gerber.footballman.TeamsAdapter;
 import java.util.LinkedList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
+
 
 public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClickedTeam {
-    DataManager dataManager = DataManager.getDataInstance();
+    RealmResults<Team> mTeams;
     View view;
     Game game;
     static final String ARG_LEAGuE = "ARG_LEAGuE";
@@ -61,17 +65,18 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
         setActivity();
         if (getArguments() != null) {
             league = (League) getArguments().getSerializable(ARG_LEAGuE);
+            mTeams = mManager.getTeamsForLeague(league);
             hide = (boolean) getArguments().getSerializable(HIDE);
             System.out.println(hide);
         }
     }
     private void setRecycleView(View view){
         RecyclerView recyclerView =view.findViewById(R.id.teams);
-        TeamsAdapter adapter = new TeamsAdapter(league.getTeamList(),this,hide);
+        TeamsAdapter adapter = new TeamsAdapter(mTeams,this,hide);
         RecyclerView.LayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(manager);
-        setLayout(view,league.getTeamList().size(),R.string.no_teams);
+        setLayout(view,mTeams.size(),R.string.no_teams);
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,9 +92,9 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
         ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(team,hide),true);
     }
     @Override
-    public void deleteTeam(Team team){
-        dataManager.removeTeam(league,team);
-        setLayout(view,league.getTeamList().size(),R.string.no_teams);
+    public void deleteTeam(final Team team){
+        mManager.removeTeam(team);
+        setLayout(view,mTeams.size(),R.string.no_teams);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){

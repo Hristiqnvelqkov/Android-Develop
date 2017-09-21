@@ -20,11 +20,14 @@ import com.apress.gerber.footballman.Models.Player;
 import com.apress.gerber.footballman.Models.Team;
 import com.apress.gerber.footballman.R;
 
+import io.realm.Realm;
+
 
 public class AddPersonFragment extends BaseFragment {
     DataManager manager = DataManager.getDataInstance();
     Button save;
     Team mTeam;
+    public int personId=0;
     View fragment_view;
     Player mPlayer;
     TextInputLayout player_name;
@@ -52,12 +55,11 @@ public class AddPersonFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 if(mPlayer==null) {
-                    mPlayer = new Player();
-                    manager.addPlayer(mTeam,mPlayer);
+                    mManager.addPlayer(mTeam,(player_name.getEditText().getText().toString()),Integer.parseInt(player_number.getEditText().getText().toString()));
+                }else {
+                    mManager.updatePlayer(mPlayer,(player_name.getEditText().getText().toString()),(Integer.parseInt(player_number.getEditText().getText().toString())));
                 }
                 ((MainActivity) getActivity()).visibleHome();
-                mPlayer.setName(player_name.getEditText().getText().toString());
-                mPlayer.setNumber(Integer.valueOf(player_number.getEditText().getText().toString()));
                 imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0);
                 ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam,false),true);
             }

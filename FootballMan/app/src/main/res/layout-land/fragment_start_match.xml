@@ -3,23 +3,24 @@
               android:id="@+id/game_layout"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:layout_marginTop="?attr/actionBarSize"
               android:orientation="horizontal"
               tools:context="com.apress.gerber.footballman.Fragments.StartMatchFragment">
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/home_players"
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="match_parent"/>
-
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#d3d3d3 " />
     <LinearLayout
-        android:layout_width="200dp"
+        android:layout_width="140dp"
         android:layout_height="match_parent"
         android:orientation="horizontal">
-
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             >
 
@@ -39,7 +40,7 @@
                     android:id="@+id/red_card_number_host"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"/>
+                    />
 
                 <ImageView
                     android:layout_width="25dp"
@@ -50,7 +51,7 @@
                     android:id="@+id/yellow_card_number_host"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"/>
+                    />
 
                 <ImageView
                     android:layout_width="25dp"
@@ -61,7 +62,7 @@
                     android:id="@+id/team_fauls_host"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"/>
+                    />
             </LinearLayout>
 
             <TextView
@@ -77,7 +78,6 @@
                 android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="0"
                 android:textSize="40sp"
                 />
         </RelativeLayout>
@@ -88,7 +88,7 @@
             android:background="@color/colorPrimary"/>
 
         <RelativeLayout
-            android:layout_width="100dp"
+            android:layout_width="70dp"
             android:layout_height="match_parent"
             >
 
@@ -104,7 +104,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:text="0"
                 android:textSize="40sp"
                 />
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -121,7 +120,6 @@
                 <TextView
                     android:id="@+id/red_card_number"
                     android:layout_width="wrap_content"
-                    android:text="0"
                     android:layout_height="wrap_content"/>
 
                 <ImageView
@@ -132,7 +130,6 @@
                 <TextView
                     android:id="@+id/yellow_card_number"
                     android:layout_width="wrap_content"
-                    android:text="0"
                     android:layout_height="wrap_content"/>
 
                 <ImageView
@@ -142,15 +139,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:id="@+id/team_fauls"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:background="#d3d3d3 " />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/guest_players"
-        android:layout_width="200dp"
+        android:layout_width="240dp"
         android:layout_height="match_parent"
         />
 

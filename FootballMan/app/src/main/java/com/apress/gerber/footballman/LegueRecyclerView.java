@@ -29,6 +29,7 @@ public class LegueRecyclerView extends RecyclerView.Adapter<LegueRecyclerView.Vi
     private static List<League> mLeagues;
 
     private boolean hideButtons = false;
+
     public LegueRecyclerView(List<League> leaguesData, LeagueListener listener, boolean hideButtons) {
         mLeagues = leaguesData;
         this.listener = listener;
@@ -43,6 +44,7 @@ public class LegueRecyclerView extends RecyclerView.Adapter<LegueRecyclerView.Vi
         ImageView delete;
         ImageView update;
         ImageView ball;
+
         ViewHolder(View itemView) {
             super(itemView);
             leagueName = itemView.findViewById(R.id.league);
@@ -51,17 +53,18 @@ public class LegueRecyclerView extends RecyclerView.Adapter<LegueRecyclerView.Vi
             ball = itemView.findViewById(R.id.ball);
         }
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=null;
+        View view = null;
         mContext = parent.getContext();
-        if(viewType==0) {
+        if (viewType == 0) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.league_raw, parent, false);
         }
-        if(viewType==2){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.league_match_raw,parent,false);
+        if (viewType == 2) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.league_match_raw, parent, false);
         }
-            return new ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -74,11 +77,11 @@ public class LegueRecyclerView extends RecyclerView.Adapter<LegueRecyclerView.Vi
             @Override
             public void onClick(View view) {
                 if (listener != null) {
-                    listener.onLeagueClicked(mLeagues.get(position),hideButtons);
+                    listener.onLeagueClicked(mLeagues.get(position), hideButtons);
                 }
             }
         });
-        if(!hideButtons) {
+        if (!hideButtons) {
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 final AlertDialog alertDialog = new AlertDialog.Builder(holder.delete.getContext()).create();
 
@@ -111,7 +114,7 @@ public class LegueRecyclerView extends RecyclerView.Adapter<LegueRecyclerView.Vi
                     alertDialog.show();
                 }
             });
-        }else{
+        } else {
             holder.update.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
         }
@@ -123,7 +126,8 @@ public class LegueRecyclerView extends RecyclerView.Adapter<LegueRecyclerView.Vi
     }
 
     public interface LeagueListener {
-        void onLeagueClicked(League league,boolean hide);
+        void onLeagueClicked(League league, boolean hide);
+
         void deleteLeague(League league);
 
         void updateLeague(League league);

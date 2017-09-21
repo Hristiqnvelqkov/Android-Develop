@@ -11,8 +11,11 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/home_players"
         android:layout_width="match_parent"
-        android:layout_height="200dp"/>
-
+        android:layout_height="220dp"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#d3d3d3 " />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -39,7 +42,7 @@
                     android:id="@+id/red_card_number_host"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"/>
+                    />
 
                 <ImageView
                     android:layout_width="25dp"
@@ -52,7 +55,7 @@
                     android:id="@+id/yellow_card_number_host"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"/>
+                    />
 
                 <ImageView
                     android:layout_width="25dp"
@@ -65,7 +68,7 @@
                     android:id="@+id/team_fauls_host"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"/>
+                    />
             </LinearLayout>
 
             <TextView
@@ -80,7 +83,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="0"
                 android:textSize="40sp"
                 />
         </RelativeLayout>
@@ -109,18 +111,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:text="0"
                 android:textSize="40sp"
                 />
 
             <include layout="@layout/cards"/>
         </RelativeLayout>
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#d3d3d3 " />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/guest_players"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
         />
 
 </LinearLayout>

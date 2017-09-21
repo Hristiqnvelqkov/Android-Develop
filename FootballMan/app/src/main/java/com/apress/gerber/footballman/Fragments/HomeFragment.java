@@ -21,12 +21,16 @@ import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
 
+import java.util.List;
+
+import io.realm.Realm;
+
 
 public class HomeFragment extends BaseFragment implements LegueRecyclerView.LeagueListener {
     View view;
     FloatingActionButton startMach;
-    DataManager dataManager = DataManager.getDataInstance();
     public static final String HIDE = "HIDE";
+    List<League> mLeagues;
     public static HomeFragment newInstance(Boolean hide){
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
@@ -54,10 +58,14 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
             ((MainActivity) getActivity()).commitFragment(AddLeagueFragment.newInstance(null), true);
 
         }
+        if(item.getItemId() == Constants.ALL_GAMES){
+            ((MainActivity) getActivity()).commitFragment(new GamesFragment(),true);
+        }
         return status;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        mLeagues = mManager.getLeagues();
         view = inflater.inflate(R.layout.fragment_home, container, false);
         startMach = view.findViewById(R.id.floatingActionButton);
         setRecyclerView(hide);
@@ -80,6 +88,7 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
         super.onCreate(onSavedInstanceState);
         setHasOptionsMenu(true);
         setActivity();
+        mLeagues = mManager.initList();
         if(getArguments()!=null){
             hide = (boolean) getArguments().getSerializable(HIDE);
         }
@@ -91,18 +100,18 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     }
     public void setRecyclerView(boolean hide){
         RecyclerView recyleLeagueView = view.findViewById(R.id.recycle_leagues);
-        LegueRecyclerView adapter = new LegueRecyclerView(dataManager.getLeagues(), this,hide);
+        LegueRecyclerView adapter = new LegueRecyclerView(mLeagues, this,hide);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         recyleLeagueView.setLayoutManager(manager);
         recyleLeagueView.setAdapter(adapter);
-        setLayout(view,dataManager.getLeagues().size(),R.string.no_leagues);
+        setLayout(view,mLeagues.size(),R.string.no_leagues);
         if(!hide)
             startMach.setVisibility(View.VISIBLE);
     }
     @Override
-    public void deleteLeague(League league) {
-        dataManager.removeLeague(league);
-        setLayout(view,dataManager.getLeagues().size(),R.string.no_leagues);
+    public void deleteLeague(final League league) {
+        mManager.removeLeague(league);
+        setLayout(view,mLeagues.size(),R.string.no_leagues);
 
     }
     @Override

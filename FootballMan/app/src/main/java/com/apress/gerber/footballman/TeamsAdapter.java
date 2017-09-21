@@ -24,21 +24,22 @@ import java.util.List;
  */
 
 public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> {
-    private List<Team> leagueTeams ;
+    private List<Team> leagueTeams;
     private onClickedTeam team;
     private boolean hideButtons = false;
-    public TeamsAdapter(List<Team> teams, onClickedTeam listner,boolean hide) {
+
+    public TeamsAdapter(List<Team> teams, onClickedTeam listner, boolean hide) {
         leagueTeams = teams;
         team = listner;
         this.hideButtons = hide;
     }
 
 
-
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView view;
         ImageView delete;
         ImageView update;
+
         ViewHolder(View itemView) {
             super(itemView);
             view = itemView.findViewById(R.id.team_raw);
@@ -56,7 +57,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.view.setText(leagueTeams.get(position).getName());
-        if(!hideButtons) {
+        if (!hideButtons) {
             final AlertDialog alert = new AlertDialog.Builder(holder.delete.getContext()).create();
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -87,7 +88,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
                     alert.show();
                 }
             });
-        }else {
+        } else {
             holder.update.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
         }
@@ -101,15 +102,18 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        if(leagueTeams!=null){
+        if (leagueTeams != null) {
             return leagueTeams.size();
-        }else{
+        } else {
             return 0;
         }
     }
-    public interface onClickedTeam{
+
+    public interface onClickedTeam {
         void onClickTeam(Team team);
+
         void deleteTeam(Team team);
+
         void updateTeam(Team team);
     }
 }

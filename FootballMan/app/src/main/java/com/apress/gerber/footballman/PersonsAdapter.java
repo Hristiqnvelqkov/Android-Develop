@@ -24,8 +24,9 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
     private List<Player> players = new LinkedList<>();
     private PersonsFragment mListener;
     boolean hideButtons = false;
-    public PersonsAdapter(List<Player> players, PersonsFragment listner,boolean hideButtons){
-        this.players=players;
+
+    public PersonsAdapter(List<Player> players, PersonsFragment listner, boolean hideButtons) {
+        this.players = players;
         mListener = listner;
         this.hideButtons = hideButtons;
     }
@@ -36,6 +37,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
         ImageView update;
         ImageView ball;
         ImageView delete;
+
         public ViewHolder(View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.person_name);
@@ -45,9 +47,10 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
             ball = itemView.findViewById(R.id.ball);
         }
     }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.person_raw,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.person_raw, parent, false);
         return new ViewHolder(view);
     }
 
@@ -87,16 +90,16 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
                     dialog.show();
                 }
             });
-        }else{
+        } else {
             holder.delete.setVisibility(View.GONE);
             holder.update.setVisibility(View.GONE);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(holder.ball.getVisibility()==View.GONE) {
+                    if (holder.ball.getVisibility() == View.GONE) {
                         holder.ball.setVisibility(View.VISIBLE);
                         mListener.addPlayerToGame(players.get(position));
-                    }else{
+                    } else {
                         holder.ball.setVisibility(View.GONE);
                         mListener.removePlayerFromGame(players.get(position));
                     }
@@ -104,14 +107,19 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
             });
         }
     }
+
     @Override
     public int getItemCount() {
         return players.size();
     }
-    public interface PlayerClicked{
-         void addPlayerToGame(Player palyer);
-         void removePlayerFromGame(Player player);
-         void updatePlayer(Player player);
-         void deletePlayer(Player palyer);
+
+    public interface PlayerClicked {
+        void addPlayerToGame(Player palyer);
+
+        void removePlayerFromGame(Player player);
+
+        void updatePlayer(Player player);
+
+        void deletePlayer(Player palyer);
     }
 }

@@ -1,6 +1,7 @@
 package com.apress.gerber.footballman;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,10 +25,12 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     List<Player> mPlayers;
     StartMatchFragment listner;
     Game game;
-    int rebind=0;
-    public int getRebind(){
+    int rebind = 0;
+
+    public int getRebind() {
         return rebind;
     }
+
     public GamePlayersAdapter(Game game, List<Player> players, StartMatchFragment listner) {
         mPlayers = players;
         this.game = game;
@@ -43,6 +46,7 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         ImageView assist;
         ImageView goal;
         ImageView gameStat;
+
         public CustomViewHolder(View itemView) {
             super(itemView);
             playerName = itemView.findViewById(R.id.player_name);
@@ -69,8 +73,11 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
         holder.playerName.setText(mPlayers.get(position).getName());
-        if(!game.checkPlayerInGame(mPlayers.get(position)))
+        if (!game.checkPlayerInGame(mPlayers.get(position))) {
             holder.gameStat.setImageResource(R.drawable.red);
+        } else {
+            holder.gameStat.setImageResource(R.drawable.green);
+        }
         holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
         holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
         holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));
@@ -91,18 +98,18 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         holder.gameStat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(rebind>0){
-                    rebind=0;
+                if (rebind > 0) {
+                    rebind = 0;
                     notifyDataSetChanged();
                 }
-                int stat  = listner.onChangeListner(mPlayers.get(position));
-                if(stat==Constants.IN){
+                int stat = listner.onChangeListner(mPlayers.get(position));
+                if (stat == Constants.IN) {
                     holder.gameStat.setImageResource(R.drawable.green);
                 }
-                if(stat==Constants.OUT){
+                if (stat == Constants.OUT) {
                     holder.gameStat.setImageResource(R.drawable.red);
                 }
-                if(stat == Constants.READY_FOR_CHANGE){
+                if (stat == Constants.READY_FOR_CHANGE) {
                     holder.gameStat.setImageResource(R.drawable.yellow);
                     rebind++;
                 }
@@ -188,3 +195,4 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         void addFaul(Player player);
     }
 }
+

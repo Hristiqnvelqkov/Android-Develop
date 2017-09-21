@@ -9,9 +9,11 @@ import android.content.DialogInterface;
 
 public class AlertDialogButtons implements DialogInterface.OnClickListener {
     private AlertDialog alert;
-    AlertDialogButtons(AlertDialog alert){
+
+    AlertDialogButtons(AlertDialog alert) {
         this.alert = alert;
     }
+
     @Override
     public void onClick(DialogInterface dialogInterface, int i) {
         alert.cancel();
