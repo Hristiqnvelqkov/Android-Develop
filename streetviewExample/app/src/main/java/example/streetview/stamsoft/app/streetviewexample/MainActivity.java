@@ -1,12 +1,13 @@
 package example.streetview.stamsoft.app.streetviewexample;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +28,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         showFragment(HomeFragment.newInstance());
+
+
+        if (Utils.getSavedDevice(this).isEmpty()) {
+            List<String> lumi = new ArrayList();
+            lumi.add("lumi walk");
+            Utils.saveDevices(lumi, this);
+        }
     }
 
     public void requestFullScreen() {

@@ -118,6 +118,15 @@ public class HomeFragment extends BaseFragment implements LumiBleListener {
                 getAllInvisible();
             }
         };
+        dest.add(SAN_FRAN);
+        dest.add(TOKYO);
+        dest.add(LONDON);
+        dest.add(CAPE_TOWN);
+        dest.add(SINGAPORE);
+        dest.add(Amsterdam);
+        dest.add(MOSCOW);
+        dest.add(SYDNEY);
+        dest.add(PARIS);
         LumiManager.getInstance(getActivity()).getDevicesName().addAll(Utils.getSavedDevice(getActivity()));
         RequestReceiver receiver = new RequestReceiver();
         IntentFilter filter = new IntentFilter(RequestService.BROADCAST_ACTION);
@@ -175,15 +184,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener {
 
         SupportStreetViewPanoramaFragment streetViewPanoramaFragment =
                 SupportStreetViewPanoramaFragment.newInstance();
-        dest.add(SAN_FRAN);
-        dest.add(TOKYO);
-        dest.add(LONDON);
-        dest.add(CAPE_TOWN);
-        dest.add(SINGAPORE);
-        dest.add(Amsterdam);
-        dest.add(MOSCOW);
-        dest.add(SYDNEY);
-        dest.add(PARIS);
+
         adapter = new ArrayAdapter(getActivity(), android.R.layout.select_dialog_singlechoice, stringDests);
         getMainActivity().getSupportFragmentManager().beginTransaction()
                 .replace(R.id.streetviewpanorama, streetViewPanoramaFragment)
@@ -383,6 +384,7 @@ public class HomeFragment extends BaseFragment implements LumiBleListener {
                 LatLng mlatLng = new LatLng(Float.parseFloat(lat), Float.parseFloat(lng));
                 mStreetViewPanorama.setPosition(mlatLng);
                 search.setVisibility(View.GONE);
+                changeDest.setText(searchPlace.getText().toString());
                 setDestinationsVisible();
                 searchPlace.setVisibility(View.GONE);
             } else {
