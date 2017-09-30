@@ -103,4 +103,11 @@ public class BaseFragment extends Fragment {
         // TODO: Update argument type and name
         void openLeague(League league);
     }
+
+    public boolean onBackPressed(){
+        if(hide){
+            return true;
+        }else
+         return  false;
+    }
 }

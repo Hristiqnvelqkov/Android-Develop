@@ -12,7 +12,9 @@ import java.security.Key;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
@@ -23,8 +25,9 @@ import io.realm.annotations.PrimaryKey;
  * Created by hriso on 8/23/2017.
  */
 
-public class Game extends RealmObject implements Serializable {
-    private int id;
+public class Game extends RealmObject {
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
     private int hostResult = 0;
     @Ignore DataManager mManager = DataManager.getDataInstance();
     private int guestResult = 0;
@@ -38,6 +41,7 @@ public class Game extends RealmObject implements Serializable {
     private RealmList<Event> mEvents = new RealmList<>();
 
     public void enterInGame(Player player) {
+
         if (hostTeamPlayers.contains(player)) {
             hostPlayersInGame.add(player);
         } else {
@@ -122,13 +126,15 @@ public class Game extends RealmObject implements Serializable {
 
     private void setDefaultValues(Team team) {
         System.out.println("setDefaultValues");
-        for (int i = 0; i < mManager.getPlayersForTeam(team).size(); i++) {
-            gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.GOAL));
-            gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.GOAL));
-            gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.FOUL));
-            gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.YELLOW_CARD));
-            gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.RED_CARD));
-            gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.ASSIST));
+        if(team != null) {
+            for (int i = 0; i < mManager.getPlayersForTeam(team).size(); i++) {
+                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.GOAL));
+                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.GOAL));
+                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.FOUL));
+                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.YELLOW_CARD));
+                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.RED_CARD));
+                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.ASSIST));
+            }
         }
     }
 
@@ -177,10 +183,10 @@ public class Game extends RealmObject implements Serializable {
     }
 
     public void removeGuestPlayer(Player player) {
-        hostTeamPlayers.remove(player);
+        guestTeamPlayers.remove(player);
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 

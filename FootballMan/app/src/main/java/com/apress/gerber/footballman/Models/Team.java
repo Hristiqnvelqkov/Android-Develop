@@ -5,6 +5,7 @@ package com.apress.gerber.footballman.Models;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -14,8 +15,9 @@ import io.realm.annotations.PrimaryKey;
  * Created by hriso on 8/23/2017.
  */
 
-public class Team extends RealmObject implements Serializable {
-    private int id;
+public class Team extends RealmObject  {
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
     League mLeague;
     private String teamName;
     private RealmList<Player> players;
@@ -26,9 +28,6 @@ public class Team extends RealmObject implements Serializable {
         players = new RealmList<>();
     }
 
-    public void addGame(Game game) {
-        mGames.add(game);
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -40,7 +39,7 @@ public class Team extends RealmObject implements Serializable {
         return id == team.id;
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
 
@@ -56,37 +55,10 @@ public class Team extends RealmObject implements Serializable {
         return teamName;
     }
 
-    @Override
-    public int hashCode() {
-        return id;
-    }
-
-    public List<Game> getGames() {
-        return mGames;
-    }
-
-
-    public List<Game> getWins() {
-        List<Game> wins = new LinkedList<>();
-        for (int i = 0; i < mGames.size(); i++) {
-            if (mGames.get(i).winner().equals(this)) {
-                wins.add(mGames.get(i));
-            }
-        }
-        return wins;
-    }
-
     public League getLeague() {
         return mLeague;
     }
 
-    public void addPlayer(Player player) {
-        players.add(player);
-    }
-
-    public void removePlayer(Player player) {
-        players.remove(player);
-    }
 
     public List<Player> getPlayers() {
         return players;

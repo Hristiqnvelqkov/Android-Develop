@@ -35,13 +35,13 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
         setUpNavigationDrawer();
         setUpToolBar("FootballMan");
         Fragment homeFragment = new HomeFragment();
-        commitFragment(homeFragment, true);
+        commitFragment(homeFragment, false);
 
     }
 
     public void commitFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.replace(R.id.activity_main, fragment);
+        transaction.replace(R.id.fragment, fragment);
         if (addToBackStack) {
             transaction.addToBackStack(null);
         }
@@ -83,16 +83,17 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
     public void openLeague(League league) {
 
     }
+
     @Override
-    public void onBackPressed(){
-        Fragment fragment = manager.findFragmentByTag("HomeFragment");
-        if(fragment!=null){
-            Toast.makeText(this,"asaasas",Toast.LENGTH_SHORT).show();
-            if(findViewById(R.id.floatingActionButton).getVisibility()== View.GONE){
-                HomeFragment homeFragment = (HomeFragment) fragment;
-                homeFragment.setRecyclerView(false);
+    public void onBackPressed() {
+        Fragment fragment =manager.findFragmentById(R.id.fragment);
+        if(fragment instanceof HomeFragment){
+            if (((HomeFragment) fragment).onBackPressed()){
+                ((HomeFragment) fragment).setRecyclerView(false);
+            }else{
+                super.onBackPressed();
             }
-        }else{
+        }else {
             super.onBackPressed();
         }
     }

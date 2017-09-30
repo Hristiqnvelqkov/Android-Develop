@@ -67,6 +67,7 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mLeagues = mManager.getLeagues();
         view = inflater.inflate(R.layout.fragment_home, container, false);
+        view.setTag("Home");
         startMach = view.findViewById(R.id.floatingActionButton);
         setRecyclerView(hide);
         startMach.setOnClickListener(new View.OnClickListener() {

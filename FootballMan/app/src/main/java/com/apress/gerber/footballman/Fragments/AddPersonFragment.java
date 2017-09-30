@@ -34,8 +34,10 @@ public class AddPersonFragment extends BaseFragment {
     public static AddPersonFragment newInstance(Team team, Player player) {
         AddPersonFragment fragment = new AddPersonFragment();
         Bundle args = new Bundle();
-        args.putSerializable("team", team);
-        args.putSerializable("player",player);
+        args.putString("team", team.getId());
+        if(player != null) {
+            args.putString("player", player.getId());
+        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -69,7 +71,9 @@ public class AddPersonFragment extends BaseFragment {
 
     @Override public void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
-        mTeam =(Team) getArguments().getSerializable("team");
-        mPlayer = (Player) getArguments().getSerializable("player");
+        String teamId = getArguments().getString("team");
+        mTeam = manager.getTeamById(teamId);
+        String playerId = getArguments().getString("player");
+        mPlayer = manager.getPlayerById(playerId);
     }
 }

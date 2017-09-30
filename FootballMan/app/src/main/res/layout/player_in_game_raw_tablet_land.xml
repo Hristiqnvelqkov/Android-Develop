@@ -12,7 +12,7 @@
         android:id="@+id/player_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp"
+        android:textSize="25sp"
         />
 
     <LinearLayout
@@ -21,12 +21,12 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/game_stat"
-            android:layout_width="20dp"
-            android:layout_height="20dp"/>
+            android:layout_width="35dp"
+            android:layout_height="35dp"/>
 
         <ImageView
             android:id="@+id/make_red_card"
-            style="@style/InGameImageView"
+            style="@style/InGameImageViewLandTablet"
             android:src="@mipmap/red"/>
 
         <TextView
@@ -36,7 +36,7 @@
 
         <ImageView
             android:id="@+id/make_yellow_card"
-            style="@style/InGameImageView"
+            style="@style/InGameImageViewLandTablet"
             android:src="@mipmap/yellow"/>
 
         <TextView
@@ -46,7 +46,7 @@
 
         <ImageView
             android:id="@+id/make_goal"
-            style="@style/InGameImageView"
+            style="@style/InGameImageViewLandTablet"
             android:src="@mipmap/ic_launcher_foreground"/>
 
         <TextView
@@ -56,7 +56,7 @@
 
         <ImageView
             android:id="@+id/make_faul"
-            style="@style/InGameImageView"
+            style="@style/InGameImageViewLandTablet"
             android:src="@mipmap/faul"
             />
 
@@ -67,7 +67,7 @@
 
         <ImageView
             android:id="@+id/make_assist"
-            style="@style/InGameImageView"
+            style="@style/InGameImageViewLandTablet"
             android:src="@mipmap/assist"
             />
         <TextView
@@ -75,4 +75,5 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
     </LinearLayout>
+
 </LinearLayout>

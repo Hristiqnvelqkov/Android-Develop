@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,14 +26,16 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     List<Player> mPlayers;
     StartMatchFragment listner;
     Game game;
+    protected boolean tablet=false;
     int rebind = 0;
 
     public int getRebind() {
         return rebind;
     }
 
-    public GamePlayersAdapter(Game game, List<Player> players, StartMatchFragment listner) {
+    public GamePlayersAdapter(Game game, List<Player> players, StartMatchFragment listner,boolean tabletSize) {
         mPlayers = players;
+        tablet = tabletSize;
         this.game = game;
         this.listner = listner;
     }
@@ -66,7 +69,12 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw, parent, false);
+        View view = null;
+        if(tablet){
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw_tablet,parent,false);
+        }else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw, parent, false);
+        }
         return new CustomViewHolder(view);
     }
 

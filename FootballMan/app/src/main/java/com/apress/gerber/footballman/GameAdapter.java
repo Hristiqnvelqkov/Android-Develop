@@ -17,8 +17,8 @@ import java.util.List;
  */
 
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
-    List<Game> mGames;
-    GamesFragment mListner;
+    private List<Game> mGames;
+    private GamesFragment mListner;
     public GameAdapter(List<Game> gameList, GamesFragment listner) {
         mListner = listner;
         mGames = gameList;

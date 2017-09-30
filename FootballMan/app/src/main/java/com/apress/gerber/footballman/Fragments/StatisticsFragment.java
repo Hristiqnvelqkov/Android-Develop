@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,13 +19,15 @@ import com.apress.gerber.footballman.StatisticsAdapter;
 
 public class StatisticsFragment extends BaseFragment {
     private static final String GAME = "GAME";
+    private static final String STAT_AFTER_GAME= "STATAFTERGAME";
     Game mGame;
+    boolean statAfterGame;
     View view;
-    // TODO: Rename and change types and number of parameters
-    public static StatisticsFragment newInstance(Game game) {
+    public static StatisticsFragment newInstance(Game game,boolean statAfterGame) {
         StatisticsFragment fragment = new StatisticsFragment();
         Bundle args = new Bundle();
-        args.putSerializable(GAME, game);
+        args.putString(GAME, game.getId());
+        args.putBoolean(STAT_AFTER_GAME,statAfterGame);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,8 +35,11 @@ public class StatisticsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
-            mGame = (Game) getArguments().getSerializable(GAME);
+            String gameId = getArguments().getString(GAME);
+            mGame = mManager.getGameById(gameId);
+            statAfterGame = getArguments().getBoolean(STAT_AFTER_GAME);
         }
     }
 
@@ -50,5 +56,18 @@ public class StatisticsFragment extends BaseFragment {
         StatisticsAdapter adapter = new StatisticsAdapter(mGame.getEvents());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        boolean status = false;
+        if(item.getItemId() == android.R.id.home){
+            if(statAfterGame) {
+                ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(false), true);
+            }else{
+                getFragmentManager().popBackStack();
+            }
+            status = true;
+        }
+        return status;
     }
 }

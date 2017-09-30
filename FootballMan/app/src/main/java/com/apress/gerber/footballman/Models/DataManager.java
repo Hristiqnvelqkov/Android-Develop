@@ -26,8 +26,9 @@ public class DataManager {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                League league = mRealm.createObject(League.class);
+                League league = new League();
                 league.setName(string);
+                mRealm.copyToRealmOrUpdate(league);
             }
         });
 
@@ -62,9 +63,10 @@ public class DataManager {
             @Override
             public void execute(Realm realm) {
                 if((league!=null) ){
-                    Team team = mRealm.createObject(Team.class);
+                    Team team = new Team();
                     team.setTeamName(name);
                     team.setLeague(league);
+                    mRealm.copyToRealmOrUpdate(team);
                 }
             }
         });
@@ -94,10 +96,11 @@ public class DataManager {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Player player = mRealm.createObject(Player.class);
+                Player player = new Player();
                 player.setTeam(team);
                 player.setName(name);
                 player.setNumber(number);
+                mRealm.copyToRealmOrUpdate(player);
             }
         });
     }
@@ -123,11 +126,24 @@ public class DataManager {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.insert(game);
+                realm.copyToRealmOrUpdate(game);
             }
         });
     }
     public RealmResults<Game> getGames(){
         return mRealm.where(Game.class).findAll();
     }
+    public League getLeagueById(String id){
+        return mRealm.where(League.class).equalTo("id",id).findFirst();
+    }
+    public Team getTeamById(String id){
+        return mRealm.where(Team.class).equalTo("id",id).findFirst();
+    }
+    public Game getGameById(String id){
+        return mRealm.where(Game.class).equalTo("id",id).findFirst();
+    }
+    public Player getPlayerById(String id){
+        return mRealm.where(Player.class).equalTo("id",id).findFirst();
+    }
+
 }

@@ -49,7 +49,7 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
         TeamsFragment fragment = new TeamsFragment();
         Bundle args = new Bundle();
         args.putSerializable(HIDE,hide);
-        args.putSerializable(ARG_LEAGuE, league);
+        args.putString(ARG_LEAGuE, league.getId());
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,7 +64,8 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
         setHasOptionsMenu(true);
         setActivity();
         if (getArguments() != null) {
-            league = (League) getArguments().getSerializable(ARG_LEAGuE);
+            String leagueId = getArguments().getString(ARG_LEAGuE);
+            league = mManager.getLeagueById(leagueId);
             mTeams = mManager.getTeamsForLeague(league);
             hide = (boolean) getArguments().getSerializable(HIDE);
             System.out.println(hide);

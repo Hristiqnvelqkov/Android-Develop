@@ -43,7 +43,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         PersonsFragment fragment = new PersonsFragment();
         Bundle args = new Bundle();
         args.putSerializable("HIDE",hide);
-        args.putSerializable("teams",team);
+        args.putString("teams",team.getId());
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,8 +55,9 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     @Override public void onCreate(Bundle savedInstancestate){
         super.onCreate(savedInstancestate);
         setHasOptionsMenu(true);
+        String teamId = getArguments().getString("teams");
         game = ((MainActivity)getActivity()).getGame();
-        team = (Team) getArguments().getSerializable("teams");
+        team =  mManager.getTeamById(teamId);
         mPlayers = mManager.getPlayersForTeam(team);
         setActivity();
         hide = (boolean) getArguments().getSerializable("HIDE");
@@ -83,8 +84,10 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     public void addPlayerToGame(Player player) {
         if(game!=null) {
             if (game.getHost() == null) {
+                mActionButton.setVisibility(View.VISIBLE);
                 game.setHost(team);
             } else if (game.readyHost()) {
+                mActionButton.setVisibility(View.GONE);
                 if (game.getGuest() == null) {
                     game.setGuest(team);
                 }

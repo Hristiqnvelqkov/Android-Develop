@@ -2,39 +2,47 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:id="@+id/game_layout"
               android:layout_width="match_parent"
+              android:layout_weight="3"
               android:layout_height="match_parent"
-              android:orientation="horizontal"
+              android:layout_marginTop="?attr/actionBarSize"
+              android:orientation="vertical"
               tools:context="com.apress.gerber.footballman.Fragments.StartMatchFragment">
+
 
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/home_players"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"/>
+        android:layout_width="match_parent"
+        android:layout_weight="1.25"
+        android:layout_height="0dp"/>
     <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:background="#d3d3d3 " />
     <LinearLayout
-        android:layout_width="140dp"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:orientation="vertical">
+
         <RelativeLayout
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="0.25"
+            android:layout_height="0dp"
             >
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
+                android:layout_marginTop="20dp"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:orientation="horizontal"
+                android:gravity="right"
                 >
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@mipmap/red"
-                    />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@mipmap/red"
+                />
 
                 <TextView
                     android:id="@+id/red_card_number_host"
@@ -43,8 +51,10 @@
                     />
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:src="@mipmap/yellow"/>
 
                 <TextView
@@ -54,8 +64,10 @@
                     />
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:src="@mipmap/faul"/>
 
                 <TextView
@@ -69,16 +81,12 @@
                 android:id="@+id/host_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp"
-                android:paddingEnd="1.5dp"
-                android:paddingStart="1.5dp"
-                android:textSize="20sp"
+                android:textSize="30sp"
                 />
 
             <TextView
                 android:id="@+id/home_result"
                 android:layout_width="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:textSize="40sp"
@@ -86,48 +94,54 @@
         </RelativeLayout>
 
         <View
-            android:layout_width="2dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
             android:background="@color/colorPrimary"/>
 
         <RelativeLayout
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_weight="0.25"
+            android:layout_height="0dp"
             >
 
             <TextView
                 android:id="@+id/guest_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
+                android:layout_alignParentRight="true"
+                android:textSize="30sp"
                 />
 
             <TextView
                 android:id="@+id/guest_result"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
                 android:textSize="40sp"
                 />
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                           android:layout_width="match_parent"
-                          android:layout_marginTop="15dp"
+                          android:layout_marginTop="20dp"
                           android:layout_height="match_parent"
-                          android:orientation="vertical">
+                          android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:src="@mipmap/red"/>
 
                 <TextView
                     android:id="@+id/red_card_number"
                     android:layout_width="wrap_content"
+
                     android:layout_height="wrap_content"/>
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:src="@mipmap/yellow"/>
 
                 <TextView
@@ -136,8 +150,10 @@
                     android:layout_height="wrap_content"/>
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginStart="20dp"
                     android:src="@mipmap/faul"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -147,13 +163,14 @@
         </RelativeLayout>
     </LinearLayout>
     <View
-        android:layout_width="2dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
         android:background="#d3d3d3 " />
     <android.support.v7.widget.RecyclerView
         android:id="@+id/guest_players"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
+        android:layout_weight="1.25"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         />
 
 </LinearLayout>

@@ -30,7 +30,9 @@ public class AddLeagueFragment extends BaseFragment  {
     public static AddLeagueFragment newInstance(League league){
         Bundle args = new Bundle();
         AddLeagueFragment fragment = new AddLeagueFragment();
-        args.putSerializable("update",league);
+        if(league != null) {
+            args.putString("update", league.getId());
+        }
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,6 +66,7 @@ public class AddLeagueFragment extends BaseFragment  {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        mLeague = (League) getArguments().getSerializable("update");
+        String id = getArguments().getString("update");
+        mLeague = mManager.getLeagueById(id);
     }
 }

@@ -32,6 +32,6 @@ public class GamesFragment extends BaseFragment implements GameAdapter.onGameCli
 
     @Override
     public void openStat(Game game) {
-        ((MainActivity) getActivity()).commitFragment(StatisticsFragment.newInstance(game),true);
+        ((MainActivity) getActivity()).commitFragment(StatisticsFragment.newInstance(game,false),true);
     }
 }

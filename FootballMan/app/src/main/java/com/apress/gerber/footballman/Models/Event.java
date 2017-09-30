@@ -3,6 +3,7 @@ package com.apress.gerber.footballman.Models;
 import java.io.Serializable;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by hriso on 9/12/2017.

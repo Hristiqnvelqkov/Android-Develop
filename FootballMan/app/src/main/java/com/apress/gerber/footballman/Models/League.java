@@ -6,14 +6,16 @@ import android.os.Parcel;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class League extends RealmObject implements Serializable {
-    private int id;
+public class League extends RealmObject  {
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
     private String name;
     private RealmList<Team> mTeamList = new RealmList<>();
 
@@ -21,23 +23,13 @@ public class League extends RealmObject implements Serializable {
         this.name = name;
     }
 
-    public int getId() {
+    public String getId() {
         return this.id;
-    }
-
-    public List<Team> getTeamList() {
-        return this.mTeamList;
     }
 
     public String getName() {
         return this.name;
     }
 
-    public void addTeam(Team team) {
-        mTeamList.add(team);
-    }
 
-    public void removeTeam(Team team) {
-        mTeamList.remove(team);
-    }
 }

@@ -3,6 +3,7 @@ package com.apress.gerber.footballman.Models;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
@@ -11,14 +12,15 @@ import io.realm.annotations.PrimaryKey;
 /**
  * Created by hriso on 8/23/2017.
  */
-public class Player  extends RealmObject implements Serializable {
-    private int id;
+public class Player  extends RealmObject {
+    @PrimaryKey
+    private String id = UUID.randomUUID().toString();
     private String name;
     private int number;
     Team team;
     private RealmList<Game> games;
 
-    public int getId() {
+    public String getId() {
         return this.id;
     }
     public void setName(String name) {

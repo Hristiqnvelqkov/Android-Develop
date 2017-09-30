@@ -1,38 +1,47 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:id="@+id/game_layout"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="horizontal"
-              tools:context="com.apress.gerber.footballman.Fragments.StartMatchFragment">
-
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/game_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_weight="3"
+                tools:context="com.apress.gerber.footballman.Fragments.StartMatchFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/home_players"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"/>
+        android:layout_width="0dp"
+        android:layout_weight="1.25"
+        android:layout_height="match_parent"
+        />
+
     <View
         android:layout_width="2dp"
         android:layout_height="match_parent"
-        android:background="#d3d3d3 " />
+        android:background="#d3d3d3 "/>
+
     <LinearLayout
-        android:layout_width="140dp"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_marginTop="10dp"
         android:layout_height="match_parent"
         android:orientation="horizontal">
+
         <RelativeLayout
-            android:layout_width="70dp"
+            android:layout_width="0dp"
+            android:layout_weight="0.25"
             android:layout_height="match_parent"
             >
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 >
+
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/red"
                     />
 
@@ -43,8 +52,8 @@
                     />
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/yellow"/>
 
                 <TextView
@@ -54,8 +63,8 @@
                     />
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/faul"/>
 
                 <TextView
@@ -68,19 +77,20 @@
             <TextView
                 android:id="@+id/host_name"
                 android:layout_width="wrap_content"
+                android:layout_marginTop="35dp"
+                android:rotation="270"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp"
-                android:paddingEnd="1.5dp"
-                android:paddingStart="1.5dp"
                 android:textSize="20sp"
                 />
 
             <TextView
                 android:id="@+id/home_result"
                 android:layout_width="wrap_content"
-                android:layout_centerInParent="true"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:layout_centerInParent="true"
                 android:textSize="40sp"
                 />
         </RelativeLayout>
@@ -91,13 +101,21 @@
             android:background="@color/colorPrimary"/>
 
         <RelativeLayout
-            android:layout_width="70dp"
+            android:layout_weight="0.25"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             >
 
             <TextView
                 android:id="@+id/guest_name"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="35dp"
+                android:layout_alignParentRight="true"
                 android:layout_width="wrap_content"
+                android:paddingTop="5dp"
+                android:rotation="270"
+                android:paddingStart="3dp"
+                android:paddingEnd="3dp"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
                 />
@@ -109,15 +127,16 @@
                 android:layout_centerInParent="true"
                 android:textSize="40sp"
                 />
+
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                           android:layout_width="match_parent"
-                          android:layout_marginTop="15dp"
                           android:layout_height="match_parent"
+                          android:layout_marginTop="10dp"
                           android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/red"/>
 
                 <TextView
@@ -126,8 +145,8 @@
                     android:layout_height="wrap_content"/>
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/yellow"/>
 
                 <TextView
@@ -136,23 +155,27 @@
                     android:layout_height="wrap_content"/>
 
                 <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:src="@mipmap/faul"/>
+
                 <TextView
+                    android:id="@+id/team_fauls"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/team_fauls"/>
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
+
     <View
         android:layout_width="2dp"
         android:layout_height="match_parent"
-        android:background="#d3d3d3 " />
+        android:background="#d3d3d3 "/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/guest_players"
-        android:layout_width="240dp"
+        android:layout_width="0dp"
+        android:layout_weight="1.25"
         android:layout_height="match_parent"
         />
 

@@ -5,8 +5,10 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,8 +56,9 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     public static StartMatchFragment newInstance(Game game) {
         StartMatchFragment fragment = new StartMatchFragment();
+        fragment.mGame = game;
         Bundle args = new Bundle();
-        args.putSerializable(START_MATCH, game);
+        args.putString(START_MATCH, game.getId());
         fragment.setArguments(args);
         return fragment;
     }
@@ -66,11 +69,18 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
         setHasOptionsMenu(true);
         if (getArguments() != null) {
-            mGame = (Game) getArguments().getSerializable(START_MATCH);
-            hostAdapter = new GamePlayersAdapter(mGame, mGame.getHostPlayers(), this);
-            guestAdapter = new GamePlayersAdapter(mGame, mGame.getGuestTeamPlayers(), this);
-            mLandHostAdapter = new LandGameAdapter(mGame, mGame.getHostPlayers(), this);
-            mLandGuestAdapter = new LandGameAdapter(mGame, mGame.getGuestTeamPlayers(), this);
+            int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
+            if(screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE){
+                hostAdapter = new GamePlayersAdapter(mGame, mGame.getHostPlayers(), this, true);
+                guestAdapter = new GamePlayersAdapter(mGame, mGame.getGuestTeamPlayers(), this, true);
+                mLandHostAdapter = new LandGameAdapter(mGame, mGame.getHostPlayers(), this,true);
+                mLandGuestAdapter = new LandGameAdapter(mGame, mGame.getGuestTeamPlayers(), this,true);
+            }else {
+                hostAdapter = new GamePlayersAdapter(mGame, mGame.getHostPlayers(), this, false);
+                guestAdapter = new GamePlayersAdapter(mGame, mGame.getGuestTeamPlayers(), this, false);
+                mLandHostAdapter = new LandGameAdapter(mGame, mGame.getHostPlayers(), this,false);
+                mLandGuestAdapter = new LandGameAdapter(mGame, mGame.getGuestTeamPlayers(), this,false);
+            }
         }
 
     }
@@ -119,7 +129,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
             status = true;
             timer.cancel();
             mManager.addGame(mGame);
-            ((MainActivity) getActivity()).commitFragment(StatisticsFragment.newInstance(mGame), true);
+            ((MainActivity) getActivity()).commitFragment(StatisticsFragment.newInstance(mGame,true), true);
         }
         return status;
     }
@@ -152,6 +162,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     private void initializeViews() {
         hostPlayers = view.findViewById(R.id.home_players);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        DividerItemDecoration devider = new DividerItemDecoration(getContext(),manager.getOrientation());
         LinearLayoutManager manager1 = new LinearLayoutManager(getActivity());
         guestPlayers = view.findViewById(R.id.guest_players);
         guestResut = view.findViewById(R.id.guest_result);
@@ -179,6 +190,8 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         hostTeamRedCard.setText(String.valueOf(mGame.getTeamRedCards(mGame.getHostPlayers())));
         guestTeamRedCard.setText(String.valueOf(mGame.getTeamRedCards(mGame.getGuestTeamPlayers())));
         hostPlayers.setLayoutManager(manager);
+        hostPlayers.addItemDecoration(devider);
+        guestPlayers.addItemDecoration(devider);
         guestPlayers.setLayoutManager(manager1);
 
     }
