@@ -1,25 +1,19 @@
 package com.apress.gerber.footballman.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
+import com.apress.gerber.footballman.Models.FakeLeague;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
-
-import io.realm.Realm;
+import com.google.firebase.database.DatabaseReference;
 
 
 public class AddLeagueFragment extends BaseFragment  {
@@ -52,6 +46,9 @@ public class AddLeagueFragment extends BaseFragment  {
             public void onClick(View view) {
                 if(mLeague==null) {
                     mManager.addLeague((legue_input.getEditText().getText().toString()));
+                    FakeLeague fakeLeague = new FakeLeague(mManager.getLastLeague());
+                    DatabaseReference leagueChield = mFirebaseDatabase.child(fakeLeague.getId());
+                    leagueChield.setValue(fakeLeague);
                 }else {
                     mManager.updateLeague(mLeague,(legue_input.getEditText().getText().toString()));
                 }

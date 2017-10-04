@@ -1,10 +1,12 @@
 package com.apress.gerber.footballman.Models;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.LinkedList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 
 
@@ -13,6 +15,7 @@ public class DataManager {
     private List<League> leagues = new LinkedList<>();
     private static DataManager manager = new DataManager();
 
+    private DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("leagues");
     private DataManager() {
     }
 
@@ -41,16 +44,21 @@ public class DataManager {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                mReference.child(league.getName()).removeValue();
                 league.deleteFromRealm();
             }
         });
+
         //leagues.remove(league);
     }
     public void updateLeague(final League league, final String newName){
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                DatabaseReference reference = mReference.child(league.getId());
                 league.setName(newName);
+                reference.child("name").setValue(newName);
+
             }
         });
     }
@@ -67,6 +75,8 @@ public class DataManager {
                     team.setTeamName(name);
                     team.setLeague(league);
                     mRealm.copyToRealmOrUpdate(team);
+                    mReference.child(league.getId()).child("teams").child(team.getId()).setValue(new FakeTeam(team));
+
                 }
             }
         });
@@ -75,8 +85,11 @@ public class DataManager {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+               DatabaseReference reference = mReference.child(team.getLeague().getId()).child("teams").child(team.getId());
                 Team update = team;
                 team.setTeamName(name);
+                reference.child("name").setValue(name);
+             //   mReference.child(team.getLeague().getName()).child("teams").child(team.getName()).setValue(new FakeTeam(team));
             }
         });
     }
@@ -84,6 +97,7 @@ public class DataManager {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                mReference.child(team.getLeague().getId()).child("teams").child(team.getId()).removeValue();
                 team.deleteFromRealm();
             }
         });
@@ -101,6 +115,7 @@ public class DataManager {
                 player.setName(name);
                 player.setNumber(number);
                 mRealm.copyToRealmOrUpdate(player);
+                mReference.child(team.getLeague().getId()).child("teams").child(team.getId()).child("players").child(player.getId()).setValue(new FakePlayer(player));
             }
         });
     }
@@ -108,8 +123,11 @@ public class DataManager {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                DatabaseReference reference = mReference.child(player.getTeam().getLeague().getId()).child("teams").child(player.getTeam().getId()).child("players").child(player.getId());
                 player.setName(name);
                 player.setNumber(number);
+                reference.setValue(new FakePlayer(player));
+
             }
         });
     }
@@ -117,6 +135,7 @@ public class DataManager {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                mReference.child(player.getTeam().getLeague().getId()).child("teams").child(player.getTeam().getId()).child("players").child(player.getId()).removeValue();
                 player.deleteFromRealm();
             }
         });
@@ -145,5 +164,7 @@ public class DataManager {
     public Player getPlayerById(String id){
         return mRealm.where(Player.class).equalTo("id",id).findFirst();
     }
-
+    public League getLastLeague(){
+        return leagues.get(((int) mRealm.where(League.class).count()) - 1 );
+    }
 }

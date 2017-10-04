@@ -11,19 +11,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.LegueRecyclerView;
 import com.apress.gerber.footballman.MainActivity;
-import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
 
 import java.util.List;
-
-import io.realm.Realm;
 
 
 public class HomeFragment extends BaseFragment implements LegueRecyclerView.LeagueListener {
@@ -90,6 +86,15 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
         setHasOptionsMenu(true);
         setActivity();
         mLeagues = mManager.initList();
+        if(mLeagues.size()>0) {
+            for(League league : mLeagues){
+//                DatabaseReference leagueChield = leagues.child(league.getName());
+//                leagueChield.setValue(fakeLeague);
+               // DatabaseReference teamChild = leagueChield.child(league.getLeaguesList().get(0).getName());
+               // DatabaseReference player = teamChild.child(league.getTeamList().get(0).getPlayers().get(0).getName());
+              //  player.child("Number").setValue(league.getTeamList().get(0).getPlayers().get(0).getNumber());
+            }
+        }
         if(getArguments()!=null){
             hide = (boolean) getArguments().getSerializable(HIDE);
         }

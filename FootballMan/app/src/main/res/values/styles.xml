@@ -9,17 +9,19 @@
 
     </style>
 
-    <style name="InGameImageView" >
+    <style name="InGameImageView">
         <item name="android:layout_width">30dp</item>
         <item name="android:layout_marginLeft">30dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>
-    <style name="InGameImageViewTablet" >
+
+    <style name="InGameImageViewTablet">
         <item name="android:layout_width">60dp</item>
         <item name="android:layout_marginLeft">60dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>
-    <style name="InGameImageViewLand" >
+
+    <style name="InGameImageViewLand">
         <item name="android:layout_width">15dp</item>
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:layout_height">match_parent</item>
@@ -30,11 +32,19 @@
         <item name="android:layout_marginLeft">35dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+
     <style name="textView">
         <item name="android:textSize">17sp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
     </style>
 
+    <style name="paddings">
+        <item name="android:paddingBottom">3dp</item>
+        <item name = "android:paddingTop" > 3dp</item>
+        <item name = "android:paddingLeft">2dp</item>
+        <item name = "android:paddingRight"> 2dp</item>
+
+    </style>
 
 </resources>

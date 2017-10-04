@@ -39,7 +39,7 @@ public class Game extends RealmObject {
     RealmList<Player> hostTeamPlayers = new RealmList<>();
     RealmList<Player> guestTeamPlayers = new RealmList<>();
     private RealmList<Event> mEvents = new RealmList<>();
-
+    public Game(){}
     public void enterInGame(Player player) {
 
         if (hostTeamPlayers.contains(player)) {

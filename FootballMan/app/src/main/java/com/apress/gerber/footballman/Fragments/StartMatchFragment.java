@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.GamePlayersAdapter;
+import com.apress.gerber.footballman.GoToHomeDialog;
 import com.apress.gerber.footballman.LandGameAdapter;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.Game;
@@ -104,6 +105,9 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean status = false;
+        if(item.getItemId() == android.R.id.home){
+            GoToHomeDialog dialog = new GoToHomeDialog((MainActivity) getActivity(),this);
+        }
         if (item.getItemId() == Constants.START) {
             menu.removeItem(Constants.START);
             timer.schedule(task, 1000, 1000);
@@ -273,7 +277,11 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
         return stat;
     }
-
+    public void stopTask(){
+        System.out.println("Yeeeee");
+        timer.cancel();
+        task.cancel();
+    }
     @Override
     public void addFaul(Player player) {
         mGame.addFaul(player, task.getSeconds());

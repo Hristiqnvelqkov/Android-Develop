@@ -1,8 +1,6 @@
 package com.apress.gerber.footballman.Models;
 
 
-import java.io.Serializable;
-import java.util.List;
 import java.util.UUID;
 
 import io.realm.RealmList;
@@ -19,7 +17,7 @@ public class Player  extends RealmObject {
     private int number;
     Team team;
     private RealmList<Game> games;
-
+    public Player(){}
     public String getId() {
         return this.id;
     }
@@ -48,7 +46,9 @@ public class Player  extends RealmObject {
         }
         return fauls;
     }
-
+    public Team getTeam() {
+        return team;
+    }
     public int getYellowCards() {
         int yellowCard = 0;
         for (int i = 0; i < games.size(); i++) {

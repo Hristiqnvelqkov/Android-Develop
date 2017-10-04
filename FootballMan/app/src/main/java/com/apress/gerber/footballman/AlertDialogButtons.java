@@ -8,7 +8,7 @@ import android.content.DialogInterface;
  */
 
 public class AlertDialogButtons implements DialogInterface.OnClickListener {
-    private AlertDialog alert;
+    private AlertDialog alert ;
 
     AlertDialogButtons(AlertDialog alert) {
         this.alert = alert;

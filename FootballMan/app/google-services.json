@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "395889055866",
+    "firebase_url": "https://football-6d397.firebaseio.com",
+    "project_id": "football-6d397",
+    "storage_bucket": "football-6d397.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:395889055866:android:29bf9eaeba3d6065",
+        "android_client_info": {
+          "package_name": "com.apress.gerber.footballman"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "395889055866-jvcd4tiu4j89g05nn6b85bnaabi3f76k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDO2sXgnO-dJhGTLcMJjM9O9qxxF8xaZ-w"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

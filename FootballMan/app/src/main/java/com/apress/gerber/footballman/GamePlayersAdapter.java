@@ -86,6 +86,12 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         } else {
             holder.gameStat.setImageResource(R.drawable.green);
         }
+        if((game.getRedCards(mPlayers.get(position))) == 1 ){
+            holder.playerName.setTextColor(Color.RED);
+        }else
+            if((game.getYellowCards(mPlayers.get(position))) == 1){
+            holder.playerName.setTextColor(Color.YELLOW);
+            }
         holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
         holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
         holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));

@@ -1,21 +1,18 @@
 package com.apress.gerber.footballman;
 
-import android.net.Uri;
+
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.apress.gerber.footballman.Fragments.BaseFragment;
 import com.apress.gerber.footballman.Fragments.HomeFragment;
-import com.apress.gerber.footballman.Fragments.TeamsFragment;
+import com.apress.gerber.footballman.Fragments.StartMatchFragment;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
 
@@ -26,8 +23,10 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
     FragmentManager manager = null;
     public DrawerLayout drawer;
     Game game;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Realm.init(this);
@@ -86,15 +85,20 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
 
     @Override
     public void onBackPressed() {
-        Fragment fragment =manager.findFragmentById(R.id.fragment);
-        if(fragment instanceof HomeFragment){
-            if (((HomeFragment) fragment).onBackPressed()){
-                ((HomeFragment) fragment).setRecyclerView(false);
-            }else{
-                super.onBackPressed();
+        Fragment fragment = manager.findFragmentById(R.id.fragment);
+        if (fragment instanceof StartMatchFragment) {
+            GoToHomeDialog dialog = new GoToHomeDialog(this,(StartMatchFragment) fragment);
+
+        } else{
+                if (fragment instanceof HomeFragment) {
+                    if (((HomeFragment) fragment).onBackPressed()) {
+                        ((HomeFragment) fragment).setRecyclerView(false);
+                    } else {
+                        super.onBackPressed();
+                    }
+                } else {
+                    super.onBackPressed();
+                }
             }
-        }else {
-            super.onBackPressed();
         }
     }
-}

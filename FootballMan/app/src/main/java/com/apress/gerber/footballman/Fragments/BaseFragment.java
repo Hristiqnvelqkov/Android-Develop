@@ -16,8 +16,8 @@ import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
-
-import java.util.List;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import io.realm.Realm;
 
@@ -30,9 +30,11 @@ public class BaseFragment extends Fragment {
     protected Menu menu;
     MainActivity mActivity;
     public boolean hide = false;
+    DatabaseReference mFirebaseDatabase;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        mFirebaseDatabase = FirebaseDatabase.getInstance().getReference("leagues");
         super.onCreate(savedInstanceState);
         mRealm = Realm.getDefaultInstance();
         mManager = DataManager.getDataInstance();
