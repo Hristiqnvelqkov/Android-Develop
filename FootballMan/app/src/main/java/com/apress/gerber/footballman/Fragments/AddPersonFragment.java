@@ -1,13 +1,8 @@
 package com.apress.gerber.footballman.Fragments;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -15,12 +10,9 @@ import android.widget.Button;
 
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
-import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.Models.Player;
 import com.apress.gerber.footballman.Models.Team;
 import com.apress.gerber.footballman.R;
-
-import io.realm.Realm;
 
 
 public class AddPersonFragment extends BaseFragment {
@@ -34,9 +26,9 @@ public class AddPersonFragment extends BaseFragment {
     public static AddPersonFragment newInstance(Team team, Player player) {
         AddPersonFragment fragment = new AddPersonFragment();
         Bundle args = new Bundle();
-        args.putString("team", team.getId());
+        args.putSerializable("team", team);
         if(player != null) {
-            args.putString("player", player.getId());
+            args.putSerializable("player", player);
         }
         fragment.setArguments(args);
         return fragment;
@@ -71,9 +63,7 @@ public class AddPersonFragment extends BaseFragment {
 
     @Override public void onCreate(Bundle savedInstaceState){
         super.onCreate(savedInstaceState);
-        String teamId = getArguments().getString("team");
-        mTeam = manager.getTeamById(teamId);
-        String playerId = getArguments().getString("player");
-        mPlayer = manager.getPlayerById(playerId);
+        mTeam = (Team) getArguments().getSerializable("team");
+        mPlayer =(Player) getArguments().getSerializable("player");
     }
 }

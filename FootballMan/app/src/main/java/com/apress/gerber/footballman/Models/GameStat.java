@@ -2,14 +2,11 @@ package com.apress.gerber.footballman.Models;
 
 import java.io.Serializable;
 
-import io.realm.RealmModel;
-import io.realm.RealmObject;
-
 /**
  * Created by hriso on 9/18/2017.
  */
 
-public class GameStat extends RealmObject implements Serializable{
+public class GameStat implements Serializable{
     private Player key;
     private int value;
     private int type;

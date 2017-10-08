@@ -1,16 +1,12 @@
 package com.apress.gerber.footballman.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.Game;
@@ -26,7 +22,7 @@ public class StatisticsFragment extends BaseFragment {
     public static StatisticsFragment newInstance(Game game,boolean statAfterGame) {
         StatisticsFragment fragment = new StatisticsFragment();
         Bundle args = new Bundle();
-        args.putString(GAME, game.getId());
+        args.putSerializable(GAME, game);
         args.putBoolean(STAT_AFTER_GAME,statAfterGame);
         fragment.setArguments(args);
         return fragment;
@@ -37,8 +33,7 @@ public class StatisticsFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         if (getArguments() != null) {
-            String gameId = getArguments().getString(GAME);
-            mGame = mManager.getGameById(gameId);
+            mGame = (Game) getArguments().getSerializable(GAME);
             statAfterGame = getArguments().getBoolean(STAT_AFTER_GAME);
         }
     }

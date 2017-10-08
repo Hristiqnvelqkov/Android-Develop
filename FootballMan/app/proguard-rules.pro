@@ -16,7 +16,7 @@
 #   public *;
 #}
 -keepattributes Signature
--keepclassmembers class com.yourcompany.models.** {
+-keepclassmembers class com.apress.gerber.footballman.Models.** {
   *;
 }
 # Uncomment this to preserve the line number information for

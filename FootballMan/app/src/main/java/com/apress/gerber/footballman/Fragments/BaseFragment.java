@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apress.gerber.footballman.Constants;
+import com.apress.gerber.footballman.ExportData;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.League;
@@ -19,11 +20,8 @@ import com.apress.gerber.footballman.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import io.realm.Realm;
-
 
 public class BaseFragment extends Fragment {
-    protected Realm mRealm;
     protected InputMethodManager imm;
     public DataManager mManager;
     public static OnFragmentInteractionListener mListener;
@@ -36,7 +34,6 @@ public class BaseFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         mFirebaseDatabase = FirebaseDatabase.getInstance().getReference("leagues");
         super.onCreate(savedInstanceState);
-        mRealm = Realm.getDefaultInstance();
         mManager = DataManager.getDataInstance();
         imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 
@@ -83,7 +80,10 @@ public class BaseFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-
+    public void exportToDataBase(String fileName){
+        ExportData data = ExportData.getInstance();
+        data.writeToFile(fileName,getActivity());
+    }
     protected void setLayout(View mainView, int size, int i) {
         RelativeLayout emptyLayout = mainView.findViewById(R.id.empty_layout);
         if (size > 0) {
@@ -98,7 +98,7 @@ public class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mRealm.close();
+
     }
 
     public interface OnFragmentInteractionListener {

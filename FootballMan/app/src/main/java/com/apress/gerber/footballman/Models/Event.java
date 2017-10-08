@@ -2,14 +2,11 @@ package com.apress.gerber.footballman.Models;
 
 import java.io.Serializable;
 
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
-
 /**
  * Created by hriso on 9/12/2017.
  */
 
-public class Event extends RealmObject implements Serializable{
+public class Event implements Serializable{
     private  int time ;
     private boolean host;
     Player player;

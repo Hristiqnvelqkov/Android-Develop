@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.apress.gerber.footballman.Fragments.GamesFragment;
@@ -43,12 +42,13 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mListner.openStat(mGames.get(position));
+                mListner.openStat(mGames.get(position ));
             }
         });
-        holder.hostName.setText(mGames.get(position).getHost().getName());
-        holder.gameResult.setText(String.valueOf(mGames.get(position).getHostResult() +" : " + mGames.get(position).getGuestResult()));
-        holder.guestName.setText(String.valueOf(mGames.get(position).getGuest().getName()));
+
+        holder.hostName.setText(mGames.get(position ).getHost().getName());
+        holder.gameResult.setText(String.valueOf(mGames.get(position ).getHostResult() +" : " + mGames.get(position).getGuestResult()));
+        holder.guestName.setText(String.valueOf(mGames.get(position ).getGuest().getName()));
     }
 
     @Override

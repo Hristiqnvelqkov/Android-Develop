@@ -1,23 +1,17 @@
 package com.apress.gerber.footballman.Fragments;
 
-import android.content.Context;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Chronometer;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apress.gerber.footballman.Constants;
@@ -29,10 +23,8 @@ import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.Player;
 import com.apress.gerber.footballman.R;
 
-import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.zip.CheckedOutputStream;
 
 
 public class StartMatchFragment extends BaseFragment implements GamePlayersAdapter.onPlayerClicked {
@@ -57,9 +49,8 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     public static StartMatchFragment newInstance(Game game) {
         StartMatchFragment fragment = new StartMatchFragment();
-        fragment.mGame = game;
         Bundle args = new Bundle();
-        args.putString(START_MATCH, game.getId());
+        args.putSerializable(START_MATCH, game);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,6 +61,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
         setHasOptionsMenu(true);
         if (getArguments() != null) {
+            mGame = (Game) getArguments().getSerializable(START_MATCH);
             int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
             if(screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE){
                 hostAdapter = new GamePlayersAdapter(mGame, mGame.getHostPlayers(), this, true);

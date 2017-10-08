@@ -1,44 +1,32 @@
 package com.apress.gerber.footballman.Models;
 
 
-import android.support.annotation.Nullable;
-
 import com.apress.gerber.footballman.Constants;
 
 import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.lang.reflect.Type;
-import java.security.Key;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
-
-import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-import io.realm.annotations.PrimaryKey;
 
 
 /**
  * Created by hriso on 8/23/2017.
  */
 
-public class Game extends RealmObject {
-    @PrimaryKey
+public class Game implements Serializable, DataManager.OnPlayersLoaded {
+
     private String id = UUID.randomUUID().toString();
     private int hostResult = 0;
-    @Ignore DataManager mManager = DataManager.getDataInstance();
     private int guestResult = 0;
     private Team host, guest;
+    private List<Player> tempPlayers = new LinkedList<>();
     public boolean hostReady, guestReady;
-    private RealmList<GameStat> gameStat = new RealmList<>();
-    RealmList<Player> hostPlayersInGame = new RealmList<>();
-    RealmList<Player> guestPlayersInGame = new RealmList<>();
-    RealmList<Player> hostTeamPlayers = new RealmList<>();
-    RealmList<Player> guestTeamPlayers = new RealmList<>();
-    private RealmList<Event> mEvents = new RealmList<>();
+    private List<GameStat> gameStat = new LinkedList<>();
+    List<Player> hostPlayersInGame = new LinkedList<>();
+    List<Player> guestPlayersInGame = new LinkedList<>();
+    List<Player> hostTeamPlayers = new LinkedList<>();
+    List<Player> guestTeamPlayers = new LinkedList<>();
+    private List<Event> events = new LinkedList<>();
     public Game(){}
     public void enterInGame(Player player) {
 
@@ -125,16 +113,8 @@ public class Game extends RealmObject {
     }
 
     private void setDefaultValues(Team team) {
-        System.out.println("setDefaultValues");
         if(team != null) {
-            for (int i = 0; i < mManager.getPlayersForTeam(team).size(); i++) {
-                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.GOAL));
-                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.GOAL));
-                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.FOUL));
-                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.YELLOW_CARD));
-                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.RED_CARD));
-                gameStat.add(new GameStat(mManager.getPlayersForTeam(team).get(i), 0, Constants.ASSIST));
-            }
+            DataManager.getDataInstance().getPlayersForTeam(team,this);
         }
     }
 
@@ -200,7 +180,7 @@ public class Game extends RealmObject {
     }
 
     public List<Event> getEvents() {
-        return mEvents;
+        return events;
     }
 
     public GameStat findByKeyAndType(Player player, int type) {
@@ -217,7 +197,7 @@ public class Game extends RealmObject {
             findByKeyAndType(player, Constants.GOAL).updateValue();
             Event event = new Event(time, Constants.GOAL_EVENT, player);
             event.setHost(checkPlayerHost(player));
-            mEvents.add(event);
+            events.add(event);
         }
     }
 
@@ -226,7 +206,7 @@ public class Game extends RealmObject {
             findByKeyAndType(player, Constants.FOUL).updateValue();
             Event event = new Event(time, Constants.FOUL_EVENT, player);
             event.setHost(checkPlayerHost(player));
-            mEvents.add(event);
+            events.add(event);
         }
     }
 
@@ -245,7 +225,7 @@ public class Game extends RealmObject {
                     findByKeyAndType(player, Constants.YELLOW_CARD).updateValue();
                     Event event = new Event(time, Constants.YELLOW_EVENT, player);
                     event.setHost(checkPlayerHost(player));
-                    mEvents.add(event);
+                    events.add(event);
                 }
             }
         }
@@ -257,7 +237,7 @@ public class Game extends RealmObject {
                 findByKeyAndType(player, Constants.RED_CARD).updateValue();
                 Event event = new Event(time, Constants.RED_EVENT, player);
                 event.setHost(checkPlayerHost(player));
-                mEvents.add(event);
+                events.add(event);
             }
         }
     }
@@ -286,22 +266,22 @@ public class Game extends RealmObject {
         }
     }
 
-    @Nullable
-    Team winner() {
-        Team winner;
-        int hostGoals = 0;
-        int guestGoals = 0;
-        for (int i = 0; i < host.getPlayers().size(); i++) {
-            hostGoals += host.getPlayers().get(i).getGoals();
-            guestGoals += guest.getPlayers().get(i).getGoals();
-        }
-        if (hostGoals > guestGoals) {
-            winner = host;
-        } else {
-            winner = guest;
-        }
-        return winner;
-    }
+//    @Nullable
+//    Team winner() {
+//        Team winner;
+//        int hostGoals = 0;
+//        int guestGoals = 0;
+//        for (int i = 0; i < host.getPlayers().size(); i++) {
+//            hostGoals += host.getPlayers().get(i).getGoals();
+//            guestGoals += guest.getPlayers().get(i).getGoals();
+//        }
+//        if (hostGoals > guestGoals) {
+//            winner = host;
+//        } else {
+//            winner = guest;
+//        }
+//        return winner;
+//    }
 
     public int getYellowCards(Player player) {
         if (findByKeyAndType(player, Constants.YELLOW_CARD) != null) {
@@ -328,4 +308,16 @@ public class Game extends RealmObject {
     }
 
 
+    @Override
+    public void onPlayersLoaded(List<Player> players) {
+        tempPlayers = players;
+        for (int i = 0; i < tempPlayers.size(); i++) {
+            gameStat.add(new GameStat(tempPlayers.get(i), 0, Constants.GOAL));
+            gameStat.add(new GameStat(tempPlayers.get(i), 0, Constants.GOAL));
+            gameStat.add(new GameStat(tempPlayers.get(i), 0, Constants.FOUL));
+            gameStat.add(new GameStat(tempPlayers.get(i), 0, Constants.YELLOW_CARD));
+            gameStat.add(new GameStat(tempPlayers.get(i), 0, Constants.RED_CARD));
+            gameStat.add(new GameStat(tempPlayers.get(i), 0, Constants.ASSIST));
+        }
+    }
 }

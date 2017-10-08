@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.LegueRecyclerView;
 import com.apress.gerber.footballman.MainActivity;
+import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
@@ -22,7 +23,7 @@ import com.apress.gerber.footballman.R;
 import java.util.List;
 
 
-public class HomeFragment extends BaseFragment implements LegueRecyclerView.LeagueListener {
+public class HomeFragment extends BaseFragment implements LegueRecyclerView.LeagueListener,DataManager.OnLeagesLoaded {
     View view;
     FloatingActionButton startMach;
     public static final String HIDE = "HIDE";
@@ -54,6 +55,9 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
             ((MainActivity) getActivity()).commitFragment(AddLeagueFragment.newInstance(null), true);
 
         }
+        if(item.getItemId() == R.id.export_data){
+            exportToDataBase("testaaa.txt");
+        }
         if(item.getItemId() == Constants.ALL_GAMES){
             ((MainActivity) getActivity()).commitFragment(new GamesFragment(),true);
         }
@@ -61,11 +65,9 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        mLeagues = mManager.getLeagues();
         view = inflater.inflate(R.layout.fragment_home, container, false);
-        view.setTag("Home");
         startMach = view.findViewById(R.id.floatingActionButton);
-        setRecyclerView(hide);
+        mManager.getLeagues(this);
         startMach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,6 +80,7 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
                 menu.add(0,Constants.MENU_NEXT,Menu.NONE,R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             }
         });
+
         return view;
     }
     @Override
@@ -85,16 +88,6 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
         super.onCreate(onSavedInstanceState);
         setHasOptionsMenu(true);
         setActivity();
-        mLeagues = mManager.initList();
-        if(mLeagues.size()>0) {
-            for(League league : mLeagues){
-//                DatabaseReference leagueChield = leagues.child(league.getName());
-//                leagueChield.setValue(fakeLeague);
-               // DatabaseReference teamChild = leagueChield.child(league.getLeaguesList().get(0).getName());
-               // DatabaseReference player = teamChild.child(league.getTeamList().get(0).getPlayers().get(0).getName());
-              //  player.child("Number").setValue(league.getTeamList().get(0).getPlayers().get(0).getNumber());
-            }
-        }
         if(getArguments()!=null){
             hide = (boolean) getArguments().getSerializable(HIDE);
         }
@@ -125,4 +118,9 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
         ((MainActivity) getActivity()).commitFragment(AddLeagueFragment.newInstance(league),true);
     }
 
+    @Override
+    public void onLeaguesLoaded(List<League> leagues) {
+        mLeagues = leagues;
+        setRecyclerView(hide);
+    }
 }

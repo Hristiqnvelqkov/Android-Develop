@@ -22,10 +22,8 @@ public class AddTeamFragment extends BaseFragment {
     public static AddTeamFragment newInstance(League league,Team team) {
         Bundle args = new Bundle();
         AddTeamFragment fragment = new AddTeamFragment();
-        args.putString("test", league.getId());
-        if(team!=null) {
-            args.putString("leagueTeam", team.getId());
-        }
+        args.putSerializable("test", league);
+        args.putSerializable("leagueTeam", team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,10 +59,8 @@ public class AddTeamFragment extends BaseFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        String teamId = getArguments().getString("leagueTeam");
-        String leagueId = getArguments().getString("test");
-        league = mManager.getLeagueById(leagueId);
-        team = mManager.getTeamById(teamId);
+        team = (Team) getArguments().getSerializable("leagueTeam");
+        league = (League) getArguments().getSerializable("test");
     }
 
 }

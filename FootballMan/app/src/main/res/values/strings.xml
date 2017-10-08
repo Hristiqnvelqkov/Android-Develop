@@ -24,4 +24,5 @@
     <string name="red_cards">Red cards</string>
     <string name="yellow_cards">Yellow cards</string>
     <string name="goals">Goals</string>
+    <string name="export">Export data</string>
 </resources>

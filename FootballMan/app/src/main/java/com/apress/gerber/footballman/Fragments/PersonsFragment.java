@@ -1,21 +1,13 @@
 package com.apress.gerber.footballman.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apress.gerber.footballman.Constants;
@@ -29,13 +21,10 @@ import com.apress.gerber.footballman.R;
 
 import java.util.List;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
 
-
-public class PersonsFragment extends BaseFragment implements PersonsAdapter.PlayerClicked {
+public class PersonsFragment extends BaseFragment implements PersonsAdapter.PlayerClicked, DataManager.OnPlayersLoaded {
     Team team;
-    RealmResults<Player> mPlayers;
+    List<Player> mPlayers;
     FloatingActionButton mActionButton;
     View view;
     Game game ;
@@ -43,7 +32,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         PersonsFragment fragment = new PersonsFragment();
         Bundle args = new Bundle();
         args.putSerializable("HIDE",hide);
-        args.putString("teams",team.getId());
+        args.putSerializable("teams",team);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,10 +44,8 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     @Override public void onCreate(Bundle savedInstancestate){
         super.onCreate(savedInstancestate);
         setHasOptionsMenu(true);
-        String teamId = getArguments().getString("teams");
+        team =(Team) getArguments().getSerializable("teams");
         game = ((MainActivity)getActivity()).getGame();
-        team =  mManager.getTeamById(teamId);
-        mPlayers = mManager.getPlayersForTeam(team);
         setActivity();
         hide = (boolean) getArguments().getSerializable("HIDE");
     }
@@ -66,6 +53,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mManager.getPlayersForTeam(team,this);
         view = inflater.inflate(R.layout.fragment_persons, container, false);
         mActionButton = view.findViewById(R.id.next_team);
         mActionButton.setOnClickListener(new View.OnClickListener(){
@@ -74,8 +62,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
                game.setHostReady();
            }
         });
-        setRecyclerView();
-        setLayout(view,mPlayers.size(),R.string.no_players);
+
         ((MainActivity) getActivity()).setUpToolBar(team.getName());
         return view;
     }
@@ -142,7 +129,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         if(!hide){
             mActionButton.setVisibility(View.GONE);
         }
-       setLayout(view,team.getPlayers().size(),R.string.no_players);
+       setLayout(view,mPlayers.size(),R.string.no_players);
     }
     @Override
     public void updatePlayer(Player player) {
@@ -160,9 +147,15 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     @Override
     public void deletePlayer(Player player) {
         mManager.removePlayer(player);
-        setLayout(view,team.getPlayers().size(),R.string.no_players);
+        setLayout(view,mPlayers.size(),R.string.no_players);
 
     }
 
 
+    @Override
+    public void onPlayersLoaded(List<Player> players) {
+        mPlayers = players;
+        setRecyclerView();
+        setLayout(view,mPlayers.size(),R.string.no_players);
+    }
 }

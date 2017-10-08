@@ -1,31 +1,22 @@
 package com.apress.gerber.footballman.Models;
 
 
-
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.UUID;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by hriso on 8/23/2017.
  */
 
-public class Team extends RealmObject  {
-    @PrimaryKey
+public class Team  implements Serializable {
+
     private String id = UUID.randomUUID().toString();
-    League mLeague;
-    private String teamName;
-    private RealmList<Player> players;
-    private RealmList<Game> mGames;
+    private League mLeague;
+    private String name;
 
     public Team() {
-        mGames = new RealmList<>();
-        players = new RealmList<>();
+
     }
 
 
@@ -48,11 +39,11 @@ public class Team extends RealmObject  {
     }
 
     public void setTeamName(String name) {
-        teamName = name;
+        this.name = name;
     }
 
     public String getName() {
-        return teamName;
+        return name;
     }
 
     public League getLeague() {
@@ -60,7 +51,7 @@ public class Team extends RealmObject  {
     }
 
 
-    public List<Player> getPlayers() {
-        return players;
-    }
+//    public List<Player> getPlayers() {
+//        return players;
+//    }
 }

@@ -10,10 +10,8 @@ import android.widget.Button;
 
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
-import com.apress.gerber.footballman.Models.FakeLeague;
 import com.apress.gerber.footballman.Models.League;
 import com.apress.gerber.footballman.R;
-import com.google.firebase.database.DatabaseReference;
 
 
 public class AddLeagueFragment extends BaseFragment  {
@@ -25,7 +23,7 @@ public class AddLeagueFragment extends BaseFragment  {
         Bundle args = new Bundle();
         AddLeagueFragment fragment = new AddLeagueFragment();
         if(league != null) {
-            args.putString("update", league.getId());
+            args.putSerializable("update", league);
         }
         fragment.setArguments(args);
         return fragment;
@@ -46,13 +44,10 @@ public class AddLeagueFragment extends BaseFragment  {
             public void onClick(View view) {
                 if(mLeague==null) {
                     mManager.addLeague((legue_input.getEditText().getText().toString()));
-                    FakeLeague fakeLeague = new FakeLeague(mManager.getLastLeague());
-                    DatabaseReference leagueChield = mFirebaseDatabase.child(fakeLeague.getId());
-                    leagueChield.setValue(fakeLeague);
+
                 }else {
                     mManager.updateLeague(mLeague,(legue_input.getEditText().getText().toString()));
                 }
-                //mLeague.setName(legue_input.getEditText().getText().toString());
                 ((MainActivity) getActivity()).visibleHome();
                 ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(false),true);
                 imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS,0);
@@ -63,7 +58,8 @@ public class AddLeagueFragment extends BaseFragment  {
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        String id = getArguments().getString("update");
-        mLeague = mManager.getLeagueById(id);
+        if (getArguments() != null) {
+            mLeague = (League) getArguments().getSerializable("update");
+        }
     }
 }

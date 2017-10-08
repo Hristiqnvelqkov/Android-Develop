@@ -15,8 +15,7 @@ import com.apress.gerber.footballman.Fragments.HomeFragment;
 import com.apress.gerber.footballman.Fragments.StartMatchFragment;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
-
-import io.realm.Realm;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class MainActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener {
@@ -26,10 +25,9 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Realm.init(this);
         manager = getSupportFragmentManager();
         setUpNavigationDrawer();
         setUpToolBar("FootballMan");
@@ -61,7 +59,11 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        ExportData.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
+    }
     public void setUpToolBar(String title) {
         Toolbar bar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(bar);
