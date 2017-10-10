@@ -24,4 +24,7 @@ public class Constants {
     public static final int GOAL = 16;
     public static final int ASSIST = 17;
     public static final int ALL_GAMES = 18;
+    public static final int EXPORT_GAMES = 19;
+    public static final int EXPORT_LEAGUES= 20;
+    public static final int EXPORT_GAME = 21;
 }

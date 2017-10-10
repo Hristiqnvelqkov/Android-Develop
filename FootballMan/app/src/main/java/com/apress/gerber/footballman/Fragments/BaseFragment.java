@@ -45,19 +45,25 @@ public class BaseFragment extends Fragment {
         this.menu = menu;
         System.out.println(hide);
         inflater.inflate(R.menu.menu, menu);
-        if (this instanceof HomeFragment)
-            menu.add(0, Constants.ALL_GAMES, Menu.NONE, R.string.games).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        else
-            menu.removeItem(Constants.ALL_GAMES);
-
-        super.onCreateOptionsMenu(menu, inflater);
-        if (!hide) {
-            menu.add(0, Constants.MENU_ADD, Menu.NONE, R.string.add);
-            menu.getItem(Constants.MENU_ADD).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        } else {
+        if(this instanceof GamesFragment){
             menu.removeItem(Constants.MENU_ADD);
-            menu.add(0, Constants.MENU_NEXT, Menu.NONE, R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            menu.add(0,Constants.EXPORT_GAMES,Menu.NONE,R.string.export_games).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }else {
+            if (!hide) {
+                menu.add(0, Constants.MENU_ADD, Menu.NONE, R.string.add);
+                menu.getItem(Constants.MENU_ADD).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            } else {
+                menu.removeItem(Constants.MENU_ADD);
+                menu.add(0, Constants.MENU_NEXT, Menu.NONE, R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+            }
+            if (this instanceof HomeFragment) {
+                menu.add(0, Constants.ALL_GAMES, Menu.NONE, R.string.games).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+                menu.add(0, Constants.EXPORT_LEAGUES, Menu.NONE, R.string.export);
+            } else
+                menu.removeItem(Constants.ALL_GAMES);
         }
+        super.onCreateOptionsMenu(menu, inflater);
+
     }
 
     public void setActivity() {
@@ -80,9 +86,9 @@ public class BaseFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
-    public void exportToDataBase(String fileName){
+    public void exportToDataBase(String fileName,int exportType){
         ExportData data = ExportData.getInstance();
-        data.writeToFile(fileName,getActivity());
+        data.writeToFile(fileName,getActivity(),exportType);
     }
     protected void setLayout(View mainView, int size, int i) {
         RelativeLayout emptyLayout = mainView.findViewById(R.id.empty_layout);

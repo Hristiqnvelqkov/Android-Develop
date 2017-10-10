@@ -19,6 +19,8 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     private int hostResult = 0;
     private int guestResult = 0;
     private Team host, guest;
+    private String venue;
+    private String outcome;
     private List<Player> tempPlayers = new LinkedList<>();
     public boolean hostReady, guestReady;
     private List<GameStat> gameStat = new LinkedList<>();
@@ -27,7 +29,18 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     List<Player> hostTeamPlayers = new LinkedList<>();
     List<Player> guestTeamPlayers = new LinkedList<>();
     private List<Event> events = new LinkedList<>();
-    public Game(){}
+
+    public Game() {
+    }
+
+    public void setVenue(String venue) {
+        this.venue = venue;
+    }
+
+    public String getVenue() {
+        return venue;
+    }
+
     public void enterInGame(Player player) {
 
         if (hostTeamPlayers.contains(player)) {
@@ -80,6 +93,27 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
         }
     }
 
+    public String outCome(Team team) {
+        String outcome = "";
+        if(hostResult == guestResult){
+            return "X";
+        }
+        if (team.equals(host)) {
+            if (hostResult > guestResult) {
+                outcome = "Win";
+            } else if (hostResult < guestResult) {
+                outcome = "Lost";
+            }
+        } else if (team.equals(guest)) {
+            if (hostResult > guestResult) {
+                outcome = "Lost";
+            } else if (hostResult < guestResult) {
+                outcome = "Win";
+            }
+        }
+        return outcome;
+    }
+
     public int getTeamRedCards(List<Player> players) {
         int redCards = 0;
         for (int i = 0; i < players.size(); i++) {
@@ -113,8 +147,8 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     }
 
     private void setDefaultValues(Team team) {
-        if(team != null) {
-            DataManager.getDataInstance().getPlayersForTeam(team,this);
+        if (team != null) {
+            DataManager.getDataInstance().getPlayersForTeam(team, this);
         }
     }
 
@@ -183,28 +217,67 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
         return events;
     }
 
+    private int getGoalsForHalf(Player player, int half) {
+        int sum = 0;
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getPlayer().equals(player)) {
+                if (events.get(i).getType() == Constants.GOAL_EVENT) {
+                    if (events.get(i).getHalf() == half) {
+                        sum++;
+                    }
+                }
+            }
+        }
+        return sum;
+    }
+
+    public int getGoalsFirstHalfForPlayer(Player player) {
+        return getGoalsForHalf(player, 1);
+    }
+
+    public int getGoalsSecondHalfForPlayer(Player player) {
+        return getGoalsForHalf(player, 2);
+    }
+
+    public int getTeamSecondHalfGoals(List<Player> players) {
+        int teamGoals = 0;
+        for (int i = 0; i < players.size(); i++) {
+            teamGoals += getGoalsSecondHalfForPlayer(players.get(i));
+        }
+        return teamGoals;
+    }
+
+    public int getTeamFirstHalfGoals(List<Player> players) {
+        int teamGoals = 0;
+        for (int i = 0; i < players.size(); i++) {
+            teamGoals += getGoalsFirstHalfForPlayer(players.get(i));
+        }
+        return teamGoals;
+    }
+
     public GameStat findByKeyAndType(Player player, int type) {
         for (int i = 0; i < gameStat.size(); i++) {
-            if ((gameStat.get(i).getPlayer().equals(player)) && gameStat.get(i).getType() == type) {
+            Player player1 = gameStat.get(i).getPlayer();
+            if ((player1.equals(player)) && gameStat.get(i).getType() == type) {
                 return gameStat.get(i);
             }
         }
         return null;
     }
 
-    public void addGoal(Player player, int time) {
+    public void addGoal(Player player, int time, int half) {
         if (findByKeyAndType(player, Constants.GOAL) != null) {
             findByKeyAndType(player, Constants.GOAL).updateValue();
-            Event event = new Event(time, Constants.GOAL_EVENT, player);
+            Event event = new Event(time, Constants.GOAL_EVENT, player, half);
             event.setHost(checkPlayerHost(player));
             events.add(event);
         }
     }
 
-    public void addFaul(Player player, int time) {
+    public void addFaul(Player player, int time, int half) {
         if (findByKeyAndType(player, Constants.FOUL) != null) {
             findByKeyAndType(player, Constants.FOUL).updateValue();
-            Event event = new Event(time, Constants.FOUL_EVENT, player);
+            Event event = new Event(time, Constants.FOUL_EVENT, player, half);
             event.setHost(checkPlayerHost(player));
             events.add(event);
         }
@@ -216,14 +289,14 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
         }
     }
 
-    public void addYellowCard(Player player, int time) {
+    public void addYellowCard(Player player, int time, int half) {
         if (findByKeyAndType(player, Constants.RED_CARD).getValue() == 0) {
             if (findByKeyAndType(player, Constants.YELLOW_CARD).getValue() > 0) {
-                addRedCard(player, time);
+                addRedCard(player, time, half);
             } else {
                 if (findByKeyAndType(player, Constants.YELLOW_CARD) != null) {
                     findByKeyAndType(player, Constants.YELLOW_CARD).updateValue();
-                    Event event = new Event(time, Constants.YELLOW_EVENT, player);
+                    Event event = new Event(time, Constants.YELLOW_EVENT, player, half);
                     event.setHost(checkPlayerHost(player));
                     events.add(event);
                 }
@@ -231,11 +304,11 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
         }
     }
 
-    public void addRedCard(Player player, int time) {
+    public void addRedCard(Player player, int time, int half) {
         if (findByKeyAndType(player, Constants.RED_CARD).getValue() == 0) {
             if (findByKeyAndType(player, Constants.RED_CARD) != null) {
                 findByKeyAndType(player, Constants.RED_CARD).updateValue();
-                Event event = new Event(time, Constants.RED_EVENT, player);
+                Event event = new Event(time, Constants.RED_EVENT, player, half);
                 event.setHost(checkPlayerHost(player));
                 events.add(event);
             }
@@ -266,22 +339,6 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
         }
     }
 
-//    @Nullable
-//    Team winner() {
-//        Team winner;
-//        int hostGoals = 0;
-//        int guestGoals = 0;
-//        for (int i = 0; i < host.getPlayers().size(); i++) {
-//            hostGoals += host.getPlayers().get(i).getGoals();
-//            guestGoals += guest.getPlayers().get(i).getGoals();
-//        }
-//        if (hostGoals > guestGoals) {
-//            winner = host;
-//        } else {
-//            winner = guest;
-//        }
-//        return winner;
-//    }
 
     public int getYellowCards(Player player) {
         if (findByKeyAndType(player, Constants.YELLOW_CARD) != null) {
@@ -307,6 +364,9 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
         }
     }
 
+    public List<GameStat> getGameStat() {
+        return gameStat;
+    }
 
     @Override
     public void onPlayersLoaded(List<Player> players) {

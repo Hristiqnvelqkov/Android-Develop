@@ -1,5 +1,9 @@
 package com.apress.gerber.footballman.Fragments;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -11,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -36,6 +41,9 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     RecyclerView hostPlayers;
     RecyclerView guestPlayers;
     MyTask task;
+    int halftime=1;
+    SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mEditor;
     LandGameAdapter mLandHostAdapter = null;
     LandGameAdapter mLandGuestAdapter = null;
     GamePlayersAdapter hostAdapter = null;
@@ -58,8 +66,9 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
+        mSharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();
         if (getArguments() != null) {
             mGame = (Game) getArguments().getSerializable(START_MATCH);
             int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
@@ -109,6 +118,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         if (item.getItemId() == Constants.HALF_TIME) {
             timer.cancel();
             task.setHalfTime();
+            halftime=2;
             menu.add(0, Constants.START_SECOND_HALF, Menu.NONE, R.string.start).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             menu.removeItem(Constants.HALF_TIME);
             status = true;
@@ -124,7 +134,22 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         if (item.getItemId() == Constants.END_MATCH) {
             status = true;
             timer.cancel();
-            mManager.addGame(mGame);
+            final EditText editText = new EditText(getContext());
+            String venue = mSharedPreferences.getString("venue","");
+            editText.setText(venue);
+            AlertDialog dialog = new AlertDialog.Builder(getContext()).create();
+            dialog.setTitle("Enter Venue");
+            dialog.setView(editText);
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    mGame.setVenue(editText.getText().toString());
+                    mEditor.putString("venue",mGame.getVenue());
+                    mEditor.commit();
+                    mManager.addGame(mGame);
+                }
+            });
+            dialog.show();
             ((MainActivity) getActivity()).commitFragment(StatisticsFragment.newInstance(mGame,true), true);
         }
         return status;
@@ -194,7 +219,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     @Override
     public void addRedCard(Player player) {
-        mGame.addRedCard(player, task.getSeconds());
+        mGame.addRedCard(player, task.getSeconds(),halftime);
         if (mGame.getHostPlayers().contains(player)) {
             hostTeamRedCard.setText(String.valueOf(mGame.getTeamRedCards(mGame.getHostPlayers())));
         } else {
@@ -204,7 +229,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     @Override
     public void addYellowCard(Player player) {
-        mGame.addYellowCard(player, task.getSeconds());
+        mGame.addYellowCard(player, task.getSeconds(),halftime);
         if (mGame.getHostPlayers().contains(player)) {
             hostTeamYellowCard.setText(String.valueOf(mGame.getTeamYellowCards(mGame.getHostPlayers())));
         } else {
@@ -227,7 +252,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     @Override
     public void addGoal(Player player) {
-        mGame.addGoal(player, task.getSeconds());
+        mGame.addGoal(player, task.getSeconds(),halftime);
         if (mGame.getHostPlayers().contains(player)) {
             hostResult.setText(String.valueOf(mGame.updateResult(mGame.getHost())));
         } else {
@@ -276,7 +301,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     }
     @Override
     public void addFaul(Player player) {
-        mGame.addFaul(player, task.getSeconds());
+        mGame.addFaul(player, task.getSeconds(),halftime);
         if (mGame.getHostPlayers().contains(player)) {
             hostTeamFauls.setText(String.valueOf(mGame.getTeamFauls(mGame.getHostPlayers())));
         } else {

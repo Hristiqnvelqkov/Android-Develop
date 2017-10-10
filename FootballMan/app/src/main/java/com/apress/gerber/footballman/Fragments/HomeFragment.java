@@ -55,8 +55,8 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
             ((MainActivity) getActivity()).commitFragment(AddLeagueFragment.newInstance(null), true);
 
         }
-        if(item.getItemId() == R.id.export_data){
-            exportToDataBase("testaaa.txt");
+        if(item.getItemId() == Constants.EXPORT_LEAGUES){
+            exportToDataBase("testaaa.txt",Constants.EXPORT_LEAGUES);
         }
         if(item.getItemId() == Constants.ALL_GAMES){
             ((MainActivity) getActivity()).commitFragment(new GamesFragment(),true);

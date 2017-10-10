@@ -1,6 +1,5 @@
 package com.apress.gerber.footballman.Models;
 
-import com.apress.gerber.footballman.Fragments.GamesFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -64,18 +63,15 @@ public class DataManager implements Serializable {
     }
 
     public void getLeagues(final OnLeagesLoaded listener) {
-
         mReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final List<League> leagues = new LinkedList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    League league = snapshot.getValue(League.class);
-
-                    leagues.add(league);
+                   League league = snapshot.getValue(League.class);
+                   leagues.add(league);
                 }
-
-                listener.onLeaguesLoaded(leagues);
+               listener.onLeaguesLoaded(leagues);
             }
 
             @Override
@@ -90,6 +86,9 @@ public class DataManager implements Serializable {
             Team team = new Team();
             team.setTeamName(name);
             team.setLeague(league);
+           // league.addTeam(team);
+           // mReference.child(league.getId()).child("teams").child(team.getId()).push();
+            //mReference.child(league.getId()).setValue(league);
             mReference.child(league.getId()).child("teams").child(team.getId()).setValue(team);
         }
 
@@ -154,7 +153,7 @@ public class DataManager implements Serializable {
         gameReference.child(game.getId()).setValue(game);
     }
 
-    public List<Game> getGames(final GamesFragment gamesFragment) {
+    public List<Game> getGames(final onGamesLoaded listener) {
         final List<Game> games = new LinkedList<>();
         gameReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -163,7 +162,7 @@ public class DataManager implements Serializable {
                     Game game = snapshot.getValue(Game.class);
                     games.add(game);
                 }
-                gamesFragment.onGamesLoaded(games);
+                listener.onGamesLoaded(games);
             }
 
             @Override
@@ -184,5 +183,8 @@ public class DataManager implements Serializable {
 
     public interface OnPlayersLoaded {
         void onPlayersLoaded(List<Player> players);
+    }
+    public interface onGamesLoaded{
+         void onGamesLoaded(List<Game> games);
     }
 }

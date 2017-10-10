@@ -9,8 +9,21 @@ public class League implements Serializable {
 
     private String id = UUID.randomUUID().toString();
     private String name;
-    public League() {
-    }
+   // private List<Team> teams = new LinkedList<>();
+
+    public League() {}
+
+    //public void setTeams(List<Team> teams) {
+     //   this.teams = teams;
+    //}
+
+    //public List<Team> getTeams() {
+     //   return teams;
+    //}
+
+   // public void addTeam(Team team) {
+   //     teams.add(team);
+  //  }
 
     public void setName(String name) {
         this.name = name;

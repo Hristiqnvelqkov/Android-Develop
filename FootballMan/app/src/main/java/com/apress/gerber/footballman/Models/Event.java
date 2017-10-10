@@ -10,13 +10,18 @@ public class Event implements Serializable{
     private  int time ;
     private boolean host;
     Player player;
+    private int half;
     private int type;
-    public Event(int time, int type,Player player){
+    public Event(int time, int type,Player player,int half){
         this.time=time;
         this.player = player;
+        this.half=half;
         this.type=type;
     }
     public Event(){}
+    public int getHalf(){
+        return this.half;
+    }
     public void setHost(boolean host){
         this.host = host;
     }

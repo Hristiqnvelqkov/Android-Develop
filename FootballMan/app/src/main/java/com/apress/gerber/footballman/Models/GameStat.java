@@ -6,11 +6,14 @@ import java.io.Serializable;
  * Created by hriso on 9/18/2017.
  */
 
-public class GameStat implements Serializable{
+public class GameStat implements Serializable {
     private Player key;
     private int value;
     private int type;
-    public GameStat(){}
+
+    public GameStat() {
+    }
+
     public GameStat(Player player, int value, int type) {
         this.key = player;
         this.value = value;
@@ -26,8 +29,16 @@ public class GameStat implements Serializable{
         return key;
     }
 
+    public void setPlayer(Player player) {
+        this.key = player;
+    }
+
     public int getType() {
         return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getValue() {
