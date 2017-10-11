@@ -28,6 +28,7 @@ import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.Player;
 import com.apress.gerber.footballman.R;
 
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -146,6 +147,16 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
                     mGame.setVenue(editText.getText().toString());
                     mEditor.putString("venue",mGame.getVenue());
                     mEditor.commit();
+                    Calendar calendar = Calendar.getInstance();
+                    String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+                    String minutes = String.valueOf(calendar.get(Calendar.MINUTE));
+                    if(Integer.parseInt(hour)< 10){
+                        hour ="0" + hour;
+                    }
+                    if(Integer.parseInt(minutes) < 10){
+                        hour = "0" +minutes;
+                    }
+                    mGame.setStartTime(hour+":"+minutes+":00");
                     mManager.addGame(mGame);
                 }
             });
@@ -262,7 +273,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     @Override
     public void addAssist(Player player) {
-        mGame.addAssist(player);
+        mGame.addAssist(player,task.getSeconds(),halftime);
     }
 
     @Override
@@ -295,7 +306,6 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         return stat;
     }
     public void stopTask(){
-        System.out.println("Yeeeee");
         timer.cancel();
         task.cancel();
     }

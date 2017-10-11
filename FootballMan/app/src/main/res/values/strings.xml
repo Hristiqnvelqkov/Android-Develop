@@ -26,4 +26,5 @@
     <string name="goals">Goals</string>
     <string name="export">Export data</string>
     <string name="export_games">Export Games</string>
+    <string name="export_game">Export Game</string>
 </resources>

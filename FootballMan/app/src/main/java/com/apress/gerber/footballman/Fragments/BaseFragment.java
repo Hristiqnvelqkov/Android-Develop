@@ -45,11 +45,16 @@ public class BaseFragment extends Fragment {
         this.menu = menu;
         System.out.println(hide);
         inflater.inflate(R.menu.menu, menu);
+        if(this instanceof StatisticsFragment){
+            menu.add(0,Constants.EXPORT_GAME,Menu.NONE,R.string.export_game);
+            super.onCreateOptionsMenu(menu, inflater);
+            return;
+        }
         if(this instanceof GamesFragment){
             menu.removeItem(Constants.MENU_ADD);
             menu.add(0,Constants.EXPORT_GAMES,Menu.NONE,R.string.export_games).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }else {
-            if (!hide) {
+            if ((!hide)) {
                 menu.add(0, Constants.MENU_ADD, Menu.NONE, R.string.add);
                 menu.getItem(Constants.MENU_ADD).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             } else {

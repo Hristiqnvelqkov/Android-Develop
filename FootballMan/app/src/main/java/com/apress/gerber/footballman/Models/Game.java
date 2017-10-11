@@ -20,7 +20,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     private int guestResult = 0;
     private Team host, guest;
     private String venue;
-    private String outcome;
+    private String startTime;
     private List<Player> tempPlayers = new LinkedList<>();
     public boolean hostReady, guestReady;
     private List<GameStat> gameStat = new LinkedList<>();
@@ -32,7 +32,12 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
 
     public Game() {
     }
-
+    public String getStartTime(){
+        return startTime;
+    }
+    public void setStartTime(String time){
+        this.startTime=time;
+    }
     public void setVenue(String venue) {
         this.venue = venue;
     }
@@ -283,9 +288,12 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
         }
     }
 
-    public void addAssist(Player player) {
+    public void addAssist(Player player,int time,int half) {
         if (findByKeyAndType(player, Constants.ASSIST) != null) {
             findByKeyAndType(player, Constants.ASSIST).updateValue();
+            Event event = new Event(time, Constants.ASSIST, player, half);
+            event.setHost(checkPlayerHost(player));
+            events.add(event);
         }
     }
 

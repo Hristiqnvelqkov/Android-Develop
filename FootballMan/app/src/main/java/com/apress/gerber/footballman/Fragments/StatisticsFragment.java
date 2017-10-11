@@ -8,10 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.apress.gerber.footballman.Constants;
+import com.apress.gerber.footballman.ExportData;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.R;
 import com.apress.gerber.footballman.StatisticsAdapter;
+
+import java.util.Calendar;
 
 public class StatisticsFragment extends BaseFragment {
     private static final String GAME = "GAME";
@@ -52,9 +56,17 @@ public class StatisticsFragment extends BaseFragment {
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         boolean status = false;
+        if(item.getItemId() == Constants.EXPORT_GAME){
+            ExportData.getInstance().setLastExportedGame(mGame);
+            Calendar calendar = Calendar.getInstance();
+            String data = String.valueOf(calendar.getTime());
+            System.out.println(data);
+            ExportData.getInstance().writeToFile(mGame.getHost().getName()+"_"+mGame.getGuest().getName()+"_"+data+".csv",getActivity(),Constants.EXPORT_GAME);
+        }
         if(item.getItemId() == android.R.id.home){
             if(statAfterGame) {
                 ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(false), true);
