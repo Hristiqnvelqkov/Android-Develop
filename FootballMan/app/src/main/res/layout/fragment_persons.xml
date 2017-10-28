@@ -3,15 +3,15 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+             android:layout_weight="4"
              android:layout_marginTop="?attr/actionBarSize"
              tools:context="com.apress.gerber.footballman.Fragments.PersonsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/team_players"
         android:layout_width="match_parent"
-        android:layout_height="400dp"/>
+        android:layout_height="450dp"/>
 
     <include layout="@layout/empty_layout"/>
 
@@ -22,9 +22,8 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/team_players"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="30dp"
         android:clickable="true"
         android:src="@drawable/forward"/>
 

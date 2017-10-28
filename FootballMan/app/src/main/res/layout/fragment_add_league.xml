@@ -1,24 +1,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-
-                android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize"
-                tools:context="com.apress.gerber.footballman.Fragments.AddLeagueFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:context="com.apress.gerber.footballman.Fragments.AddLeagueFragment">
 
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/league_name"
+        style="@style/paddings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="10dp"
-        >
+        android:layout_marginTop="10dp">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/league_name"/>
+            android:hint="@string/league_name" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -26,10 +25,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/league_name"
+        android:background="@color/colorPrimary"
+        android:textColor="#ffffffff"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="91dp"
-        android:text="@string/save"
-        />
+        android:layout_marginTop="50dp"
+        android:text="@string/save" />
 
 
 </RelativeLayout>

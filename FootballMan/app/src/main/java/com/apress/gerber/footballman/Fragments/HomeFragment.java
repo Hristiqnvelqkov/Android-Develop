@@ -2,10 +2,8 @@ package com.apress.gerber.footballman.Fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,9 +38,10 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
         MainActivity activity = (MainActivity) getActivity();
         if(item.getItemId()==android.R.id.home){
             if(!hide) {
-                DrawerLayout drawerLayout = activity.drawer;
-                drawerLayout.openDrawer(Gravity.LEFT);
+              //  DrawerLayout drawerLayout = activity.drawer;
+             //   drawerLayout.openDrawer(Gravity.LEFT);
             }else{
+                ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 hide = false;
                 startMach.setVisibility(View.VISIBLE);
                 setRecyclerView(hide);
@@ -67,12 +66,18 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_home, container, false);
         startMach = view.findViewById(R.id.floatingActionButton);
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("");
+        ((MainActivity)getActivity()).getSupportActionBar().setLogo(R.drawable.spl_cropped_logo);
+        if(!hide){
+            ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
         mManager.getLeagues(this);
         startMach.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 hide =true;
                 ((MainActivity) getActivity()).startGame(new Game());
+                ((MainActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 menu.removeItem(Menu.FIRST);
                 startMach.setVisibility(View.GONE);
                 setRecyclerView(hide);
@@ -122,5 +127,10 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     public void onLeaguesLoaded(List<League> leagues) {
         mLeagues = leagues;
         setRecyclerView(hide);
+    }
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        ((MainActivity) getActivity()).getSupportActionBar().setLogo(null);
     }
 }

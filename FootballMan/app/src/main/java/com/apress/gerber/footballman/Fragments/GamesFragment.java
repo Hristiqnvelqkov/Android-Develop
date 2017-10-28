@@ -25,6 +25,7 @@ public class GamesFragment extends BaseFragment implements GameAdapter.onGameCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_games, container, false);
+        ((MainActivity) getActivity()).getSupportActionBar().setLogo(R.drawable.spl_cropped_logo);
         mManager.getGames(this);
         return view;
     }
@@ -44,6 +45,9 @@ public class GamesFragment extends BaseFragment implements GameAdapter.onGameCli
             ExportData.getInstance().writeToFile("Game.csv",getActivity(),Constants.EXPORT_GAMES);
             status = true;
         }
+        if(item.getItemId() == android.R.id.home){
+            ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(false),true);
+        }
         return status;
     }
     @Override
@@ -53,5 +57,10 @@ public class GamesFragment extends BaseFragment implements GameAdapter.onGameCli
         GameAdapter adapter = new GameAdapter(games,this);
         recyclerGames.setAdapter(adapter);
         recyclerGames.setLayoutManager(manager);
+    }
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        ((MainActivity) getActivity()).getSupportActionBar().setLogo(null);
     }
 }

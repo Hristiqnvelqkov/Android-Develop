@@ -2,6 +2,7 @@ package com.apress.gerber.footballman;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -24,6 +25,7 @@ import java.util.List;
 public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGamesLoaded {
     private static ExportData data = new ExportData();
     private File file;
+    Activity activity;
     private CSVWriter csvWriter;
     private Game lastExportedGame;
     public void setLastExportedGame(Game game){
@@ -37,6 +39,7 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
     }
 
     public void writeToFile(String fileName, Activity activity, int exportType) {
+        this.activity = activity;
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + fileName);
             try {
@@ -130,6 +133,10 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
             data.add(new String[]{" "});
         }
             csvWriter.writeAll(data);
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        activity.startActivity(intent);
+
         try {
             csvWriter.close();
         } catch (IOException e) {

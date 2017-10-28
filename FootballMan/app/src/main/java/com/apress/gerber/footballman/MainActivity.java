@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
         setContentView(R.layout.activity_main);
         manager = getSupportFragmentManager();
         setUpNavigationDrawer();
-        setUpToolBar("FootballMan");
+        setUpToolBar("");
         Fragment homeFragment = new HomeFragment();
         commitFragment(homeFragment, false);
 
@@ -46,12 +46,13 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
     }
 
     public void setUpNavigationDrawer() {
-        drawer = (DrawerLayout) findViewById(R.id.activity_main);
-        ListView list = (ListView) findViewById(R.id.left_drawer);
+//        drawer = (DrawerLayout) findViewById(R.id.activity_main);
+//        ListView list = (ListView) findViewById(R.id.left_drawer);
     }
 
     public void visibleHome() {
         getSupportActionBar().setHomeButtonEnabled(true);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

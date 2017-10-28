@@ -1,25 +1,25 @@
 <resources>
-    <string name="app_name">FootballMan</string>
+    <string name="app_name">SPL</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="add">ADD</string>
+    <string name="add">Добави</string>
     <string name="empty">There is no leagues</string>
     <string name="save">Save</string>
-    <string name="no_teams">There are no added teams</string>
-    <string name="no_leagues">There are no added leagues</string>
-    <string name="no_players">There are no added players</string>
+    <string name="no_teams">Няма добавени отбори</string>
+    <string name="no_leagues">Няма добавени лиги</string>
+    <string name="no_players">Няма добавени играчи</string>
     <string name="next">Next</string>
-    <string name="games">Games</string>
+    <string name="games">Игри</string>
     <string name="end_first">Half-time</string>
     <string name="full_time">Full-time</string>
     <string name="start">Start</string>
-    <string name="league_name">League name</string>
-    <string name="team_name">Team name</string>
-    <string name="player_name">Player name</string>
-    <string name="player_number">Player number</string>
-    <string name="raw">Do you to delete this raw</string>
-    <string name="update_raw">Do you want to update raw</string>
+    <string name="league_name">Име на лига</string>
+    <string name="team_name">Име на отбор</string>
+    <string name="player_name">Име на играч</string>
+    <string name="player_number">Номер на играч</string>
+    <string name="raw">Сигурни ли сте, че искате да изтриете този елемент</string>
+    <string name="update_raw">Сигурни ли сте, че искате да изтриете този елемент</string>
     <string name="fouls">Fouls</string>
     <string name="red_cards">Red cards</string>
     <string name="yellow_cards">Yellow cards</string>
@@ -27,4 +27,6 @@
     <string name="export">Export data</string>
     <string name="export_games">Export Games</string>
     <string name="export_game">Export Game</string>
+    <string name="delete_player">Искате ли да изтриете този играч</string>
+    <string name="update_player">Искате ли да обновите този играч</string>
 </resources>

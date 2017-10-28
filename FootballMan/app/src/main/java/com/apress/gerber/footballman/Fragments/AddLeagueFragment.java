@@ -37,6 +37,9 @@ public class AddLeagueFragment extends BaseFragment  {
         save  = (Button) view.findViewById(R.id.save_league);
         final TextInputLayout legue_input =  view.findViewById(R.id.league_name);
         legue_input.requestFocus();
+        if(mLeague!=null){
+            legue_input.getEditText().setText(mLeague.getName());
+        }
         ((MainActivity) getActivity()).invisibleHome();
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
         save.setOnClickListener(new View.OnClickListener() {

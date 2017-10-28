@@ -1,14 +1,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginTop="?attr/actionBarSize"
-              android:orientation="vertical"
-              tools:context="com.apress.gerber.footballman.Fragments.StatisticsFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    android:orientation="vertical"
+    android:weightSum="2"
+    tools:context="com.apress.gerber.footballman.Fragments.StatisticsFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/factsRecyler"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/factsRecyler">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="0dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorPrimary" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/factsRecylerGuest"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
 </LinearLayout>

@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.ExportData;
 import com.apress.gerber.footballman.MainActivity;
+import com.apress.gerber.footballman.Models.Event;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.R;
 import com.apress.gerber.footballman.StatisticsAdapter;
 
 import java.util.Calendar;
+import java.util.LinkedList;
+import java.util.List;
 
 public class StatisticsFragment extends BaseFragment {
     private static final String GAME = "GAME";
@@ -46,14 +49,29 @@ public class StatisticsFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_statistics, container, false);
+        ((MainActivity) getActivity()).getSupportActionBar().setLogo(R.drawable.spl_cropped_logo);
         initializeViews();
         return view;
     }
     public void initializeViews(){
         RecyclerView recyclerView = view.findViewById(R.id.factsRecyler);
+        RecyclerView guestRecyclerView = view.findViewById(R.id.factsRecylerGuest);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        StatisticsAdapter adapter = new StatisticsAdapter(mGame.getEvents());
+        LinearLayoutManager manager1 = new LinearLayoutManager(getContext());
+        List<Event> hostEvents = new LinkedList<>();
+        List<Event> guestEvents = new LinkedList<>();
+        for(Event event : mGame.getEvents()){
+            if(event.getHost()){
+                hostEvents.add(event);
+            }else{
+                guestEvents.add(event);
+            }
+        }
+        StatisticsAdapter adapter = new StatisticsAdapter(hostEvents);
+        StatisticsAdapter guestAdapter = new StatisticsAdapter(guestEvents);
         recyclerView.setLayoutManager(manager);
+        guestRecyclerView.setLayoutManager(manager1);
+        guestRecyclerView.setAdapter(guestAdapter);
         recyclerView.setAdapter(adapter);
     }
 
@@ -76,5 +94,10 @@ public class StatisticsFragment extends BaseFragment {
             status = true;
         }
         return status;
+    }
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        ((MainActivity) getActivity()).getSupportActionBar().setLogo(null);
     }
 }

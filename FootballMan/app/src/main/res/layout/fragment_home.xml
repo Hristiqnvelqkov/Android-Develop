@@ -31,5 +31,5 @@
         android:layout_marginEnd="27dp"
         android:layout_marginRight="27dp"
         android:clickable="true"
-        android:src="@mipmap/ic_launcher_foreground"/>
+        android:src="@mipmap/ball_icon_round"/>
 </RelativeLayout>

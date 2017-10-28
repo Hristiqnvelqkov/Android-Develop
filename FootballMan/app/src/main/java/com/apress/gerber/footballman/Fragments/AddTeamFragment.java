@@ -38,6 +38,9 @@ public class AddTeamFragment extends BaseFragment {
         ((MainActivity) getActivity()).invisibleHome();
         final TextInputLayout team_name = view.findViewById(R.id.team_name);
         team_name.requestFocus();
+        if(team!=null){
+            team_name.getEditText().setText(team.getName());
+        }
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
         save.setOnClickListener(new View.OnClickListener() {
             @Override

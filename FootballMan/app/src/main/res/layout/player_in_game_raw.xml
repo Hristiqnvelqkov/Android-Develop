@@ -47,7 +47,7 @@
         <ImageView
             android:id="@+id/make_goal"
             style="@style/InGameImageView"
-            android:src="@mipmap/ic_launcher_foreground"/>
+            android:src="@mipmap/ball_icon_round"/>
 
         <TextView
             android:id="@+id/get_goals"

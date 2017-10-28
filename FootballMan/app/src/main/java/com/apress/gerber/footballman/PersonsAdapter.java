@@ -64,6 +64,7 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
                 @Override
                 public void onClick(View view) {
                     final AlertDialog dialog = new AlertDialog.Builder(holder.itemView.getContext()).create();
+                    dialog.setTitle(R.string.update_player);
                     dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(dialog));
                     dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Update", new DialogInterface.OnClickListener() {
                         @Override
@@ -76,9 +77,9 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
             });
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 final AlertDialog dialog = new AlertDialog.Builder(holder.itemView.getContext()).create();
-
                 @Override
                 public void onClick(View view) {
+                    dialog.setTitle(R.string.delete_player);
                     dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

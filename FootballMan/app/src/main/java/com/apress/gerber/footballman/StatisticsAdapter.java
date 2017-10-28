@@ -24,16 +24,12 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Ev
 
     public static class EventHolder extends RecyclerView.ViewHolder {
         TextView hostEvent;
-        TextView guestEvent;
         ImageView hostImageEvent;
-        ImageView guestImageEvent;
 
         public EventHolder(View itemView) {
             super(itemView);
             hostEvent = itemView.findViewById(R.id.host_view);
             hostImageEvent = itemView.findViewById(R.id.host_event);
-            guestImageEvent = itemView.findViewById(R.id.guest_event);
-            guestEvent = itemView.findViewById(R.id.guest_view);
         }
     }
 
@@ -45,25 +41,23 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Ev
 
     public void setImageView(ImageView image, int type) {
         if (type == Constants.GOAL_EVENT) {
-            image.setImageResource(R.mipmap.ic_launcher_foreground);
+            image.setImageResource(R.mipmap.ball_icon_round);
         } else if (type == Constants.FOUL_EVENT) {
             image.setImageResource(R.mipmap.faul);
         } else if (type == Constants.YELLOW_EVENT) {
             image.setImageResource(R.mipmap.yellow);
         } else if (type == Constants.RED_EVENT) {
             image.setImageResource(R.mipmap.red);
+        } else if (type == Constants.ASSIST){
+            image.setImageResource(R.mipmap.assist);
         }
     }
 
     @Override
     public void onBindViewHolder(EventHolder holder, int position) {
-        if (mEventList.get(position).getHost()) {
-            holder.hostEvent.setText(String.valueOf(mEventList.get(position).getTime() + " " + mEventList.get(position).getPlayer().getName()));
-            setImageView(holder.hostImageEvent, mEventList.get(position).getType());
-        } else {
-            holder.guestEvent.setText(String.valueOf(mEventList.get(position).getTime() + " " + mEventList.get(position).getPlayer().getName()));
-            setImageView(holder.guestImageEvent, mEventList.get(position).getType());
-        }
+        holder.hostEvent.setText(String.valueOf(mEventList.get(position).getTime() + " " + mEventList.get(position).getPlayer().getName()));
+        setImageView(holder.hostImageEvent, mEventList.get(position).getType());
+
     }
 
     @Override
