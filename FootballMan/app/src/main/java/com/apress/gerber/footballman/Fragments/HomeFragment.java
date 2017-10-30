@@ -54,9 +54,9 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
             ((MainActivity) getActivity()).commitFragment(AddLeagueFragment.newInstance(null), true);
 
         }
-        if(item.getItemId() == Constants.EXPORT_LEAGUES){
-            exportToDataBase("testaaa.txt",Constants.EXPORT_LEAGUES);
-        }
+//        if(item.getItemId() == Constants.EXPORT_LEAGUES){
+//            exportToDataBase("testaaa.txt",Constants.EXPORT_LEAGUES);
+//        }
         if(item.getItemId() == Constants.ALL_GAMES){
             ((MainActivity) getActivity()).commitFragment(new GamesFragment(),true);
         }
@@ -132,5 +132,14 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     public void onDestroyView(){
         super.onDestroyView();
         ((MainActivity) getActivity()).getSupportActionBar().setLogo(null);
+    }
+    @Override
+    public boolean onBackPressed(){
+        if(hide){
+            ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            hide = false;
+            return true;
+        }else
+            return  false;
     }
 }

@@ -24,9 +24,10 @@ public class AddPersonFragment extends BaseFragment {
     Player mPlayer;
     TextInputLayout player_name;
 
-    public static AddPersonFragment newInstance(Team team, Player player) {
+    public static AddPersonFragment newInstance(Team team, Player player,boolean hide) {
         AddPersonFragment fragment = new AddPersonFragment();
         Bundle args = new Bundle();
+        args.putBoolean("hide",hide);
         args.putSerializable("team", team);
         if (player != null) {
             args.putSerializable("player", player);
@@ -72,7 +73,11 @@ public class AddPersonFragment extends BaseFragment {
                         }
                         ((MainActivity) getActivity()).visibleHome();
                         imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
-                        ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, false), true);
+                        if(hide) {
+                            ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, true), true);
+                        }else{
+                            ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, false), true);
+                        }
                     }
                 }
             }
@@ -85,5 +90,6 @@ public class AddPersonFragment extends BaseFragment {
         super.onCreate(savedInstaceState);
         mTeam = (Team) getArguments().getSerializable("team");
         mPlayer = (Player) getArguments().getSerializable("player");
+        hide = getArguments().getBoolean("hide");
     }
 }

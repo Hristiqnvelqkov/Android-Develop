@@ -5,6 +5,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,7 +68,14 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         ((MainActivity) getActivity()).setUpToolBar(team.getName());
         return view;
     }
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.add(0, Constants.MENU_ADD, Menu.NONE, R.string.add);
+        menu.getItem(Constants.MENU_ADD).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if(hide) {
+            menu.add(0, Constants.MENU_NEXT, Menu.NONE, R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
+    }
     @Override
     public void addPlayerToGame(Player player) {
         if(game!=null) {
@@ -108,7 +117,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
             status=true;
         }
         if(item.getItemId() == Constants.MENU_ADD) {
-            ((MainActivity) getActivity()).commitFragment(AddPersonFragment.newInstance(team,null), true);
+            ((MainActivity) getActivity()).commitFragment(AddPersonFragment.newInstance(team,null,hide), true);
             status = true;
         }
         if(item.getItemId() ==Constants.MENU_NEXT ){
@@ -133,7 +142,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     }
     @Override
     public void updatePlayer(Player player) {
-        ((MainActivity) getActivity()).commitFragment(AddPersonFragment.newInstance(team,player),true);
+        ((MainActivity) getActivity()).commitFragment(AddPersonFragment.newInstance(team,player,hide),true);
     }
     @Override
     public void removePlayerFromGame(Player player){
@@ -151,9 +160,12 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
 
     }
 
-
     @Override
     public void onPlayersLoaded(List<Player> players) {
+        if(game.getHost() == team) {
+            game.getHostPlayers().clear();
+        }
+        game.getGuestTeamPlayers().clear();
         mPlayers = players;
         setRecyclerView();
         setLayout(view,mPlayers.size(),R.string.no_players);

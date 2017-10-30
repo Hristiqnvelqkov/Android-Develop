@@ -63,7 +63,7 @@ public class BaseFragment extends Fragment {
             }
             if (this instanceof HomeFragment) {
                 menu.add(0, Constants.ALL_GAMES, Menu.NONE, R.string.games).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                menu.add(0, Constants.EXPORT_LEAGUES, Menu.NONE, R.string.export);
+                //menu.add(0, Constants.EXPORT_LEAGUES, Menu.NONE, R.string.export);
             } else
                 menu.removeItem(Constants.ALL_GAMES);
         }

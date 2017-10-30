@@ -13,6 +13,7 @@ import android.widget.ListView;
 import com.apress.gerber.footballman.Fragments.BaseFragment;
 import com.apress.gerber.footballman.Fragments.HomeFragment;
 import com.apress.gerber.footballman.Fragments.StartMatchFragment;
+import com.apress.gerber.footballman.Fragments.StatisticsFragment;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
 import com.google.firebase.database.FirebaseDatabase;
@@ -25,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+      //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         manager = getSupportFragmentManager();
@@ -89,6 +90,10 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
     @Override
     public void onBackPressed() {
         Fragment fragment = manager.findFragmentById(R.id.fragment);
+        if(fragment instanceof StatisticsFragment){
+            ((StatisticsFragment) fragment).backPressed();
+            return;
+        }
         if (fragment instanceof StartMatchFragment) {
             GoToHomeDialog dialog = new GoToHomeDialog(this,(StartMatchFragment) fragment);
 

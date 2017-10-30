@@ -36,6 +36,7 @@ public class AddLeagueFragment extends BaseFragment  {
         view = inflater.inflate(R.layout.fragment_add_league, container, false);
         save  = (Button) view.findViewById(R.id.save_league);
         final TextInputLayout legue_input =  view.findViewById(R.id.league_name);
+        ((MainActivity)getActivity()).getSupportActionBar().setLogo(R.drawable.spl_cropped_logo);
         legue_input.requestFocus();
         if(mLeague!=null){
             legue_input.getEditText().setText(mLeague.getName());
@@ -64,5 +65,10 @@ public class AddLeagueFragment extends BaseFragment  {
         if (getArguments() != null) {
             mLeague = (League) getArguments().getSerializable("update");
         }
+    }
+    @Override
+    public void onDestroyView(){
+        super.onDestroyView();
+        ((MainActivity) getActivity()).getSupportActionBar().setLogo(null);
     }
 }
