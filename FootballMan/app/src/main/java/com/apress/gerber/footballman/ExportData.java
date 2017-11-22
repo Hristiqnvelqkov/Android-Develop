@@ -28,9 +28,11 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
     Activity activity;
     private CSVWriter csvWriter;
     private Game lastExportedGame;
-    public void setLastExportedGame(Game game){
+
+    public void setLastExportedGame(Game game) {
         lastExportedGame = game;
     }
+
     private ExportData() {
     }
 
@@ -55,7 +57,7 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
                     DataManager.getDataInstance().getLeagues(this);
                 } else if (exportType == Constants.EXPORT_GAMES) {
                     DataManager.getDataInstance().getGames(this);
-                }else if(exportType == Constants.EXPORT_GAME){
+                } else if (exportType == Constants.EXPORT_GAME) {
                     List<Game> games = new LinkedList<>();
                     games.add(lastExportedGame);
                     onGamesLoaded(games);
@@ -99,40 +101,40 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
     @Override
     public void onGamesLoaded(List<Game> games) {
         List<String[]> data = new LinkedList<>();
-        data.add(new String[]{"DATE","TIME","VENUE","TEAMS","RESULTS","OUTCOME", "PLAYERS", "GOALS", "ASSIST", "YELLOW CARDS", "RED CARDS","FOULS"});
-        for (Game game : games){
-            int counter =0;
-            for(Player player : game.getHostPlayers()){
+        data.add(new String[]{"DATE", "TIME", "VENUE", "TEAMS", "RESULTS", "OUTCOME", "PLAYERS", "GOALS", "ASSIST", "YELLOW CARDS", "RED CARDS", "FOULS"});
+        for (Game game : games) {
+            int counter = 0;
+            for (Player player : game.getHostPlayers()) {
                 System.out.println(game.getGoals(player));
                 if (counter == 0) {
-                    data.add(new String[]{"",game.getStartTime(),game.getVenue(),game.getHost().getName(),game.getTeamFirstHalfGoals(game.getHostPlayers())+"|"
-                            +game.getTeamSecondHalfGoals(game.getHostPlayers())+"|"+game.getHostResult()
-                            ,game.outCome(game.getHost()),game.getHostPlayers().get(counter).getName(),game.getGoals(player)+""
-                            ,game.getAssist(player)+"",game.getYellowCards(player)+"",game.getRedCards(player)+"",game.getFauls(player)+""});
-                }else {
-                    data.add(new String[]{"","","","",""
+                    data.add(new String[]{game.getMatchDate(), game.getStartTime(), game.getVenue(), game.getHost().getName(), game.getTeamFirstHalfGoals(game.getHostPlayers()) + "|"
+                            + game.getTeamSecondHalfGoals(game.getHostPlayers()) + "|" + game.getHostResult()
+                            , game.outCome(game.getHost()), game.getHostPlayers().get(counter).getName(), game.getGoals(player) + ""
+                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""});
+                } else {
+                    data.add(new String[]{"", "", "", "", ""
                             , "", game.getHostPlayers().get(counter).getName(), game.getGoals(player) + ""
-                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "",game.getFauls(player)+""});
+                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""});
                 }
                 counter++;
             }
-            int counter1 =0;
-            for(Player player : game.getGuestTeamPlayers()){
+            int counter1 = 0;
+            for (Player player : game.getGuestTeamPlayers()) {
                 System.out.println(game.getGoals(player));
-                if(counter1 ==0 ) {
-                    data.add(new String[]{"","","",game.getGuest().getName(), game.getTeamFirstHalfGoals(game.getGuestTeamPlayers()) + "|"
+                if (counter1 == 0) {
+                    data.add(new String[]{"", "", "", game.getGuest().getName(), game.getTeamFirstHalfGoals(game.getGuestTeamPlayers()) + "|"
                             + game.getTeamSecondHalfGoals(game.getGuestPlayersInGame()) + "|" + game.getGuestResult()
                             , game.outCome(game.getGuest()), game.getGuestTeamPlayers().get(counter1).getName(), game.getGoals(player) + ""
-                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "",game.getFauls(player)+""});
-                }else{
-                    data.add(new String[]{"","", "","","","", game.getGuestTeamPlayers().get(counter1).getName(), game.getGoals(player) + ""
-                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "",game.getFauls(player)+""});
+                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""});
+                } else {
+                    data.add(new String[]{"", "", "", "", "", "", game.getGuestTeamPlayers().get(counter1).getName(), game.getGoals(player) + ""
+                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""});
                 }
                 counter1++;
             }
             data.add(new String[]{" "});
         }
-            csvWriter.writeAll(data);
+        csvWriter.writeAll(data);
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         activity.startActivity(intent);

@@ -148,6 +148,9 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
                     mEditor.putString("venue",mGame.getVenue());
                     mEditor.commit();
                     Calendar calendar = Calendar.getInstance();
+                    String mounth = String.valueOf(calendar.get(Calendar.MONTH));
+                    String day = String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
+                    String year = String.valueOf(calendar.get(Calendar.YEAR));
                     String hour = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
                     String minutes = String.valueOf(calendar.get(Calendar.MINUTE));
                     if(Integer.parseInt(hour)< 10){
@@ -157,6 +160,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
                         hour = "0" +minutes;
                     }
                     mGame.setStartTime(hour+":"+minutes+":00");
+                    mGame.setMatchDate(year+"/"+mounth+"/"+day);
                     mManager.addGame(mGame);
                 }
             });

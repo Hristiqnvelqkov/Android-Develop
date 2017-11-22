@@ -21,6 +21,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     private Team host, guest;
     private String venue;
     private String startTime;
+    private String matchDate;
     private List<Player> tempPlayers = new LinkedList<>();
     public boolean hostReady, guestReady;
     private List<GameStat> gameStat = new LinkedList<>();
@@ -45,7 +46,12 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     public String getVenue() {
         return venue;
     }
-
+    public void setMatchDate(String date){
+        matchDate = date;
+    }
+    public String getMatchDate(){
+        return matchDate;
+    }
     public void enterInGame(Player player) {
 
         if (hostTeamPlayers.contains(player)) {
@@ -101,7 +107,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     public String outCome(Team team) {
         String outcome = "";
         if(hostResult == guestResult){
-            return "X";
+            return "Draw";
         }
         if (team.equals(host)) {
             if (hostResult > guestResult) {
