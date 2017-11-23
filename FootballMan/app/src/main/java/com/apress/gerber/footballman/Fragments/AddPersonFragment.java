@@ -1,5 +1,6 @@
 package com.apress.gerber.footballman.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.view.LayoutInflater;
@@ -8,8 +9,10 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
+import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.DataManager;
+import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.Player;
 import com.apress.gerber.footballman.Models.Team;
 import com.apress.gerber.footballman.R;
@@ -23,6 +26,8 @@ public class AddPersonFragment extends BaseFragment {
     View fragment_view;
     Player mPlayer;
     TextInputLayout player_name;
+    Game game = null;
+    boolean host = false;
 
     public static AddPersonFragment newInstance(Team team, Player player,boolean hide) {
         AddPersonFragment fragment = new AddPersonFragment();
@@ -32,6 +37,16 @@ public class AddPersonFragment extends BaseFragment {
         if (player != null) {
             args.putSerializable("player", player);
         }
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static AddPersonFragment newInstanceForGame(Game game, boolean host,Team team) {
+        AddPersonFragment fragment = new AddPersonFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("GAME", game);
+        args.putSerializable("team",team);
+        args.putBoolean("IFHOST",host);
         fragment.setArguments(args);
         return fragment;
     }
@@ -46,7 +61,7 @@ public class AddPersonFragment extends BaseFragment {
         ((MainActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
         player_name.requestFocus();
         final TextInputLayout player_number = fragment_view.findViewById(R.id.player_number);
-        if(mPlayer!=null) {
+        if (mPlayer != null) {
             player_name.getEditText().setText(mPlayer.getName());
             player_number.getEditText().setText(String.valueOf(mPlayer.getNumber()));
         }
@@ -66,14 +81,25 @@ public class AddPersonFragment extends BaseFragment {
                         player_number.setErrorEnabled(true);
                         player_number.setError("Трябва да въведете номер на играча");
                     } else {
-                        if (mPlayer == null) {
-                            mManager.addPlayer(mTeam, (player_name.getEditText().getText().toString()), Integer.parseInt(player_number.getEditText().getText().toString()));
+                        if (game == null) {
+                            if (mPlayer == null) {
+                                mManager.addPlayer(mTeam, (player_name.getEditText().getText().toString()), Integer.parseInt(player_number.getEditText().getText().toString()));
+                            } else {
+                                mManager.updatePlayer(mPlayer, (player_name.getEditText().getText().toString()), (Integer.parseInt(player_number.getEditText().getText().toString())));
+                            }
                         } else {
-                            mManager.updatePlayer(mPlayer, (player_name.getEditText().getText().toString()), (Integer.parseInt(player_number.getEditText().getText().toString())));
+                            Player player = new Player();
+                            player.setName(name);
+                            player.setNumber(Integer.parseInt(num));
+                            if (host) {
+                                game.addHostPlayer(player);
+                            } else {
+                                game.addGuestPlayer(player);
+                            }
                         }
                         ((MainActivity) getActivity()).visibleHome();
                         imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
-                        if(hide) {
+                        if(game != null) {
                             ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, true), true);
                         }else{
                             ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, false), true);
@@ -91,5 +117,7 @@ public class AddPersonFragment extends BaseFragment {
         mTeam = (Team) getArguments().getSerializable("team");
         mPlayer = (Player) getArguments().getSerializable("player");
         hide = getArguments().getBoolean("hide");
+        game = (Game) getArguments().getSerializable("GAME");
+        host = getArguments().getBoolean("IFHOST");
     }
 }

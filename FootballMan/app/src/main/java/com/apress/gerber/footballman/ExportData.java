@@ -45,7 +45,8 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
             file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + fileName);
             try {
-                csvWriter = new CSVWriter(new FileWriter(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + fileName));
+                csvWriter = new CSVWriter(new FileWriter(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/" + fileName),
+                        CSVWriter.DEFAULT_SEPARATOR, CSVWriter.NO_QUOTE_CHARACTER);
             } catch (IOException e) {
                 e.printStackTrace();
             }
