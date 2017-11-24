@@ -78,6 +78,7 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
 
     @Override
     public void deleteTeam(final Team team) {
+        mTeams.remove(team);
         mManager.removeTeam(team);
         setLayout(view, mTeams.size(), R.string.no_teams);
     }

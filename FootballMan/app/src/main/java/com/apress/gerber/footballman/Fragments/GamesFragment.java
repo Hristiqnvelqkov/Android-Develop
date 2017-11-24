@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.ExportData;
@@ -21,10 +22,13 @@ import java.util.List;
 
 public class GamesFragment extends BaseFragment implements GameAdapter.onGameClicked,DataManager.onGamesLoaded{
     View view;
+    ProgressBar progressBar;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_games, container, false);
+        progressBar = view.findViewById(R.id.loadingBar);
+        progressBar.setVisibility(View.VISIBLE);
         ((MainActivity) getActivity()).getSupportActionBar().setLogo(R.drawable.spl_cropped_logo);
         mManager.getGames(this);
         return view;
@@ -52,6 +56,7 @@ public class GamesFragment extends BaseFragment implements GameAdapter.onGameCli
     }
     @Override
     public void onGamesLoaded(List<Game> games){
+        progressBar.setVisibility(View.GONE);
         RecyclerView recyclerGames =  view.findViewById(R.id.all_games);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         GameAdapter adapter = new GameAdapter(games,this);

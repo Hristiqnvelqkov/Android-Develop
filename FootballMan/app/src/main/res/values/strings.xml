@@ -11,8 +11,8 @@
     <string name="no_players">Няма добавени играчи</string>
     <string name="next">Next</string>
     <string name="games">Игри</string>
-    <string name="end_first">Half-time</string>
-    <string name="full_time">Full-time</string>
+    <string name="end_first">HT</string>
+    <string name="full_time">FT</string>
     <string name="start">Start</string>
     <string name="league_name">Име на лига</string>
     <string name="team_name">Име на отбор</string>

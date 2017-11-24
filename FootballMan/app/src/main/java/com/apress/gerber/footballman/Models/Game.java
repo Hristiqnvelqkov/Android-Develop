@@ -18,6 +18,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     private String id = UUID.randomUUID().toString();
     private int hostResult = 0;
     private int guestResult = 0;
+    public static int EVENT_FROM_FIRST_MINUTE = 60;
     private Team host, guest;
     private String venue;
     private String startTime;
@@ -279,7 +280,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     public void addGoal(Player player, int time, int half) {
         if (findByKeyAndType(player, Constants.GOAL) != null) {
             findByKeyAndType(player, Constants.GOAL).updateValue();
-            Event event = new Event(time, Constants.GOAL_EVENT, player, half);
+            Event event = new Event(time+EVENT_FROM_FIRST_MINUTE, Constants.GOAL_EVENT, player, half);
             event.setHost(checkPlayerHost(player));
             events.add(event);
         }
@@ -288,7 +289,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     public void addFaul(Player player, int time, int half) {
         if (findByKeyAndType(player, Constants.FOUL) != null) {
             findByKeyAndType(player, Constants.FOUL).updateValue();
-            Event event = new Event(time, Constants.FOUL_EVENT, player, half);
+            Event event = new Event(time+EVENT_FROM_FIRST_MINUTE, Constants.FOUL_EVENT, player, half);
             event.setHost(checkPlayerHost(player));
             events.add(event);
         }
@@ -297,7 +298,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
     public void addAssist(Player player,int time,int half) {
         if (findByKeyAndType(player, Constants.ASSIST) != null) {
             findByKeyAndType(player, Constants.ASSIST).updateValue();
-            Event event = new Event(time, Constants.ASSIST, player, half);
+            Event event = new Event(time+EVENT_FROM_FIRST_MINUTE, Constants.ASSIST, player, half);
             event.setHost(checkPlayerHost(player));
             events.add(event);
         }
@@ -310,7 +311,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
             } else {
                 if (findByKeyAndType(player, Constants.YELLOW_CARD) != null) {
                     findByKeyAndType(player, Constants.YELLOW_CARD).updateValue();
-                    Event event = new Event(time, Constants.YELLOW_EVENT, player, half);
+                    Event event = new Event(time+EVENT_FROM_FIRST_MINUTE, Constants.YELLOW_EVENT, player, half);
                     event.setHost(checkPlayerHost(player));
                     events.add(event);
                 }
@@ -322,7 +323,7 @@ public class Game implements Serializable, DataManager.OnPlayersLoaded {
         if (findByKeyAndType(player, Constants.RED_CARD).getValue() == 0) {
             if (findByKeyAndType(player, Constants.RED_CARD) != null) {
                 findByKeyAndType(player, Constants.RED_CARD).updateValue();
-                Event event = new Event(time, Constants.RED_EVENT, player, half);
+                Event event = new Event(time+EVENT_FROM_FIRST_MINUTE, Constants.RED_EVENT, player, half);
                 event.setHost(checkPlayerHost(player));
                 events.add(event);
             }

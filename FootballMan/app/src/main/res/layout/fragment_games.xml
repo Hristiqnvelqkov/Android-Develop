@@ -1,13 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="?attr/actionBarSize"
-                tools:context="com.apress.gerber.footballman.Fragments.GamesFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:context="com.apress.gerber.footballman.Fragments.GamesFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/all_games"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_above="@id/loadingBar"
+        android:layout_height="match_parent" />
+
+    <ProgressBar
+        android:id="@+id/loadingBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_marginTop="15dp"
+         />
 
 </RelativeLayout>
