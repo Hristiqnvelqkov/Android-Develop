@@ -50,12 +50,16 @@ public class StatisticsAdapter extends RecyclerView.Adapter<StatisticsAdapter.Ev
             image.setImageResource(R.mipmap.red);
         } else if (type == Constants.ASSIST){
             image.setImageResource(R.mipmap.assist);
+        } else if( type == Constants.PENALTY){
+            image.setImageResource(R.mipmap.duzpa);
+        } else if( type == Constants.AUTO_GOAL){
+            image.setImageResource(R.mipmap.autogoal);
         }
     }
 
     @Override
     public void onBindViewHolder(EventHolder holder, int position) {
-        holder.hostEvent.setText(String.valueOf(mEventList.get(position).getTime() + " " + mEventList.get(position).getPlayer().getName()));
+        holder.hostEvent.setText(String.valueOf(mEventList.get(position).getTime() +1 + " " + mEventList.get(position).getPlayer().getName()));
         setImageView(holder.hostImageEvent, mEventList.get(position).getType());
 
     }

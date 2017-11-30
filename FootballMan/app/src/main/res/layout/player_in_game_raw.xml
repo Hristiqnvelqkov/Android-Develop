@@ -21,8 +21,8 @@
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/game_stat"
-            android:layout_width="20dp"
-            android:layout_height="20dp"/>
+            android:layout_width="1dp"
+            android:layout_height="1dp"/>
 
         <ImageView
             android:id="@+id/make_red_card"
@@ -74,5 +74,14 @@
             android:id="@+id/get_assist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/make_penalty"
+            android:src="@mipmap/duzpa"
+            style="@style/InGameImageView"/>
+        <TextView
+            android:id="@+id/get_penalties"
+            android:layout_width="wrap_content"
+            android:text="0"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

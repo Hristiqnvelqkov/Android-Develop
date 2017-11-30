@@ -323,6 +323,16 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
     }
 
+    @Override
+    public void addPenalty(Player player) {
+        mGame.addPenalty(player,task.getSeconds(),halftime);
+    }
+
+    @Override
+    public void autoGoal(Player player) {
+        mGame.addAutoGoal(player,task.getSeconds(),halftime);
+    }
+
     class MyTask extends TimerTask {
         int seconds = 0;
 

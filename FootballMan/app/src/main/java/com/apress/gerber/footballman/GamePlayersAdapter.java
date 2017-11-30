@@ -38,7 +38,7 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     }
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView redCards, yellowCards, goals, assists, fauls;
+        TextView redCards, yellowCards, goals, assists, fauls,penalties;
         TextView playerName;
         ImageView redCard;
         ImageView yellowCard;
@@ -46,13 +46,15 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         ImageView assist;
         ImageView goal;
         ImageView gameStat;
-
+        ImageView penalty;
         public CustomViewHolder(View itemView) {
             super(itemView);
             playerName = itemView.findViewById(R.id.player_name);
             redCard = itemView.findViewById(R.id.make_red_card);
             redCards = itemView.findViewById(R.id.get_red_cards);
             yellowCard = itemView.findViewById(R.id.make_yellow_card);
+            penalty = itemView.findViewById(R.id.make_penalty);
+            penalties = itemView.findViewById(R.id.get_penalties);
             yellowCards = itemView.findViewById(R.id.get_yellow_cards);
             faul = itemView.findViewById(R.id.make_faul);
             fauls = itemView.findViewById(R.id.get_fauls);
@@ -106,6 +108,32 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
                 }
             }
         });
+        holder.penalty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (game.getRedCards(mPlayers.get(position)) == 0) {
+                    if (listner.checkMatchStarted()) {
+                        //            if (game.checkPlayerInGame(mPlayers.get(position))) {
+                        listner.addPenalty(mPlayers.get(position));
+                        holder.penalties.setText(String.valueOf(game.getPenalties(mPlayers.get(position))));
+                        //          }
+                    }
+                }
+            }
+        });
+        holder.goal.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (game.getRedCards(mPlayers.get(position)) == 0) {
+                    if (listner.checkMatchStarted()) {
+                        //            if (game.checkPlayerInGame(mPlayers.get(position))) {
+                        listner.autoGoal(mPlayers.get(position));
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 //        holder.gameStat.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -126,6 +154,7 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
 //                }
 //            }
 //        });
+
         holder.yellowCard.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceAsColor")
             @Override
@@ -204,6 +233,10 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         void addAssist(Player player);
 
         void addFaul(Player player);
+
+        void addPenalty(Player player);
+
+        void autoGoal(Player player);
     }
 }
 

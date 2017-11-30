@@ -10,8 +10,8 @@
     </style>
 
     <style name="InGameImageView">
-        <item name="android:layout_width">27dp</item>
-        <item name="android:layout_marginLeft">27dp</item>
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_marginLeft">25dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
@@ -29,7 +29,7 @@
 
     <style name="InGameImageViewLandTablet">
         <item name="android:layout_width">40dp</item>
-        <item name="android:layout_marginLeft">35dp</item>
+        <item name="android:layout_marginLeft">30dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 
