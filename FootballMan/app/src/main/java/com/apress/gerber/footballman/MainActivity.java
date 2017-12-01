@@ -1,6 +1,7 @@
 package com.apress.gerber.footballman;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-      //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         manager = getSupportFragmentManager();
@@ -61,11 +62,13 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        ExportData.getInstance().onRequestPermissionsResult(requestCode,permissions,grantResults);
+        ExportData.getInstance().onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
     public void setUpToolBar(String title) {
         Toolbar bar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(bar);
@@ -90,23 +93,29 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
     @Override
     public void onBackPressed() {
         Fragment fragment = manager.findFragmentById(R.id.fragment);
-        if(fragment instanceof StatisticsFragment){
+        if (fragment instanceof StatisticsFragment) {
             ((StatisticsFragment) fragment).backPressed();
             return;
         }
         if (fragment instanceof StartMatchFragment) {
-            GoToHomeDialog dialog = new GoToHomeDialog(this,(StartMatchFragment) fragment);
+            GoToHomeDialog dialog = new GoToHomeDialog(this, (StartMatchFragment) fragment);
 
-        } else{
-                if (fragment instanceof HomeFragment) {
-                    if (((HomeFragment) fragment).onBackPressed()) {
-                        ((HomeFragment) fragment).setRecyclerView(false);
-                    } else {
-                        super.onBackPressed();
-                    }
+        } else {
+            if (fragment instanceof HomeFragment) {
+                if (((HomeFragment) fragment).onBackPressed()) {
+                    ((HomeFragment) fragment).setRecyclerView(false);
                 } else {
                     super.onBackPressed();
                 }
+            } else {
+                super.onBackPressed();
             }
         }
     }
+    public void restartActivity() { //simulates clear backstack
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
+    }
+}

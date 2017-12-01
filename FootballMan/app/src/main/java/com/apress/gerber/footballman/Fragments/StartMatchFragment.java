@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apress.gerber.footballman.Constants;
 import com.apress.gerber.footballman.GamePlayersAdapter;
@@ -331,6 +332,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     @Override
     public void autoGoal(Player player) {
         mGame.addAutoGoal(player,task.getSeconds(),halftime);
+        Toast.makeText(getContext(),getString(R.string.autogoal),Toast.LENGTH_SHORT).show();
     }
 
     class MyTask extends TimerTask {

@@ -29,4 +29,5 @@
     <string name="export_game">Export Game</string>
     <string name="delete_player">Искате ли да изтриете този играч</string>
     <string name="update_player">Искате ли да обновите този играч</string>
+    <string name="autogoal">Autogoal added</string>
 </resources>
