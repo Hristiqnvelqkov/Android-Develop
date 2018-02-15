@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Меню</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="administator">Администратор</string>
+    <string name="user">Потребител</string>
+    <string name="add">Добави</string>
+    <string name="add_food">Добави храна</string>
+    <string name="add_menu">Добави меню</string>
+    <string name="close">Затвори</string>
+    <string name="setActive">Активирай</string>
+    <string name="copy">Копирай</string>
+    <string name="no_active_menu">Няма активно меню</string>
+    <string name="yes">Да</string>
+    <string name="cancel">Затвори</string>
+    <string name="do_you_want_to_updateFood">Искате ли да промените храната</string>
+    <string name="do_you_want_to_delete_food">Искате ли да изтриете храната</string>
+    <string name="do_you_want_to_delete_menu">Искате ли да изтриете менюто</string>
+    <string name="wrong_password">Wrong password</string>
+    <string name="enter_password">Въведи парола</string>
+    <string name="login">Влезте</string>
+    <string name="update">Промени</string>
+    <string name="ok">Ок</string>
+</resources>

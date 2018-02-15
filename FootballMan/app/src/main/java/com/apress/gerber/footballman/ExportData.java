@@ -4,9 +4,11 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 
 import com.apress.gerber.footballman.Models.DataManager;
 import com.apress.gerber.footballman.Models.Game;
@@ -19,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -102,7 +105,8 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
     @Override
     public void onGamesLoaded(List<Game> games) {
         List<String[]> data = new LinkedList<>();
-        data.add(new String[]{"DATE", "TIME", "VENUE", "TEAMS", "RESULTS", "OUTCOME", "PLAYERS", "GOALS", "ASSIST", "YELLOW CARDS", "RED CARDS", "FOULS"});
+        data.add(new String[]{"DATE", "TIME", "VENUE", "TEAMS", "RESULTS", "OUTCOME",
+                "PLAYERS", "GOALS", "ASSIST", "YELLOW CARDS", "RED CARDS", "FOULS","AUTOGOAL","PENALTY"});
         for (Game game : games) {
             int counter = 0;
             for (Player player : game.getHostPlayers()) {
@@ -111,11 +115,13 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
                     data.add(new String[]{game.getMatchDate(), game.getStartTime(), game.getVenue(), game.getHost().getName(), game.getTeamFirstHalfGoals(game.getHostPlayers()) + "|"
                             + game.getTeamSecondHalfGoals(game.getHostPlayers()) + "|" + game.getHostResult()
                             , game.outCome(game.getHost()), game.getHostPlayers().get(counter).getName(), game.getGoals(player) + ""
-                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""});
+                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player)
+                            + "", game.getFauls(player) + "" ,"" + game.getAutoGoals(player) ,""+ game.getPenalties(player)});
                 } else {
                     data.add(new String[]{"", "", "", "", ""
                             , "", game.getHostPlayers().get(counter).getName(), game.getGoals(player) + ""
-                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""});
+                            , game.getAssist(player) + "", game.getYellowCards(player) + "",
+                            game.getRedCards(player) + "", game.getFauls(player) + "","" + game.getAutoGoals(player) ,""+ game.getPenalties(player)});
                 }
                 counter++;
             }
@@ -126,24 +132,33 @@ public class ExportData implements DataManager.OnLeagesLoaded, DataManager.onGam
                     data.add(new String[]{"", "", "", game.getGuest().getName(), game.getTeamFirstHalfGoals(game.getGuestTeamPlayers()) + "|"
                             + game.getTeamSecondHalfGoals(game.getGuestPlayersInGame()) + "|" + game.getGuestResult()
                             , game.outCome(game.getGuest()), game.getGuestTeamPlayers().get(counter1).getName(), game.getGoals(player) + ""
-                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""});
+                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""
+                            ,""+ game.getAutoGoals(player) ,""+ game.getPenalties(player)});
                 } else {
                     data.add(new String[]{"", "", "", "", "", "", game.getGuestTeamPlayers().get(counter1).getName(), game.getGoals(player) + ""
-                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""});
+                            , game.getAssist(player) + "", game.getYellowCards(player) + "", game.getRedCards(player) + "", game.getFauls(player) + ""
+                            ,""+ game.getAutoGoals(player) ,""+ game.getPenalties(player)});
                 }
                 counter1++;
             }
             data.add(new String[]{" "});
         }
         csvWriter.writeAll(data);
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_SEND);
-        activity.startActivity(intent);
 
         try {
+            csvWriter.flush();
             csvWriter.close();
+            shareIntent();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    private void shareIntent(){
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        sharingIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Uri contentUri = FileProvider.getUriForFile(activity, "com.apress.gerber.footballman", file);
+        sharingIntent.setType("text/plain");
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, contentUri);
+        activity.startActivity(Intent.createChooser(sharingIntent, "Share image using"));
     }
 }

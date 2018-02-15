@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="@dimen/default_padding"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/menu_name"
+        android:layout_width="match_parent"
+        android:layout_alignParentLeft="true"
+        android:textSize="@dimen/text_size"
+        android:layout_toLeftOf="@+id/date_and_active_layout"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentStart="true"
+        android:padding="@dimen/default_padding"
+        android:background="@drawable/button_selector"
+        android:layout_height="@dimen/button_height"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/date_and_active_layout"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+    <TextView
+        android:id="@+id/menu_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:maxLines="1"
+        />
+
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:id="@+id/isActiveMenu"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/check"
+        android:visibility="invisible"
+     />
+    </LinearLayout>
+</RelativeLayout>
