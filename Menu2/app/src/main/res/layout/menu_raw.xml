@@ -29,7 +29,7 @@
         android:id="@+id/menu_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:textSize="@dimen/date_text_size"
         android:maxLines="1"
         />
 

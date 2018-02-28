@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_padding">15dp</dimen>
+    <dimen name="text_size">35sp</dimen>
+    <dimen name="text_size_b">45sp</dimen>
+    <dimen name="button_width">280dp</dimen>
+    <dimen name="date_text_size">35sp</dimen>
+    <dimen name="button_height">120dp</dimen>
+    <dimen name="button_administrator_width">350dp</dimen>
+    <dimen name="button_administrator_height">160dp</dimen>
+</resources>

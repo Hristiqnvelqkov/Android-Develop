@@ -17,6 +17,7 @@
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapWords"
             android:hint="@string/league_name" />
     </android.support.design.widget.TextInputLayout>
 

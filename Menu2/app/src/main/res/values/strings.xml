@@ -3,6 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="administator">Администратор</string>
+    <string name="preference_file">com.example.hristiyan.menu.shared.preferences</string>
     <string name="user">Потребител</string>
     <string name="add">Добави</string>
     <string name="add_food">Добави храна</string>

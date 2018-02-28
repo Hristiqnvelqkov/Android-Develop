@@ -19,10 +19,12 @@ import java.util.List;
  * Created by hristiyan on 07.02.18.
  */
 
-public class MenusAdapter extends RecyclerView.Adapter<MenusAdapter.MenuViewHolder> {
+public class MenusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private List<Menu> menus = new LinkedList<>();
     private OnMenuItemClicked listner;
     private Activity activity;
+    private final int BUTTON_ADD_RAW = 1;
+    private final int MENU_RAW = 2;
     public  MenusAdapter(OnMenuItemClicked listner) {
         this.listner = listner;
         activity = ((Fragment) listner).getActivity();
@@ -39,52 +41,93 @@ public class MenusAdapter extends RecyclerView.Adapter<MenusAdapter.MenuViewHold
         }
     }
 
-    @Override
-    public MenuViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_raw,parent,false);
-        return new MenuViewHolder(view);
+    public static class ButtonAddRawHolder extends RecyclerView.ViewHolder{
+        Button addButton;
+        ButtonAddRawHolder(View itemView){
+            super(itemView);
+            addButton = itemView.findViewById(R.id.add_button);
+        }
     }
 
     @Override
-    public void onBindViewHolder(MenuViewHolder holder, final int position) {
-        holder.menuName.setText(menus.get(position).getName());
-        holder.date.setText(Tools.getSimpleDate(menus.get(position).getDate()));
-        if(menus.get(position).getName().length() > 12){
-            holder.menuName.setTextSize(30);
-            if(menus.get(position).getName().length() > 18){
-                holder.menuName.setTextSize(25);
-            }
-        }
-        if(menus.get(position).isActive()){
-            holder.active.setVisibility(View.VISIBLE);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        if(viewType == MENU_RAW ) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.menu_raw, parent, false);
+            return new MenuViewHolder(view);
         }else{
-            holder.active.setVisibility(View.GONE);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.button_add_raw,parent,false);
+            return new ButtonAddRawHolder(view);
         }
-        holder.menuName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listner.onItemClicked(menus.get(position));
-            }
-        });
-        holder.menuName.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Tools.showAlertDialog(activity,activity.getString(R.string.do_you_want_to_delete_menu), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        listner.deleteMenu(menus.get(position));
+    }
 
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        if(holder instanceof MenuViewHolder) {
+            final int currentMenuPosition = position -1;
+            ((MenuViewHolder) holder).menuName.setText(menus.get(currentMenuPosition).getName());
+            ((MenuViewHolder)holder).date.setText(Tools.getSimpleDate(menus.get(currentMenuPosition).getDate()));
+            if (menus.get(currentMenuPosition).getName().length() > 12) {
+                ((MenuViewHolder) holder).menuName.setTextSize(30);
+                if (menus.get(currentMenuPosition).getName().length() > 18) {
+                    ((MenuViewHolder) holder).menuName.setTextSize(25);
+                }
+            }
+            if (menus.get(currentMenuPosition).isActive()) {
+                ((MenuViewHolder) holder).active.setVisibility(View.VISIBLE);
+            } else {
+                ((MenuViewHolder) holder).active.setVisibility(View.GONE);
+            }
+
+            ((MenuViewHolder) holder).menuName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listner.onItemClicked(menus.get(currentMenuPosition));
+                }
+            });
+            ((MenuViewHolder) holder).menuName.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Tools.showAlertDialog(activity, activity.getString(R.string.do_you_want_to_delete_menu), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            listner.deleteMenu(menus.get(currentMenuPosition));
+
+                        }
+                    });
+                    return false;
+                }
+            });
+        }else{
+            if (holder instanceof ButtonAddRawHolder){
+                ((ButtonAddRawHolder) holder).addButton.setText(R.string.add);
+                ((ButtonAddRawHolder) holder).addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listner.onAddMenuButtonClicked();
                     }
                 });
-                return false;
             }
-        });
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        super.getItemViewType(position);
+        if (position == 0){
+            return BUTTON_ADD_RAW;
+        }else {
+            return MENU_RAW;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return menus.size();
+        return menus.size() + 1;
     }
+
+
+
     public void updateMenus(List<Menu> menus){
         this.menus = menus;
         notifyDataSetChanged();
@@ -92,6 +135,7 @@ public class MenusAdapter extends RecyclerView.Adapter<MenusAdapter.MenuViewHold
 
     public interface OnMenuItemClicked{
         void onItemClicked(Menu menu);
+        void onAddMenuButtonClicked();
         void deleteMenu(Menu menu);
     }
 }

@@ -7,26 +7,9 @@
     android:layout_height="match_parent"
     tools:context="com.example.hristiyan.menu.fragments.MenuFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:textSize="@dimen/text_size"
-        android:id="@+id/menu_name"
-        android:padding="@dimen/default_padding"
-        android:layout_height="wrap_content" />
-
-    <Button
-        android:id="@+id/add_food"
-        android:layout_width="@dimen/button_width"
-        android:layout_height="@dimen/button_height"
-        android:layout_centerHorizontal="true"
-        android:padding="@dimen/default_padding"
-        android:background="@drawable/button_selector"
-        android:text="@string/add_food"
-        android:textSize="@dimen/text_size" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_below="@id/add_food"
         android:id="@+id/foods"
         android:layout_height="match_parent"
         />

@@ -75,7 +75,9 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         menu.add(0, Constants.MENU_ADD, Menu.NONE, R.string.add);
         menu.getItem(Constants.MENU_ADD).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        menu.add(0, Constants.MENU_NEXT, Menu.NONE, R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if(hide) {
+            menu.add(0, Constants.MENU_NEXT, Menu.NONE, R.string.next).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
     }
 
     @Override

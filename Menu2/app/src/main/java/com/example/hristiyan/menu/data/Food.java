@@ -11,16 +11,16 @@ import java.util.UUID;
  * Created by hristiyan on 07.02.18.
  */
 @Entity
-public class Food implements Serializable{
+public class Food implements Serializable {
     @PrimaryKey
     @NonNull
     private String id;
     private String menuId;
     private String name;
-    private int timesSelected =0;
+    private int timesSelected = 0;
 
-    public Food(String menuId){
-        id  = UUID.randomUUID().toString();
+    public Food(String menuId) {
+        id = UUID.randomUUID().toString();
         this.menuId = menuId;
     }
 
@@ -36,10 +36,12 @@ public class Food implements Serializable{
     public void setName(String name) {
         this.name = name;
     }
-    public void setId(String id){
+
+    public void setId(String id) {
         this.id = id;
     }
-    public String getId(){
+
+    public String getId() {
         return id;
     }
 
@@ -58,14 +60,15 @@ public class Food implements Serializable{
         return id.hashCode();
     }
 
-    void selectFood(){
+    void selectFood() {
         timesSelected++;
     }
 
-    public void setTimesSelected(int timesSelected){
+    public void setTimesSelected(int timesSelected) {
         this.timesSelected = timesSelected;
     }
-    public int getTimesSelected(){
+
+    public int getTimesSelected() {
         return timesSelected;
     }
 

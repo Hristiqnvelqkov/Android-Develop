@@ -28,7 +28,7 @@ public class FoodLivedata extends LiveData<List<Food>> {
         task.execute(id);
     }
 
-    void updateFoodWithoutNotify(Food food){
+    void updateFoodWithoutNotify(Food food) {
         UpdateFoodWithoutNotify updateTask = new UpdateFoodWithoutNotify();
         updateTask.execute(food);
     }
@@ -37,10 +37,12 @@ public class FoodLivedata extends LiveData<List<Food>> {
         AddOrUpdateFoodTask updateFoodTask = new AddOrUpdateFoodTask();
         updateFoodTask.execute(food);
     }
-    void addFoodWitoutNotifyUi(Food food){
+
+    void addFoodWitoutNotifyUi(Food food) {
         UpdateFoodWithoutNotify addFoodTask = new UpdateFoodWithoutNotify();
         addFoodTask.execute(food);
     }
+
     private class LoadFoodsTask extends AsyncTask<String, Void, List<Food>> {
 
         @Override
@@ -62,11 +64,15 @@ public class FoodLivedata extends LiveData<List<Food>> {
             String menuId = arguments[0];
             String foodId = arguments[1];
             List<Food> foods = MenuApplication.getMenuApplication().getDataManager().getFoodsForMenu(menuId);
+            Food deletedFood = null;
             for (Food food : foods) {
                 if (food.getId().equals(foodId)) {
-                    foods.remove(food);
+                    deletedFood = food;
                     MenuApplication.getMenuApplication().getDataManager().deleteFood(food);
                 }
+            }
+            if (deletedFood != null) {
+                foods.remove(deletedFood);
             }
             return foods;
 
@@ -78,7 +84,8 @@ public class FoodLivedata extends LiveData<List<Food>> {
             postValue(foods);
         }
     }
-    private class UpdateFoodWithoutNotify extends AsyncTask<Food,Void,Void>{
+
+    private class UpdateFoodWithoutNotify extends AsyncTask<Food, Void, Void> {
 
         @Override
         protected Void doInBackground(Food... foods) {
@@ -88,7 +95,7 @@ public class FoodLivedata extends LiveData<List<Food>> {
         }
     }
 
-    private class AddOrUpdateFoodTask extends AsyncTask<Food,Void,List<Food>>{
+    private class AddOrUpdateFoodTask extends AsyncTask<Food, Void, List<Food>> {
 
         @Override
         protected List<Food> doInBackground(Food... foods) {

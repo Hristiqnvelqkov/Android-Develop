@@ -38,6 +38,7 @@ public class MenuFragment extends BaseFragment implements FoodsAdapter.UserTappe
     public static final String MENU = "MENU";
     public static final String ACTIVE_MENU = "ACTIVE_MENU";
     public static final String IS_OPEN_FROM_USER = "IS_OPEN_FROM_USER";
+    public static final int SPAN_COUNT = 2;
     private boolean activeMenu;
     private Menu menu;
     private List<Food> menuFoods;
@@ -65,17 +66,12 @@ public class MenuFragment extends BaseFragment implements FoodsAdapter.UserTappe
             this.activeMenu = getArguments().getBoolean(ACTIVE_MENU);
             this.openFromUser = getArguments().getBoolean(IS_OPEN_FROM_USER);
             adapter = new FoodsAdapter(activeMenu, openFromUser, this);
+            adapter.setMenuTitle(menu.getName());
         }
         foodViewModel = ViewModelProviders.of((FragmentActivity) getActivity()).get(FoodViewModel.class);
         foodObserver = new Observer<List<Food>>() {
             @Override
             public void onChanged(@Nullable List<Food> foods) {
-                Collections.sort(foods, new Comparator<Food>() {
-                    @Override
-                    public int compare(Food o1, Food o2) {
-                        return o1.getTimesSelected() > o2.getTimesSelected() ? -1 : (o1.getTimesSelected() < o2.getTimesSelected()) ? 1 : 0;
-                    }
-                });
                 menuFoods = foods;
                 adapter.updateFoods(foods);
             }
@@ -153,29 +149,25 @@ public class MenuFragment extends BaseFragment implements FoodsAdapter.UserTappe
     @Override
     public void onCreateView() {
         menuLayout = view.findViewById(R.id.menu_layoout);
-        RecyclerView foods = view.findViewById(R.id.foods);
-        TextView menuName = view.findViewById(R.id.menu_name);
-        menuName.setText(menu.getName());
-        final Button addFood = view.findViewById(R.id.add_food);
+        RecyclerView foodsRecyclerView = view.findViewById(R.id.foods);
         foodViewModel.loadFoodsForMenu(menu.getId());
-        GridLayoutManager manager = new GridLayoutManager(getActivity(), 2);
-        foods.setAdapter(adapter);
-        foods.setLayoutManager(manager);
-        if (!openFromUser) {
-            addFood.setVisibility(View.VISIBLE);
-            addFood.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    addFoodDialog(null);
+        final GridLayoutManager manager = new GridLayoutManager(getActivity(), SPAN_COUNT);
+        foodsRecyclerView.setAdapter(adapter);
+        foodsRecyclerView.setLayoutManager(manager);
+        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position == 0) {
+                    return SPAN_COUNT;
                 }
-            });
+                return 1;
+            }
+        });
+        if (!openFromUser) {
+
         } else {
-            LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) menuName.getLayoutParams();
-            params.setMargins(0, 30, 0, 0);
-            menuName.setLayoutParams(params);
             menuLayout.setBackgroundResource(Tools.generatePic(getActivity()));
             ((MainActivity) getActivity()).getSupportActionBar().hide();
-            addFood.setVisibility(View.GONE);
         }
     }
 
@@ -232,8 +224,14 @@ public class MenuFragment extends BaseFragment implements FoodsAdapter.UserTappe
     }
 
     @Override
+    public void addFood() {
+        addFoodDialog(null);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         adapter.clearAdapter();
     }
+
 }

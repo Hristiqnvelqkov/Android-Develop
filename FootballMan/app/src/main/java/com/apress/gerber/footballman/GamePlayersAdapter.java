@@ -46,6 +46,7 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         ImageView assist;
         ImageView goal;
         ImageView gameStat;
+        TextView  playerNumber;
         ImageView penalty;
         public CustomViewHolder(View itemView) {
             super(itemView);
@@ -59,6 +60,7 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
             faul = itemView.findViewById(R.id.make_faul);
             fauls = itemView.findViewById(R.id.get_fauls);
             assist = itemView.findViewById(R.id.make_assist);
+            playerNumber = itemView.findViewById(R.id.player_number);
             assists = itemView.findViewById(R.id.get_assist);
             goal = itemView.findViewById(R.id.make_goal);
             goals = itemView.findViewById(R.id.get_goals);
@@ -80,6 +82,7 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     @Override
     public void onBindViewHolder(final CustomViewHolder holder, final int position) {
         holder.playerName.setText(mPlayers.get(position).getName());
+        holder.playerNumber.setText(String.valueOf(mPlayers.get(position).getNumber()));
 //        if (!game.checkPlayerInGame(mPlayers.get(position))) {
 //            holder.gameStat.setImageResource(R.drawable.red);
 //        } else {

@@ -51,6 +51,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     GamePlayersAdapter hostAdapter = null;
     GamePlayersAdapter guestAdapter;
     Timer timer;
+    boolean isTablet = false;
     Player readyForOutPlayer;
     TextView hostResult, guestResut, hostTeamRedCard, guestTeamRedCard, hostTeamYellowCard, guestTeamYellowCard, hostTeamFauls, guestTeamFauls;
     // TODO: Rename and change types of parameters
@@ -75,11 +76,13 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
             mGame = (Game) getArguments().getSerializable(START_MATCH);
             int screenSize = getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
             if(screenSize == Configuration.SCREENLAYOUT_SIZE_XLARGE){
+                isTablet = true;
                 hostAdapter = new GamePlayersAdapter(mGame, mGame.getHostPlayers(), this, true);
                 guestAdapter = new GamePlayersAdapter(mGame, mGame.getGuestTeamPlayers(), this, true);
                 mLandHostAdapter = new LandGameAdapter(mGame, mGame.getHostPlayers(), this,true);
                 mLandGuestAdapter = new LandGameAdapter(mGame, mGame.getGuestTeamPlayers(), this,true);
             }else {
+                isTablet = false;
                 hostAdapter = new GamePlayersAdapter(mGame, mGame.getHostPlayers(), this, false);
                 guestAdapter = new GamePlayersAdapter(mGame, mGame.getGuestTeamPlayers(), this, false);
                 mLandHostAdapter = new LandGameAdapter(mGame, mGame.getHostPlayers(), this,false);
