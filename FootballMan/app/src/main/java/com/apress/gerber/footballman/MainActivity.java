@@ -1,7 +1,11 @@
 package com.apress.gerber.footballman;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,12 +23,14 @@ import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.League;
 import com.google.firebase.database.FirebaseDatabase;
 
+import utils.StoreGameInPrefenreces;
+
 
 public class MainActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener {
     FragmentManager manager = null;
     public DrawerLayout drawer;
     Game game;
-
+    private SharedPreferences preferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -33,11 +39,34 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
         manager = getSupportFragmentManager();
         setUpNavigationDrawer();
         setUpToolBar("");
-        Fragment homeFragment = new HomeFragment();
-        commitFragment(homeFragment, false);
-
+        preferences = getSharedPreferences(
+                getString(R.string.preferences_file), Context.MODE_PRIVATE);
+        if(preferences.getString("GAME",null)!=null){
+           AlertDialog mAlert = new AlertDialog.Builder(this).create();
+            mAlert.setTitle(R.string.do_you_want_to_continue_game);
+            mAlert.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    commitFragment(StartMatchFragment.newInstance(StoreGameInPrefenreces.getGameFromPreferences(MainActivity.this)),false);
+                }
+            });
+            mAlert.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Fragment homeFragment = new HomeFragment();
+                    StoreGameInPrefenreces.erasePreferences(MainActivity.this);
+                    commitFragment(homeFragment, false);
+                }
+            });
+            mAlert.show();
+        }else {
+            Fragment homeFragment = new HomeFragment();
+            commitFragment(homeFragment, false);
+        }
     }
-
+    public SharedPreferences getPreferences(){
+        return preferences;
+    }
     public void commitFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment, fragment);

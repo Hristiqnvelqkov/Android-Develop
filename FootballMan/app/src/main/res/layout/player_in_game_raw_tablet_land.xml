@@ -89,7 +89,7 @@
         <ImageView
             android:id="@+id/make_penalty"
             android:src="@mipmap/duzpa"
-            style="@style/InGameImageView"/>
+            style="@style/InGameImageViewLandTablet"/>
         <TextView
             android:id="@+id/get_penalties"
             android:layout_width="wrap_content"

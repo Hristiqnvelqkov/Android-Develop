@@ -46,7 +46,7 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
                 startMach.setVisibility(View.VISIBLE);
                 setRecyclerView(hide);
                 menu.removeItem(Constants.MENU_NEXT);
-                menu.add(0, Constants.MENU_ADD,Menu.NONE,R.string.add);
+                menu.add(0, Constants.MENU_ADD,Menu.NONE,R.string.add).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             }
             status=true;
         }
@@ -137,6 +137,8 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     public boolean onBackPressed(){
         if(hide){
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            menu.removeItem(Constants.MENU_NEXT);
+            menu.add(0,Constants.MENU_ADD,Menu.NONE,R.string.add).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             hide = false;
             return true;
         }else

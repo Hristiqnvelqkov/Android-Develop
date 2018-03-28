@@ -1,10 +1,13 @@
 package com.apress.gerber.footballman.Fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -28,10 +31,13 @@ import com.apress.gerber.footballman.MainActivity;
 import com.apress.gerber.footballman.Models.Game;
 import com.apress.gerber.footballman.Models.Player;
 import com.apress.gerber.footballman.R;
+import com.google.gson.Gson;
 
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import utils.StoreGameInPrefenreces;
 
 
 public class StartMatchFragment extends BaseFragment implements GamePlayersAdapter.onPlayerClicked {
@@ -97,7 +103,11 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         inflater.inflate(R.menu.menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
         menu.removeItem(Constants.MENU_ADD);
-        menu.add(0, Constants.START, Menu.NONE, R.string.start).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        if(mGame.getHalfTime() == Game.SECOND_HALF) {
+            menu.add(0, Constants.START_SECOND_HALF, Menu.NONE, R.string.start).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }else{
+            menu.add(0, Constants.START, Menu.NONE, R.string.start).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
     }
 
     public boolean checkMatchStarted() {
@@ -116,7 +126,9 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
         if (item.getItemId() == Constants.START) {
             menu.removeItem(Constants.START);
+            StoreGameInPrefenreces.writeToPreferences((MainActivity) getActivity(),mGame);
             timer.schedule(task, 1000, 1000);
+            mGame.setHalfTime(Game.FIRST_HALF);
             menu.add(0, Constants.HALF_TIME, Menu.NONE, R.string.end_first).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
             status = true;
         }
@@ -131,6 +143,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         if (item.getItemId() == Constants.START_SECOND_HALF) {
             menu.removeItem(Constants.START_SECOND_HALF);
             timer = new Timer(false);
+            mGame.setHalfTime(Game.SECOND_HALF);
             task = new MyTask();
             timer.schedule(task, 1000, 1000);
             menu.add(0, Constants.END_MATCH, Menu.NONE, R.string.full_time);
@@ -138,6 +151,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
         if (item.getItemId() == Constants.END_MATCH) {
             status = true;
+            StoreGameInPrefenreces.erasePreferences((MainActivity) getActivity());
             timer.cancel();
             final EditText editText = new EditText(getContext());
             String venue = mSharedPreferences.getString("venue","");
@@ -163,6 +177,7 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
                     if(Integer.parseInt(minutes) < 10){
                         hour = "0" +minutes;
                     }
+                    mGame.setFinished(true);
                     mGame.setStartTime(hour+":"+minutes+":00");
                     mGame.setMatchDate(year+"/"+mounth+"/"+day);
                     mManager.addGame(mGame);
@@ -180,12 +195,18 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         view = (FrameLayout) inflater.inflate(R.layout.frame_layout_match, container, false);
         View childview = inflater.inflate(R.layout.fragment_start_match, container, false);
         view.addView(childview);
-
+        if(!isTablet) {
+            getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         task = new MyTask();
-        ((MainActivity) getActivity()).setUpToolBar(String.valueOf(task.getSeconds()));
+        ((MainActivity) getActivity()).setUpToolBar(String.valueOf(String.valueOf(mGame.getPastTime() / 60) + " : " + String.valueOf(mGame.getPastTime() % 60)));
         timer = new Timer(true);
         initializeViews();
-        setAdapter(false);
+        if(isTablet && getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE){
+            setAdapter(true);
+        }else {
+            setAdapter(false);
+        }
         return view;
     }
 
@@ -258,14 +279,16 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
     public void onConfigurationChanged(Configuration configuration) {
         super.onConfigurationChanged(configuration);
-        view.removeAllViews();
-        View childView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_start_match, null);
-        view.addView(childView);
-        initializeViews();
-        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            setAdapter(true);
-        } else {
-            setAdapter(false);
+        if(isTablet) {
+            view.removeAllViews();
+            View childView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_start_match, null);
+            view.addView(childView);
+            initializeViews();
+            if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                setAdapter(true);
+            } else {
+                setAdapter(false);
+            }
         }
     }
 
@@ -335,11 +358,16 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
     @Override
     public void autoGoal(Player player) {
         mGame.addAutoGoal(player,task.getSeconds(),halftime);
+        if(mGame.getHostPlayers().contains(player)){
+            guestResut.setText(String.valueOf(mGame.updateResult(mGame.getGuest())));
+        }else{
+            hostResult.setText(String.valueOf(mGame.updateResult(mGame.getHost())));
+        }
         Toast.makeText(getContext(),getString(R.string.autogoal),Toast.LENGTH_SHORT).show();
     }
 
     class MyTask extends TimerTask {
-        int seconds = 0;
+        int seconds = mGame.getPastTime();
 
         public int getSeconds() {
             return seconds;
@@ -351,10 +379,11 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
 
         @Override
         public void run() {
-            seconds++;
+            mGame.setPastTime(seconds++);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    StoreGameInPrefenreces.writeToPreferences((MainActivity) getActivity(),mGame);
                     ((MainActivity) getActivity()).getSupportActionBar().setTitle(String.valueOf(seconds / 60) + " : " + String.valueOf(seconds % 60));
                 }
             });
@@ -362,5 +391,9 @@ public class StartMatchFragment extends BaseFragment implements GamePlayersAdapt
         }
     }
 
-    ;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+    }
 }

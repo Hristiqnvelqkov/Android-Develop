@@ -29,10 +29,10 @@ public class AddPersonFragment extends BaseFragment {
     Game game = null;
     boolean host = false;
 
-    public static AddPersonFragment newInstance(Team team, Player player,boolean hide) {
+    public static AddPersonFragment newInstance(Team team, Player player, boolean hide) {
         AddPersonFragment fragment = new AddPersonFragment();
         Bundle args = new Bundle();
-        args.putBoolean("hide",hide);
+        args.putBoolean("hide", hide);
         args.putSerializable("team", team);
         if (player != null) {
             args.putSerializable("player", player);
@@ -41,12 +41,12 @@ public class AddPersonFragment extends BaseFragment {
         return fragment;
     }
 
-    public static AddPersonFragment newInstanceForGame(Game game, boolean host,Team team) {
+    public static AddPersonFragment newInstanceForGame(Game game, boolean host, Team team) {
         AddPersonFragment fragment = new AddPersonFragment();
         Bundle args = new Bundle();
         args.putSerializable("GAME", game);
-        args.putSerializable("team",team);
-        args.putBoolean("IFHOST",host);
+        args.putSerializable("team", team);
+        args.putBoolean("IFHOST", host);
         fragment.setArguments(args);
         return fragment;
     }
@@ -93,15 +93,17 @@ public class AddPersonFragment extends BaseFragment {
                             player.setNumber(Integer.parseInt(num));
                             if (host) {
                                 game.addHostPlayer(player);
+                                mManager.addPlayer(game.getHost(), player.getName(), player.getNumber());
                             } else {
                                 game.addGuestPlayer(player);
+                                mManager.addPlayer(game.getGuest(), player.getName(), player.getNumber());
                             }
                         }
                         ((MainActivity) getActivity()).visibleHome();
                         imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
-                        if(game != null) {
+                        if (game != null) {
                             ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, true), true);
-                        }else{
+                        } else {
                             ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, false), true);
                         }
                     }

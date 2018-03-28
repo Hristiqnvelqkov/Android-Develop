@@ -30,12 +30,12 @@ public class MenusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         activity = ((Fragment) listner).getActivity();
     }
     public static class MenuViewHolder extends RecyclerView.ViewHolder{
-        Button menuName;
+        TextView menuName;
         TextView date;
         ImageView active;
         MenuViewHolder(View itemView){
             super(itemView);
-            menuName = itemView.findViewById(R.id.menu_name);
+            menuName = itemView.findViewById(R.id.menu_row_name);
             active = itemView.findViewById(R.id.isActiveMenu);
             date = itemView.findViewById(R.id.menu_date);
         }
@@ -67,12 +67,6 @@ public class MenusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             final int currentMenuPosition = position -1;
             ((MenuViewHolder) holder).menuName.setText(menus.get(currentMenuPosition).getName());
             ((MenuViewHolder)holder).date.setText(Tools.getSimpleDate(menus.get(currentMenuPosition).getDate()));
-            if (menus.get(currentMenuPosition).getName().length() > 12) {
-                ((MenuViewHolder) holder).menuName.setTextSize(30);
-                if (menus.get(currentMenuPosition).getName().length() > 18) {
-                    ((MenuViewHolder) holder).menuName.setTextSize(25);
-                }
-            }
             if (menus.get(currentMenuPosition).isActive()) {
                 ((MenuViewHolder) holder).active.setVisibility(View.VISIBLE);
             } else {

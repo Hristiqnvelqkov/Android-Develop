@@ -42,7 +42,7 @@ public class FoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public static class FoodViewHolder extends RecyclerView.ViewHolder {
-        Button foodName;
+        TextView foodName;
         TextView timesSelected;
 
         public FoodViewHolder(View itemView) {
@@ -80,12 +80,7 @@ public class FoodsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof FoodViewHolder) {
             final int currentPos = position - 1;
             ((FoodViewHolder) holder).foodName.setText(foods.get(currentPos).getName());
-            if (foods.get(currentPos).getName().length() > 15) {
-                ((FoodViewHolder) holder).foodName.setTextSize(30);
-                if (foods.get(currentPos).getName().length() > 20) {
-                    ((FoodViewHolder) holder).foodName.setTextSize(25);
-                }
-            }
+
             if (!openFromUser) {
                 ((FoodViewHolder) holder).timesSelected.setText(String.valueOf(foods.get(currentPos).getTimesSelected()));
                 ((FoodViewHolder) holder).foodName.setOnClickListener(new View.OnClickListener() {

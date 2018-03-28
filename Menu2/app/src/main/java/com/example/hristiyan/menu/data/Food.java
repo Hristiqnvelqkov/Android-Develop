@@ -12,15 +12,14 @@ import java.util.UUID;
  */
 @Entity
 public class Food implements Serializable {
-    @PrimaryKey
-    @NonNull
-    private String id;
+
+    @PrimaryKey(autoGenerate = true)
+    private long id;
     private String menuId;
     private String name;
     private int timesSelected = 0;
 
     public Food(String menuId) {
-        id = UUID.randomUUID().toString();
         this.menuId = menuId;
     }
 
@@ -37,28 +36,15 @@ public class Food implements Serializable {
         this.name = name;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Food food = (Food) o;
-
-        return id.equals(food.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
 
     void selectFood() {
         timesSelected++;

@@ -128,7 +128,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         }
         if (item.getItemId() == Constants.MENU_ADD) {
             if (hide) {
-                if (game.getHost() == null) {
+                if ((game.getHost() == null) || (game.getHost() != null && game.getGuest() == null)) {
                     ((MainActivity) getActivity()).commitFragment(AddPersonFragment.newInstanceForGame(game, true, team), true);
                 } else {
                     ((MainActivity) getActivity()).commitFragment(AddPersonFragment.newInstanceForGame(game, false, team), true);

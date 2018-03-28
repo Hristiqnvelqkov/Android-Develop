@@ -25,8 +25,6 @@ public class LandGameAdapter extends GamePlayersAdapter {
         View view = null;
         if (tablet) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw_tablet_land, parent, false);
-        }else{
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.land_player_in_game_raw, parent, false);
         }
         return new CustomViewHolder(view);
     }
