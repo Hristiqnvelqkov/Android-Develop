@@ -111,7 +111,9 @@ public class BaseFragment extends Fragment {
         super.onDestroy();
 
     }
-
+    public MainActivity getMainActivity(){
+        return ((MainActivity) getActivity());
+    }
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void openLeague(League league);

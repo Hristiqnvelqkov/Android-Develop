@@ -84,7 +84,6 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             mListener.deletePlayer(players.get(position));
-                            notifyDataSetChanged();
                         }
                     });
                     dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(dialog));
@@ -108,7 +107,10 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
             });
         }
     }
-
+    public void updateElements(List<Player> players){
+        this.players = players;
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         return players.size();

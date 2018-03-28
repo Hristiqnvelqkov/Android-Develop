@@ -136,6 +136,7 @@ public class HomeFragment extends BaseFragment implements LegueRecyclerView.Leag
     @Override
     public boolean onBackPressed(){
         if(hide){
+            getMainActivity().setModeForGame(MainActivity.FIRST_TEAM);
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             menu.removeItem(Constants.MENU_NEXT);
             menu.add(0,Constants.MENU_ADD,Menu.NONE,R.string.add).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);

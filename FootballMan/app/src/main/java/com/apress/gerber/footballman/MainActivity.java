@@ -30,7 +30,12 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
     FragmentManager manager = null;
     public DrawerLayout drawer;
     Game game;
+    public static int FIRST_TEAM = 1;
+    public static int SECOND_TEAM = 2;
+
+    private int modeForGame;
     private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //  FirebaseDatabase.getInstance().setPersistenceEnabled(true);
@@ -41,13 +46,13 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
         setUpToolBar("");
         preferences = getSharedPreferences(
                 getString(R.string.preferences_file), Context.MODE_PRIVATE);
-        if(preferences.getString("GAME",null)!=null){
-           AlertDialog mAlert = new AlertDialog.Builder(this).create();
+        if (preferences.getString("GAME", null) != null) {
+            AlertDialog mAlert = new AlertDialog.Builder(this).create();
             mAlert.setTitle(R.string.do_you_want_to_continue_game);
             mAlert.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    commitFragment(StartMatchFragment.newInstance(StoreGameInPrefenreces.getGameFromPreferences(MainActivity.this)),false);
+                    commitFragment(StartMatchFragment.newInstance(StoreGameInPrefenreces.getGameFromPreferences(MainActivity.this)), false);
                 }
             });
             mAlert.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {
@@ -59,14 +64,16 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
                 }
             });
             mAlert.show();
-        }else {
+        } else {
             Fragment homeFragment = new HomeFragment();
             commitFragment(homeFragment, false);
         }
     }
-    public SharedPreferences getPreferences(){
+
+    public SharedPreferences getPreferences() {
         return preferences;
     }
+
     public void commitFragment(Fragment fragment, boolean addToBackStack) {
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragment, fragment);
@@ -74,6 +81,14 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
             transaction.addToBackStack(null);
         }
         transaction.commit();
+    }
+
+    public int getModeForGame() {
+        return modeForGame;
+    }
+
+    public void setModeForGame(int modeForGame) {
+        this.modeForGame = modeForGame;
     }
 
     public void setUpNavigationDrawer() {
@@ -107,6 +122,7 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
     }
 
     public void startGame(Game game) {
+        modeForGame = FIRST_TEAM;
         this.game = game;
     }
 
@@ -141,10 +157,14 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
             }
         }
     }
+
     public void restartActivity() { //simulates clear backstack
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+    public FragmentManager getMyFragmentManager(){
+        return manager;
     }
 }

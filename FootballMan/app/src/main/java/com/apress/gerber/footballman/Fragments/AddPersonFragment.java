@@ -81,31 +81,30 @@ public class AddPersonFragment extends BaseFragment {
                         player_number.setErrorEnabled(true);
                         player_number.setError("Трябва да въведете номер на играча");
                     } else {
-                        if (game == null) {
+//                        if (game == null) {
                             if (mPlayer == null) {
                                 mManager.addPlayer(mTeam, (player_name.getEditText().getText().toString()), Integer.parseInt(player_number.getEditText().getText().toString()));
                             } else {
                                 mManager.updatePlayer(mPlayer, (player_name.getEditText().getText().toString()), (Integer.parseInt(player_number.getEditText().getText().toString())));
                             }
-                        } else {
-                            Player player = new Player();
-                            player.setName(name);
-                            player.setNumber(Integer.parseInt(num));
-                            if (host) {
-                                game.addHostPlayer(player);
-                                mManager.addPlayer(game.getHost(), player.getName(), player.getNumber());
-                            } else {
-                                game.addGuestPlayer(player);
-                                mManager.addPlayer(game.getGuest(), player.getName(), player.getNumber());
-                            }
-                        }
+ //                       } else {
+ //                           Player player = new Player();
+ //                           player.setName(name);
+  //                          player.setNumber(Integer.parseInt(num));
+                           /*
+                            hostPlayers and guestPalyers is used when if we have changes in game
+                            hostPlayers & guestPlayers is players in group for the match
+                            */
+//                            if (getMainActivity().getModeForGame() == MainActivity.FIRST_TEAM) {
+//                                game.addHostPlayer(player);
+//                            } else {
+//                                game.addGuestPlayer(player);
+//                            }
+//                            mManager.addPlayer(mTeam, player.getName(), player.getNumber());
+//                        }
                         ((MainActivity) getActivity()).visibleHome();
                         imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, 0);
-                        if (game != null) {
-                            ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, true), true);
-                        } else {
-                            ((MainActivity) getActivity()).commitFragment(PersonsFragment.newInstance(mTeam, false), true);
-                        }
+                        getMainActivity().getMyFragmentManager().popBackStack();
                     }
                 }
             }

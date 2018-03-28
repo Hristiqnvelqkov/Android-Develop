@@ -33,7 +33,7 @@ public class DataManager implements Serializable {
     }
     public void initGames(List<Game> games){}
 
-    public void getTeamsForLeague(League league, final OnTeamsLoaded listner) {
+    public void getTeamsForLeague(final League league, final OnTeamsLoaded listner) {
         final List<Team> leagueTeams = new LinkedList<>();
         mReference.child(league.getId()).child("teams").addValueEventListener(new ValueEventListener() {
             @Override
@@ -43,8 +43,8 @@ public class DataManager implements Serializable {
                     leagueTeams.add(team);
                 }
                 listner.onTeamLoaded(leagueTeams);
+                mReference.child(league.getId()).child("teams").removeEventListener(this);
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -107,7 +107,7 @@ public class DataManager implements Serializable {
         mReference.child(team.getLeague().getId()).child("teams").child(team.getId()).removeValue();
     }
 
-    public void getPlayersForTeam(Team team, final OnPlayersLoaded listner) {
+    public void getPlayersForTeam(final Team team, final OnPlayersLoaded listner) {
         final List<Player> players = new LinkedList<>();
         mReference.child(team.getLeague().getId()).child("teams").child(team.getId()).child("players").addValueEventListener(new ValueEventListener() {
             @Override
@@ -116,6 +116,7 @@ public class DataManager implements Serializable {
                     Player player = snapshot.getValue(Player.class);
                     players.add(player);
                 }
+                mReference.child(team.getLeague().getId()).child("teams").child(team.getId()).child("players").removeEventListener(this);
                 listner.onPlayersLoaded(players);
             }
 

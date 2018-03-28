@@ -87,7 +87,7 @@ public class TeamsFragment extends BaseFragment implements TeamsAdapter.onClicke
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean status = false;
         if (item.getItemId() == android.R.id.home) {
-            ((MainActivity) getActivity()).commitFragment(HomeFragment.newInstance(hide), false);
+            getMainActivity().getMyFragmentManager().popBackStack();
             status = true;
         }
         if (item.getItemId() == Constants.MENU_NEXT) {
