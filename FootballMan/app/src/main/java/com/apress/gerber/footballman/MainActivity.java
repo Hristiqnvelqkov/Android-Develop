@@ -24,6 +24,7 @@ import com.apress.gerber.footballman.Models.League;
 import com.google.firebase.database.FirebaseDatabase;
 
 import utils.StoreGameInPrefenreces;
+import utils.SynchronizeManager;
 
 
 public class MainActivity extends AppCompatActivity implements BaseFragment.OnFragmentInteractionListener {
@@ -52,7 +53,8 @@ public class MainActivity extends AppCompatActivity implements BaseFragment.OnFr
             mAlert.setButton(DialogInterface.BUTTON_POSITIVE, "Yes", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    commitFragment(StartMatchFragment.newInstance(StoreGameInPrefenreces.getGameFromPreferences(MainActivity.this)), false);
+                    game = StoreGameInPrefenreces.getGameFromPreferences(MainActivity.this);
+                    commitFragment(StartMatchFragment.newInstance(StoreGameInPrefenreces.getGameFromPreferences(MainActivity.this)), true);
                 }
             });
             mAlert.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new DialogInterface.OnClickListener() {

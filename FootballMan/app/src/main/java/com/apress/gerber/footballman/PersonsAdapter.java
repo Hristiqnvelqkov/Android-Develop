@@ -59,24 +59,25 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
         holder.ball.setVisibility(View.GONE);
         holder.name.setText(String.valueOf(players.get(position).getName()));
         holder.number.setText(String.valueOf(players.get(position).getNumber()));
+        holder.update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog dialog = new AlertDialog.Builder(holder.itemView.getContext()).create();
+                dialog.setTitle(R.string.update_player);
+                dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(dialog));
+                dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Update", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        mListener.updatePlayer(players.get(position));
+                    }
+                });
+                dialog.show();
+            }
+        });
         if (!hideButtons) {
-            holder.update.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    final AlertDialog dialog = new AlertDialog.Builder(holder.itemView.getContext()).create();
-                    dialog.setTitle(R.string.update_player);
-                    dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(dialog));
-                    dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Update", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            mListener.updatePlayer(players.get(position));
-                        }
-                    });
-                    dialog.show();
-                }
-            });
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 final AlertDialog dialog = new AlertDialog.Builder(holder.itemView.getContext()).create();
+
                 @Override
                 public void onClick(View view) {
                     dialog.setTitle(R.string.delete_player);
@@ -92,7 +93,10 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
             });
         } else {
             holder.delete.setVisibility(View.GONE);
-            holder.update.setVisibility(View.GONE);
+            //holder.update.setVisibility(View.GONE);
+            if (mListener.ifPlayerIsAdded(players.get(position))) {
+                holder.ball.setVisibility(View.VISIBLE);
+            }
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -107,10 +111,12 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
             });
         }
     }
-    public void updateElements(List<Player> players){
+
+    public void updateElements(List<Player> players) {
         this.players = players;
         notifyDataSetChanged();
     }
+
     @Override
     public int getItemCount() {
         return players.size();
@@ -118,6 +124,8 @@ public class PersonsAdapter extends RecyclerView.Adapter<PersonsAdapter.ViewHold
 
     public interface PlayerClicked {
         void addPlayerToGame(Player palyer);
+
+        boolean ifPlayerIsAdded(Player player);
 
         void removePlayerFromGame(Player player);
 

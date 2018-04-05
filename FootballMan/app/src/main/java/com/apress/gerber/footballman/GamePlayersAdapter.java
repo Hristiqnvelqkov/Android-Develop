@@ -23,14 +23,14 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     List<Player> mPlayers;
     StartMatchFragment listner;
     Game game;
-    protected boolean tablet=false;
+    protected boolean tablet = false;
     int rebind = 0;
 
     public int getRebind() {
         return rebind;
     }
 
-    public GamePlayersAdapter(Game game, List<Player> players, StartMatchFragment listner,boolean tabletSize) {
+    public GamePlayersAdapter(Game game, List<Player> players, StartMatchFragment listner, boolean tabletSize) {
         mPlayers = players;
         tablet = tabletSize;
         this.game = game;
@@ -38,7 +38,7 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     }
 
     public static class CustomViewHolder extends RecyclerView.ViewHolder {
-        TextView redCards, yellowCards, goals, assists, fauls,penalties;
+        TextView redCards, yellowCards, goals, assists, fauls, penalties;
         TextView playerName;
         ImageView redCard;
         ImageView yellowCard;
@@ -46,8 +46,9 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
         ImageView assist;
         ImageView goal;
         ImageView gameStat;
-        TextView  playerNumber;
+        TextView playerNumber;
         ImageView penalty;
+
         public CustomViewHolder(View itemView) {
             super(itemView);
             playerName = itemView.findViewById(R.id.player_name);
@@ -64,16 +65,16 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
             assists = itemView.findViewById(R.id.get_assist);
             goal = itemView.findViewById(R.id.make_goal);
             goals = itemView.findViewById(R.id.get_goals);
-           // gameStat = itemView.findViewById(R.id.game_stat);
+            // gameStat = itemView.findViewById(R.id.game_stat);
         }
     }
 
     @Override
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
-        if(tablet){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw_tablet,parent,false);
-        }else {
+        if (tablet) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw_tablet, parent, false);
+        } else {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.player_in_game_raw, parent, false);
         }
         return new CustomViewHolder(view);
@@ -88,12 +89,14 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
 //        } else {
 //            holder.gameStat.setImageResource(R.drawable.green);
 //        }
-        if((game.getRedCards(mPlayers.get(position))) == 1 ){
+        if ((game.getRedCards(mPlayers.get(position))) == 1) {
             holder.playerName.setTextColor(Color.RED);
-        }else
-            if((game.getYellowCards(mPlayers.get(position))) == 1){
+        } else if ((game.getYellowCards(mPlayers.get(position))) == 1) {
             holder.playerName.setTextColor(Color.YELLOW);
-            }
+        } else{
+            holder.playerName.setTextColor(Color.DKGRAY);
+        }
+
         holder.penalties.setText((String.valueOf(game.getPenalties(mPlayers.get(position)))));
         holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
         holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
@@ -104,10 +107,10 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
             @Override
             public void onClick(View view) {
                 if (listner.checkMatchStarted()) {
-                  //  if (game.checkPlayerInGame(mPlayers.get(position))) {
-                        listner.addRedCard(mPlayers.get(position));
-                        holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
-                        holder.playerName.setTextColor(Color.RED);
+                    //  if (game.checkPlayerInGame(mPlayers.get(position))) {
+                    listner.addRedCard(mPlayers.get(position));
+                    holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
+                    holder.playerName.setTextColor(Color.RED);
                     //}
                 }
             }
@@ -164,18 +167,18 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
             @Override
             public void onClick(View view) {
                 if (listner.checkMatchStarted()) {
-    //                if (game.checkPlayerInGame(mPlayers.get(position))) {
-                        listner.addYellowCard(mPlayers.get(position));
-                        if (game.getYellowCards(mPlayers.get(position)) == 1 && (game.getRedCards(mPlayers.get(position)) == 0)) {
-                            holder.playerName.setTextColor(Color.YELLOW);
-                        }
-                        if (game.getRedCards(mPlayers.get(position)) == 1) {
-                            holder.playerName.setTextColor(Color.RED);
-                        }
-                        holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
-                        holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
+                    //                if (game.checkPlayerInGame(mPlayers.get(position))) {
+                    listner.addYellowCard(mPlayers.get(position));
+                    if (game.getYellowCards(mPlayers.get(position)) == 1 && (game.getRedCards(mPlayers.get(position)) == 0)) {
+                        holder.playerName.setTextColor(Color.YELLOW);
                     }
-      //          }
+                    if (game.getRedCards(mPlayers.get(position)) == 1) {
+                        holder.playerName.setTextColor(Color.RED);
+                    }
+                    holder.redCards.setText(String.valueOf(game.getRedCards(mPlayers.get(position))));
+                    holder.yellowCards.setText(String.valueOf(game.getYellowCards(mPlayers.get(position))));
+                }
+                //          }
             }
         });
         holder.goal.setOnClickListener(new View.OnClickListener() {
@@ -183,10 +186,10 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
             public void onClick(View view) {
                 if (game.getRedCards(mPlayers.get(position)) == 0) {
                     if (listner.checkMatchStarted()) {
-            //            if (game.checkPlayerInGame(mPlayers.get(position))) {
-                            listner.addGoal(mPlayers.get(position));
-                            holder.goals.setText(String.valueOf(game.getGoals(mPlayers.get(position))));
-              //          }
+                        //            if (game.checkPlayerInGame(mPlayers.get(position))) {
+                        listner.addGoal(mPlayers.get(position));
+                        holder.goals.setText(String.valueOf(game.getGoals(mPlayers.get(position))));
+                        //          }
                     }
                 }
             }
@@ -196,10 +199,10 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
             public void onClick(View view) {
                 if (game.getRedCards(mPlayers.get(position)) == 0) {
                     if (listner.checkMatchStarted()) {
-                     //   if (game.checkPlayerInGame(mPlayers.get(position))) {
-                            listner.addAssist(mPlayers.get(position));
-                            holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));
-                       // }
+                        //   if (game.checkPlayerInGame(mPlayers.get(position))) {
+                        listner.addAssist(mPlayers.get(position));
+                        holder.assists.setText(String.valueOf(game.getAssist(mPlayers.get(position))));
+                        // }
                     }
                 }
             }
@@ -209,10 +212,10 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
             public void onClick(View view) {
                 if (game.getRedCards(mPlayers.get(position)) == 0) {
                     if (listner.checkMatchStarted()) {
-                     //   if (game.checkPlayerInGame(mPlayers.get(position))) {
-                            listner.addFaul(mPlayers.get(position));
-                            holder.fauls.setText(String.valueOf(game.getFauls(mPlayers.get(position))));
-                       // }
+                        //   if (game.checkPlayerInGame(mPlayers.get(position))) {
+                        listner.addFaul(mPlayers.get(position));
+                        holder.fauls.setText(String.valueOf(game.getFauls(mPlayers.get(position))));
+                        // }
                     }
                 }
             }
@@ -227,6 +230,8 @@ public class GamePlayersAdapter extends RecyclerView.Adapter<GamePlayersAdapter.
     public interface onPlayerClicked {
 
         int onChangeListner(Player player);
+
+        void removeLastEvent();
 
         void addRedCard(Player player);
 

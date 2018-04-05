@@ -10,8 +10,8 @@
     </style>
 
     <style name="InGameImageView">
-        <item name="android:layout_width">25dp</item>
-        <item name="android:layout_marginLeft">25dp</item>
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_marginLeft">24dp</item>
         <item name="android:layout_height">match_parent</item>
     </style>
 

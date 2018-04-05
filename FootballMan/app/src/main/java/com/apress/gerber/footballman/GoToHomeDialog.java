@@ -8,11 +8,13 @@ import android.content.DialogInterface;
 import com.apress.gerber.footballman.Fragments.HomeFragment;
 import com.apress.gerber.footballman.Fragments.StartMatchFragment;
 
+import utils.StoreGameInPrefenreces;
+
 /**
  * Created by hriso on 10/1/2017.
  */
 
-public class GoToHomeDialog  {
+public class GoToHomeDialog {
 
     private AlertDialog mAlert;
     private MainActivity mActivity;
@@ -26,11 +28,12 @@ public class GoToHomeDialog  {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 mStartMatchFragment.stopTask();
+                StoreGameInPrefenreces.erasePreferences(activity);
                 activity.getSupportActionBar().setTitle("Football Manager");
-                mActivity.commitFragment(HomeFragment.newInstance(false),false);
+                activity.restartActivity();
             }
         });
-        mAlert.setButton(DialogInterface.BUTTON_NEGATIVE,"No",new AlertDialogButtons(mAlert));
+        mAlert.setButton(DialogInterface.BUTTON_NEGATIVE, "No", new AlertDialogButtons(mAlert));
         mAlert.show();
     }
 

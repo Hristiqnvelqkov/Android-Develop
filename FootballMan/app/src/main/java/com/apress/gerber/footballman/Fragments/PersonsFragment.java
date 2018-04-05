@@ -54,6 +54,7 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         game = ((MainActivity) getActivity()).getGame();
         setActivity();
         hide = (boolean) getArguments().getSerializable("HIDE");
+        adapter = new PersonsAdapter(mPlayers, this, hide);
     }
 
     @Override
@@ -62,9 +63,9 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         view = inflater.inflate(R.layout.fragment_persons, container, false);
         mActionButton = view.findViewById(R.id.next_team);
         if (hide) {
-            if (getMainActivity().getModeForGame() == MainActivity.FIRST_TEAM) {
+            if (getMainActivity().getModeForGame() == MainActivity.FIRST_TEAM && !(this instanceof PersonsFragmentWhileInGame)) {
                 mActionButton.setVisibility(View.VISIBLE);
-            } else if (getMainActivity().getModeForGame() == MainActivity.SECOND_TEAM) {
+            } else  {
                 mActionButton.setVisibility(View.GONE);
             }
         }
@@ -107,7 +108,9 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
         }
 
     }
-
+    public boolean ifPlayerIsAdded(Player player){
+        return (game.getHostPlayers().contains(player) || game.getGuestTeamPlayers().contains(player));
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean status = false;
@@ -152,7 +155,6 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
 
     public void setRecyclerView() {
         RecyclerView recyclerView = view.findViewById(R.id.team_players);
-        adapter = new PersonsAdapter(mPlayers, this, hide);
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(adapter);
@@ -169,10 +171,10 @@ public class PersonsFragment extends BaseFragment implements PersonsAdapter.Play
 
     @Override
     public void removePlayerFromGame(Player player) {
-        if ((game.getHost() != null) && (game.getGuest() == null)) {
+        if (MainActivity.FIRST_TEAM == getMainActivity().getModeForGame()) {
             game.removeHostPlayer(player);
         }
-        if ((game.getHost() != null) && (game.getGuest() != null)) {
+        if (MainActivity.SECOND_TEAM == getMainActivity().getModeForGame()) {
             game.removeGuestPlayer(player);
         }
     }

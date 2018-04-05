@@ -18,10 +18,6 @@ public class Constants {
     public static final int IN = 10;
     public static final int OUT = 11;
     public static final int READY_FOR_CHANGE = 12;
-    public static final int YELLOW_CARD = 13;
-    public static final int RED_CARD = 14;
-    public static final int FOUL = 15;
-    public static final int GOAL = 16;
     public static final int ASSIST = 17;
     public static final int ALL_GAMES = 18;
     public static final int EXPORT_GAMES = 19;
@@ -29,4 +25,5 @@ public class Constants {
     public static final int EXPORT_GAME = 21;
     public static final int PENALTY = 22;
     public static final int AUTO_GOAL = 23;
+    public static final int UNDO = 24;
 }

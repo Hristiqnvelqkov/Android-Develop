@@ -12,8 +12,8 @@ import java.util.List;
 
 
 public class DataManager implements Serializable {
-    private static DataManager manager = new DataManager();
 
+    private static DataManager manager = new DataManager();
     private List<Game> games = new LinkedList<>();
     private DatabaseReference gameReference = FirebaseDatabase.getInstance().getReference("games");
     private DatabaseReference mReference = FirebaseDatabase.getInstance().getReference("leagues");
@@ -31,7 +31,9 @@ public class DataManager implements Serializable {
         mReference.child(league.getId()).setValue(league);
 
     }
-    public void initGames(List<Game> games){}
+
+    public void initGames(List<Game> games) {
+    }
 
     public void getTeamsForLeague(final League league, final OnTeamsLoaded listner) {
         final List<Team> leagueTeams = new LinkedList<>();
@@ -45,6 +47,7 @@ public class DataManager implements Serializable {
                 listner.onTeamLoaded(leagueTeams);
                 mReference.child(league.getId()).child("teams").removeEventListener(this);
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
@@ -68,10 +71,10 @@ public class DataManager implements Serializable {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 final List<League> leagues = new LinkedList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                   League league = snapshot.getValue(League.class);
-                   leagues.add(league);
+                    League league = snapshot.getValue(League.class);
+                    leagues.add(league);
                 }
-               listener.onLeaguesLoaded(leagues);
+                listener.onLeaguesLoaded(leagues);
             }
 
             @Override
@@ -86,8 +89,8 @@ public class DataManager implements Serializable {
             Team team = new Team();
             team.setTeamName(name);
             team.setLeague(league);
-           // league.addTeam(team);
-           // mReference.child(league.getId()).child("teams").child(team.getId()).push();
+            // league.addTeam(team);
+            // mReference.child(league.getId()).child("teams").child(team.getId()).push();
             //mReference.child(league.getId()).setValue(league);
             mReference.child(league.getId()).child("teams").child(team.getId()).setValue(team);
         }
@@ -108,10 +111,10 @@ public class DataManager implements Serializable {
     }
 
     public void getPlayersForTeam(final Team team, final OnPlayersLoaded listner) {
-        final List<Player> players = new LinkedList<>();
         mReference.child(team.getLeague().getId()).child("teams").child(team.getId()).child("players").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                final List<Player> players = new LinkedList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Player player = snapshot.getValue(Player.class);
                     players.add(player);
@@ -185,7 +188,8 @@ public class DataManager implements Serializable {
     public interface OnPlayersLoaded {
         void onPlayersLoaded(List<Player> players);
     }
-    public interface onGamesLoaded{
-         void onGamesLoaded(List<Game> games);
+
+    public interface onGamesLoaded {
+        void onGamesLoaded(List<Game> games);
     }
 }

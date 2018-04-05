@@ -15,16 +15,13 @@
         android:id="@+id/delete"
         android:paddingTop="5dp"
         android:src="@drawable/if_delete_370086"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+       />
 
     <ImageView
         android:layout_width="30dp"
         android:id="@+id/update"
         android:layout_height="30dp"
         android:paddingTop="5dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
         android:src="@mipmap/pen_icon_61059"/>
     </LinearLayout>
 </RelativeLayout>

@@ -17,12 +17,12 @@
             android:id="@+id/player_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="20sp"
             />
         <TextView
             android:id="@+id/player_number"
             android:layout_width="wrap_content"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_height="wrap_content" />
@@ -44,6 +44,7 @@
         <TextView
             android:id="@+id/get_red_cards"
             android:layout_width="wrap_content"
+            android:textSize="18sp"
             android:layout_height="wrap_content"/>
 
         <ImageView
@@ -54,6 +55,7 @@
         <TextView
             android:id="@+id/get_yellow_cards"
             android:layout_width="wrap_content"
+            android:textSize="18sp"
             android:layout_height="wrap_content"/>
 
         <ImageView
@@ -63,6 +65,7 @@
 
         <TextView
             android:id="@+id/get_goals"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -74,6 +77,7 @@
 
         <TextView
             android:id="@+id/get_fauls"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -84,6 +88,7 @@
             />
         <TextView
             android:id="@+id/get_assist"
+            android:textSize="18sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <ImageView
@@ -94,6 +99,7 @@
             android:id="@+id/get_penalties"
             android:layout_width="wrap_content"
             android:text="0"
+            android:textSize="18sp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 

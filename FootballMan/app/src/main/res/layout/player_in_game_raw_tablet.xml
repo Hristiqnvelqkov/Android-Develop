@@ -45,6 +45,7 @@
 
         <TextView
             android:id="@+id/get_red_cards"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -56,6 +57,7 @@
         <TextView
             android:id="@+id/get_yellow_cards"
             android:layout_width="wrap_content"
+            android:textSize="20sp"
             android:layout_height="wrap_content"/>
 
         <ImageView
@@ -65,6 +67,7 @@
 
         <TextView
             android:id="@+id/get_goals"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -76,6 +79,7 @@
 
         <TextView
             android:id="@+id/get_fauls"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -86,6 +90,7 @@
             />
         <TextView
             android:id="@+id/get_assist"
+            android:textSize="20sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <ImageView
@@ -96,6 +101,7 @@
             android:id="@+id/get_penalties"
             android:layout_width="wrap_content"
             android:text="0"
+            android:textSize="20sp"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

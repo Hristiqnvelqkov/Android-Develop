@@ -49,6 +49,9 @@ public class GameStat implements Serializable {
         value++;
     }
 
+    public void undoValue(){
+        value--;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

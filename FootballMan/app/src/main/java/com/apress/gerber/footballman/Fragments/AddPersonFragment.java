@@ -41,6 +41,15 @@ public class AddPersonFragment extends BaseFragment {
         return fragment;
     }
 
+    public static AddPersonFragment newInstanceForAddPlayerInGame(Team team,Game game) {
+        AddPersonFragment fragment = new AddPersonFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("team", team);
+        args.putSerializable("GAME", game);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     public static AddPersonFragment newInstanceForGame(Game game, boolean host, Team team) {
         AddPersonFragment fragment = new AddPersonFragment();
         Bundle args = new Bundle();
@@ -82,15 +91,25 @@ public class AddPersonFragment extends BaseFragment {
                         player_number.setError("Трябва да въведете номер на играча");
                     } else {
 //                        if (game == null) {
-                            if (mPlayer == null) {
-                                mManager.addPlayer(mTeam, (player_name.getEditText().getText().toString()), Integer.parseInt(player_number.getEditText().getText().toString()));
-                            } else {
-                                mManager.updatePlayer(mPlayer, (player_name.getEditText().getText().toString()), (Integer.parseInt(player_number.getEditText().getText().toString())));
+                        if (mPlayer == null) {
+                            mPlayer = new Player();
+                            mPlayer.setName(player_name.getEditText().getText().toString());
+                            mPlayer.setNumber(Integer.parseInt(player_number.getEditText().getText().toString()));
+                            mManager.addPlayer(mTeam, (player_name.getEditText().getText().toString()), Integer.parseInt(player_number.getEditText().getText().toString()));
+                        } else {
+                            mManager.updatePlayer(mPlayer, (player_name.getEditText().getText().toString()), (Integer.parseInt(player_number.getEditText().getText().toString())));
+                        }
+                        if(game != null){
+                            if(mTeam.equals(game.getGuest())){
+                                game.addGuestPlayer(mPlayer);
+                            }else{
+                                game.addHostPlayer(mPlayer);
                             }
- //                       } else {
- //                           Player player = new Player();
- //                           player.setName(name);
-  //                          player.setNumber(Integer.parseInt(num));
+                        }
+                        //                       } else {
+                        //                           Player player = new Player();
+                        //                           player.setName(name);
+                        //                          player.setNumber(Integer.parseInt(num));
                            /*
                             hostPlayers and guestPalyers is used when if we have changes in game
                             hostPlayers & guestPlayers is players in group for the match

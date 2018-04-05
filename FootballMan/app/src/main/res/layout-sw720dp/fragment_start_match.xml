@@ -30,6 +30,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:id="@+id/host_layout"
             android:layout_weight="0.25">
 
             <LinearLayout
@@ -76,6 +77,8 @@
 
             <TextView
                 android:id="@+id/host_name"
+                android:maxWidth="200dp"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="30sp" />
@@ -96,10 +99,13 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:id="@+id/guest_layout"
             android:layout_weight="0.25">
 
             <TextView
                 android:id="@+id/guest_name"
+                android:maxWidth="200dp"
+                android:singleLine="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
